@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import main, { notFound } from '@/domains/main/router'
 import auth from '@/domains/auth/router'
+import { useLoader } from '@/composables/useLoader';
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL as string),
@@ -19,5 +20,16 @@ const router = createRouter({
         }
     }
 })
+
+const { setLoading } = useLoader();
+
+router.beforeEach((to, from, next) => {
+    setLoading(true);
+    next();
+});
+
+router.afterEach(() => {
+    setLoading(false);
+});
 
 export default router
