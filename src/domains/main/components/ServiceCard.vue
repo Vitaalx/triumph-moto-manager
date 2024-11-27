@@ -18,7 +18,7 @@ defineProps<ServiceCard>()
 
             <h3 class="text-lg md:text-xl font-medium">{{ title }}</h3>
 
-            <p class="opacity-75">{{ description }}</p>
+            <p class="text-black/75">{{ description }}</p>
         </CardContent>
     </TheCard>
 </template>

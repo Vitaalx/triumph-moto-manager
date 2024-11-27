@@ -25,11 +25,11 @@ const socials = ref([
 
 <template>
     <footer class="p-4 md:p-8 bg-carbon text-center">
-        <span class="text-white opacity-75">
+        <span class="text-muted">
             &copy; 2024-{{ currentYear }} Triumph Moto Sport. Tous droits réservés.
         </span>
 
-        <TheSeparator class="my-4 md:my-8" />
+        <TheSeparator class="my-4 md:my-8 bg-muted" />
 
         <div class="container flex flex-col-reverse md:flex-row gap-4 justify-between items-center">
             <RouterLink :to="{ name: 'home' }" class="text-2xl text-primary font-bold">

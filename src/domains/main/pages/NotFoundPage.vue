@@ -6,7 +6,7 @@ import PrimaryButton from '@/components/PrimaryButton.vue'
     <section class="h-screen container py-28 flex flex-col items-center justify-center">
         <h1 class="text-3xl lg:text-5xl font-bold">404 - Page introuvable</h1>
 
-        <p class="mt-4 text-base lg:text-lg font-medium opacity-50">
+        <p class="mt-4 text-base lg:text-lg font-medium text-black/75">
             La page que vous recherchez n'existe pas.
         </p>
 

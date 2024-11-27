@@ -37,7 +37,7 @@ import { mdiFacebook, mdiInstagram, mdiTwitter, mdiWhatsapp, mdiYoutube } from '
                 Optimisez la gestion de votre flotte
             </h1>
 
-            <p class="text-xl md:text-2xl opacity-75">
+            <p class="text-xl md:text-2xl text-muted">
                 Suivez et entretenez vos motos facilement grâce à notre plateforme innovante.
             </p>
 
