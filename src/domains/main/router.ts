@@ -15,7 +15,6 @@ export default (): RouteRecordRaw[] => [
 
 export const notFound = (): RouteRecordRaw => ({
     path: '/:notFoundPath(.*)*',
-    component: () => import('@/layouts/BaseLayout.vue'),
     children: [
         {
             name: 'not-found',
