@@ -1,26 +1,10 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import { RouterLink } from 'vue-router';
 import TheSeparator from './ui/separator/TheSeparator.vue';
-import TheIcon from './TheIcon.vue';
-import { mdiFacebook, mdiTwitter, mdiInstagram } from '@mdi/js';
+import SocialLinks from '@/domains/main/components/SocialLinks.vue';
 
 const currentYear = computed(() => new Date().getFullYear());
-
-const socials = ref([
-    {
-        icon: mdiFacebook,
-        link: 'https://www.facebook.com'
-    },
-    {
-        icon: mdiTwitter,
-        link: 'https://www.twitter.com'
-    },
-    {
-        icon: mdiInstagram,
-        link: 'https://www.instagram.com'
-    }
-]);
 </script>
 
 <template>
@@ -36,11 +20,7 @@ const socials = ref([
                 TRIUMPH MOTO SPORT
             </RouterLink>
 
-            <div class="flex gap-4">
-                <a v-for="(social, index) in socials" :key="index" :href="social.link" target="_blank" rel="noopener noreferrer">
-                    <TheIcon :path="social.icon" size="24" class="text-primary" />
-                </a>
-            </div>
+            <SocialLinks orientation="horizontal" />
         </div>
     </footer>
 </template>
