@@ -35,7 +35,7 @@ const userStore = useUserStore();
       <DropdownMenuSeparator />
 
       <DropdownMenuItem>
-        <RouterLink :to="{ name: 'profile' }">
+        <RouterLink :to="{ name: '' }">
           Mon profil
         </RouterLink>
       </DropdownMenuItem>

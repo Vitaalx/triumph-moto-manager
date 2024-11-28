@@ -1,8 +1,11 @@
 <script setup lang="ts">
+import { useUserStore } from '@/stores/userStore';
+import { mdiMenu } from '@mdi/js';
 import { TheSheet, SheetTrigger, SheetContent, SheetClose } from './ui/sheet';
 import TheIcon from './TheIcon.vue';
-import { mdiMenu } from '@mdi/js';
 import ButtonPrimary from './ButtonPrimary.vue';
+
+const userStore = useUserStore();
 </script>
 
 <template>
@@ -18,7 +21,7 @@ import ButtonPrimary from './ButtonPrimary.vue';
 		</SheetTrigger>
 
 		<SheetContent
-			side="right"
+			side="left"
 			class="w-full max-w-96 p-6 flex flex-col gap-8"
 		>
             <SheetClose as-child>
@@ -49,12 +52,12 @@ import ButtonPrimary from './ButtonPrimary.vue';
                     </RouterLink>
                 </SheetClose>
 
-                <SheetClose as-child>
+                <SheetClose v-if="userStore.isConnected" as-child>
                     <RouterLink
                         :to="{ name: 'home' }"
                         class="flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
                     >
-                        Nos motos
+                        Essais moto
                     </RouterLink>
                 </SheetClose>
 
@@ -65,12 +68,6 @@ import ButtonPrimary from './ButtonPrimary.vue';
                     >
                         Contact
                     </RouterLink>
-                </SheetClose>
-
-                <SheetClose as-child>
-                    <ButtonPrimary as-child>
-                        <RouterLink :to="{ name: 'connection' }">Connexion | Inscription</RouterLink>
-                    </ButtonPrimary>
                 </SheetClose>
 			</nav>
 		</SheetContent>

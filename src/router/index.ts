@@ -1,6 +1,7 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import main, { notFound } from '@/domains/main/router'
-import auth from '@/domains/auth/router'
+import { createRouter, createWebHistory } from 'vue-router';
+import main, { notFound } from '@/domains/main/router';
+import auth from '@/domains/auth/router';
+import user from '@/domains/user/router';
 import { useLoader } from '@/composables/useLoader';
 
 const router = createRouter({
@@ -9,7 +10,12 @@ const router = createRouter({
         {
             path: '/',
             component: () => import('../layouts/BaseLayout.vue'),
-            children: [...main(), ...auth(), notFound()],
+            children: [
+                ...main(),
+                ...auth(),
+                ...user(),
+                notFound()
+            ],
         },
     ],
     scrollBehavior(to, from, savedPosition) {

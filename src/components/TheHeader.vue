@@ -11,12 +11,17 @@ const userStore = useUserStore();
 <template>
     <header class="sticky z-50 top-0 w-full bg-white">
         <div class="container h-28 flex justify-between items-center">
-            <RouterLink :to="{ name: 'home' }" class="text-2xl text-primary font-bold">
-                TRIUMPH MOTO SPORT
-            </RouterLink>
+            <div class="flex gap-8">
+                <TheMobileNav />
 
-            <div class="hidden lg:flex gap-24 items-center">
-                <nav>
+                <RouterLink :to="{ name: 'home' }" class="text-2xl text-primary font-bold">
+                    TRIUMPH MOTO SPORT
+                </RouterLink>
+            </div>
+
+
+            <div class="flex gap-24 items-center">
+                <nav class="hidden lg:block">
                     <ul class="flex gap-8">
                         <li>
                             <RouterLink :to="{ name: 'home' }">
@@ -30,9 +35,9 @@ const userStore = useUserStore();
                             </RouterLink>
                         </li>
 
-                        <li>
+                        <li v-if="userStore.isConnected">
                             <RouterLink :to="{ name: '' }">
-                                Nos motos
+                                Essais moto
                             </RouterLink>
                         </li>
 
@@ -50,8 +55,6 @@ const userStore = useUserStore();
 
                 <AccountDropdown v-else />
             </div>
-
-            <TheMobileNav />
         </div>
     </header>
 </template>
