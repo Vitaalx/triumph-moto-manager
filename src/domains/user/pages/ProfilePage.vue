@@ -41,48 +41,44 @@ function updateProfil() {
 			</aside>
 
             <div class="grid gap-6 md:grid-cols-2">
-                <div class="grid gap-6 md:grid-cols-2">
-                    <div class="grid gap-2">
-                        <TheLabel for="firstName">Prénom</TheLabel>
-                        <TheInput
-                            id="firstName"
-                            type="text"
-                            :disabled="!isEditing"
-                            v-model="user.firstName"
-                        />
-                    </div>
-
-                    <div class="grid gap-2">
-                        <TheLabel for="lastName">Nom</TheLabel>
-                        <TheInput
-                            id="lastName"
-                            type="text"
-                            :disabled="!isEditing"
-                            v-model="user.lastName"
-                        />
-                    </div>
+                <div class="grid gap-2">
+                    <TheLabel for="firstName">Prénom</TheLabel>
+                    <TheInput
+                        id="firstName"
+                        type="text"
+                        :disabled="!isEditing"
+                        v-model="user.firstName"
+                    />
                 </div>
 
-                <div class="grid gap-6 md:grid-cols-2">
-                    <div class="grid gap-2">
-                        <TheLabel for="email">Email</TheLabel>
-                        <TheInput
-                            id="email"
-                            type="email"
-                            :disabled="!isEditing"
-                            v-model="user.email"
-                        />
-                    </div>
+                <div class="grid gap-2">
+                    <TheLabel for="lastName">Nom</TheLabel>
+                    <TheInput
+                        id="lastName"
+                        type="text"
+                        :disabled="!isEditing"
+                        v-model="user.lastName"
+                    />
+                </div>
 
-                    <div class="grid gap-2">
-                        <TheLabel for="phone">Téléphone</TheLabel>
-                        <TheInput
-                            id="phone"
-                            type="tel"
-                            :disabled="!isEditing"
-                            v-model="user.phone"
-                        />
-                    </div>
+                <div class="grid gap-2">
+                    <TheLabel for="email">Email</TheLabel>
+                    <TheInput
+                        id="email"
+                        type="email"
+                        :disabled="!isEditing"
+                        v-model="user.email"
+                    />
+                </div>
+
+                <div class="grid gap-2">
+                    <TheLabel for="phone">Téléphone</TheLabel>
+                    <TheInput
+                        id="phone"
+                        type="tel"
+                        :disabled="!isEditing"
+                        v-model="user.phone"
+                    />
                 </div>
 
                 <ButtonSecondary
