@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import PrimaryButton from '@/components/PrimaryButton.vue'
+import ButtonPrimary from '@/components/ButtonPrimary.vue'
 import SocialLinks from './SocialLinks.vue';
 </script>
 
@@ -18,7 +18,7 @@ import SocialLinks from './SocialLinks.vue';
                 Suivez et entretenez vos motos facilement grâce à notre plateforme innovante.
             </p>
 
-            <PrimaryButton size="lg" class="mt-8">Découvrir</PrimaryButton>
+            <ButtonPrimary size="lg" class="mt-8">Découvrir</ButtonPrimary>
         </div>
     </div>
 </template>

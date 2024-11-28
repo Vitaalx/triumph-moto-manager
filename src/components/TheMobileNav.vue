@@ -2,19 +2,19 @@
 import { TheSheet, SheetTrigger, SheetContent, SheetClose } from './ui/sheet';
 import TheIcon from './TheIcon.vue';
 import { mdiMenu } from '@mdi/js';
-import PrimaryButton from './PrimaryButton.vue';
+import ButtonPrimary from './ButtonPrimary.vue';
 </script>
 
 <template>
 	<TheSheet>
 		<SheetTrigger as-child>
-			<PrimaryButton
+			<ButtonPrimary
 				variant="outline"
 				size="icon"
 				class="shrink-0 lg:hidden"
 			>
 				<TheIcon :path="mdiMenu"/>
-			</PrimaryButton>
+			</ButtonPrimary>
 		</SheetTrigger>
 
 		<SheetContent
@@ -68,9 +68,9 @@ import PrimaryButton from './PrimaryButton.vue';
                 </SheetClose>
 
                 <SheetClose as-child>
-                    <PrimaryButton as-child>
+                    <ButtonPrimary as-child>
                         <RouterLink :to="{ name: 'connection' }">Connexion | Inscription</RouterLink>
-                    </PrimaryButton>
+                    </ButtonPrimary>
                 </SheetClose>
 			</nav>
 		</SheetContent>

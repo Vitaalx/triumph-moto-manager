@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import BlackAndWhiteBg from '@/components/BlackAndWhiteBg.vue';
 import HeroTextBox from '../components/HeroTextBox.vue';
-import PrimaryButton from '@/components/PrimaryButton.vue';
+import ButtonPrimary from '@/components/ButtonPrimary.vue';
 import ServiceCard from '../components/ServiceCard.vue';
 import { mdiFaceAgent, mdiMedalOutline, mdiWrench } from '@mdi/js';
 
@@ -67,9 +67,9 @@ const services = ref([
                         découvrez comment nous pouvons transformer votre expérience de conduite.
                     </p>
 
-                    <PrimaryButton size="lg" as-child>
-                        <RouterLink :to="{ name: '' }">En savoir plus</RouterLink>
-                    </PrimaryButton>
+                    <ButtonPrimary size="lg" as-child>
+                        <RouterLink :to="{ name: 'about' }">En savoir plus</RouterLink>
+                    </ButtonPrimary>
                 </div>
             </div>
         </div>

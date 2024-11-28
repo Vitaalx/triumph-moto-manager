@@ -1,14 +1,20 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/userStore'
 
-import PrimaryButton from '@/components/PrimaryButton.vue'
+import ButtonPrimary from '@/components/ButtonPrimary.vue'
 import TheLabel from '@/components/ui/label/TheLabel.vue'
 import TheInput from '@/components/ui/input/TheInput.vue'
 
+const router = useRouter()
+
 const isLoginForm = ref<boolean>(true)
+const userStore = useUserStore()
 
 function login() {
-    console.log('login')
+    userStore.login()
+    router.push({ name: 'home' })
 }
 
 function register() {
@@ -61,9 +67,9 @@ function register() {
                             <TheInput id="password" type="password" required />
                         </div>
 
-                        <PrimaryButton @click="isLoginForm ? login() : register()">
+                        <ButtonPrimary @click="isLoginForm ? login() : register()">
                             {{ isLoginForm ? 'Se connecter' : "S'inscrire" }}
-                        </PrimaryButton>
+                        </ButtonPrimary>
                     </div>
                     <div class="mt-4 text-center text-sm">
                         {{ isLoginForm ? 'Pas encore de compte ?' : 'Déjà inscrit ?' }}

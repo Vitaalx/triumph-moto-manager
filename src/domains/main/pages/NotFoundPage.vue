@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import PrimaryButton from '@/components/PrimaryButton.vue'
+import ButtonPrimary from '@/components/ButtonPrimary.vue'
 </script>
 
 <template>
@@ -10,8 +10,8 @@ import PrimaryButton from '@/components/PrimaryButton.vue'
             La page que vous recherchez n'existe pas.
         </p>
 
-        <PrimaryButton size="lg" class="mt-8 w-min">
+        <ButtonPrimary size="lg" class="mt-8 w-min">
             <RouterLink :to="{ name: 'home' }">Retour à l'accueil</RouterLink>
-        </PrimaryButton>
+        </ButtonPrimary>
     </section>
 </template>

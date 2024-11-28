@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
-import PrimaryButton from './PrimaryButton.vue';
+import { useUserStore } from '@/stores/userStore'
+import ButtonPrimary from './ButtonPrimary.vue';
+import AccountDropdown from '@/domains/auth/components/AccountDropdown.vue';
 import TheMobileNav from './TheMobileNav.vue';
+
+const userStore = useUserStore();
 </script>
 
 <template>
@@ -40,9 +44,11 @@ import TheMobileNav from './TheMobileNav.vue';
                     </ul>
                 </nav>
 
-                <PrimaryButton as-child>
+                <ButtonPrimary v-if="!userStore.isConnected" as-child>
                     <RouterLink :to="{ name: 'connection' }">Connexion | Inscription</RouterLink>
-                </PrimaryButton>
+                </ButtonPrimary>
+
+                <AccountDropdown v-else />
             </div>
 
             <TheMobileNav />

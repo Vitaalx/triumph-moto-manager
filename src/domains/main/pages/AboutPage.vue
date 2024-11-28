@@ -48,7 +48,7 @@
             </ul>
           </div>
           <div class="flex flex-col gap-4">
-            <h3 class="text-lg font-semibold">Rejoignez-nous</h3>
+            <h3 class="text-lg font-semibold">Rejoignez-nous !</h3>
             <p>
               Découvrez comment Triumph Motorcycles peut transformer votre expérience de gestion de flotte. Rejoignez-nous pour une gestion efficace et durable de vos motos,
               et bénéficiez de notre expertise et de notre engagement envers l'excellence.
