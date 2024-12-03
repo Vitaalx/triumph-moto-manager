@@ -1,3 +1,3 @@
 export class HelloWorld {
-	constructor(public readonly message: string) {}
+	public constructor(public readonly message: string) {}
 }

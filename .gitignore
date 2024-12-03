@@ -1,6 +1,7 @@
 node_modules
 dist
 .env
+.env.local
 yarn-error.log
 tsconfig.tsbuildinfo
 .DS_Store
