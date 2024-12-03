@@ -14,7 +14,8 @@
 	"eslint.useFlatConfig": true,
 	"eslint.validate": [
 		"javascript",
-		"typescript"
+		"typescript",
+		"vue"
 	],
 	"eslint.workingDirectories": [
 		"./front-app",
