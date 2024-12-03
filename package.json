@@ -1,17 +1,12 @@
 {
-	"name": "typescript-event-sourcing-sample-app",
+	"name": "triumph-moto-manager",
 	"private": true,
 	"version": "1.0.0",
+	"author": "maubry & vitalx",
+	"license": "ISC",
 	"workspaces": [
-		"packages/*"
+		"back-app",
+		"front-app"
 	],
-	"scripts": {
-		"application": "yarn workspace @cqrs-es/application",
-		"job": "yarn workspace @cqrs-es/job",
-		"core": "yarn workspace @cqrs-es/core"
-	},
-	"main": "index.js",
-	"repository": "git@github.com:yerinadler/typescript-event-sourcing-sample-app.git",
-	"author": "Yerin Adler <yerin.adler@gmail.com>",
-	"license": "MIT"
+	"scripts": {}
 }
