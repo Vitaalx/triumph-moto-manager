@@ -23,7 +23,6 @@ export default global.ENV = z
 		PORT: z.coerce.number().default(DEFAULT_PORT),
 		HOST: z.string().default(DEFAULT_HOST),
 		ENVIRONMENT: z.enum(["DEV", "PROD", "TEST"]).default(DEFAULT_ENVIRONMENT),
-		MONGO_DATABASE_URL: z.string(),
 		JWT_KEY: z.string(),
 		JWT_TIME: z.string(),
 		ORIGIN: z.string().url(),
