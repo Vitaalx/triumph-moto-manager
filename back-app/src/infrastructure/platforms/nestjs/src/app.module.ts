@@ -1,5 +1,5 @@
-import { HelloWorldModule } from "@exposition/http/modules/hello-world.module";
 import { Module } from "@nestjs/common";
+import { HelloWorldModule } from "./modules/hello-world.module";
 
 @Module({
 	imports: [HelloWorldModule],
