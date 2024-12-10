@@ -3,7 +3,7 @@
 	"name": "triumph-moto-manager-back",
 	"version": "1.0.0",
 	"scripts": {
-		"start:dev": "nest start --watch --entryFile infrastructure/platforms/nestjs/src/main.js",
+		"start:dev": "nest start --watch --entryFile infrastructure/platforms/nestjs/main.js",
 		"start:debug": "nest start --debug --watch",
 		"start:prod": "node dist/main",
 		"build": "nest build"
