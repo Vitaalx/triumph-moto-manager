@@ -1,14 +1,14 @@
 {
-	"name": "vue-sample",
+	"name": "@triumph-moto-manager/vue",
 	"version": "0.0.0",
 	"private": true,
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
+		"dev:build": "vite build",
 		"build": "run-p type-check \"build-only {@}\" --",
 		"preview": "vite preview",
 		"test:unit": "vitest",
-		"build-only": "vite build",
 		"type-check": "vue-tsc --build",
 		"lint": "eslint . --fix",
 		"format": "prettier --write src/"

@@ -1,10 +1,9 @@
 {
-	"name": "triumph-moto-manager-back",
 	"version": "1.0.0",
 	"workspaces": [
-		"src/application",
-		"src/domain",
-		"src/infrastructure/platforms/nestjs"
+		"application",
+		"domain",
+		"infrastructure/platforms/nestjs"
 	],
 	"scripts": {},
 	"dependencies": {

@@ -1,12 +1,19 @@
 {
-	"name": "triumph-moto-manager",
 	"private": true,
 	"version": "1.0.0",
 	"author": "maubry & vitalx",
 	"license": "ISC",
 	"workspaces": [
 		"back-app",
+		"back-app/application",
+		"back-app/domain",
+		"back-app/infrastructure/platforms/nestjs",
 		"front-app"
 	],
-	"scripts": {}
+	"scripts": {
+		"dev:vue": "npm -w @triumph-moto-manager/vue run dev",
+		"dev:nestjs": "npm -w @triumph-moto-manager/nestjs run start:dev",
+		"dev:build": "docker-compose up --build",
+		"dev": "docker-compose up"
+	}
 }

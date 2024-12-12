@@ -1,11 +1,11 @@
 {
 	"private": true,
-	"name": "triumph-moto-manager-back",
+	"name": "@triumph-moto-manager/nestjs",
 	"version": "1.0.0",
 	"scripts": {
 		"start:dev": "nest start --watch --entryFile infrastructure/platforms/nestjs/main.js",
 		"start:debug": "nest start --debug --watch",
-		"start:prod": "node dist/main",
+		"start:prod": "node dist/infrastructure/platforms/nestjs/main",
 		"build": "nest build"
 	},
 	"dependencies": {
