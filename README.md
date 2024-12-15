@@ -1,6 +1,6 @@
 # Projet TypeScript utilisant l'architecture CQRS + Event Sourcing
 
-## Installation
+## Démarrage de l'application
 
 ```bash
 docker-compose up --build
@@ -8,4 +8,4 @@ docker-compose up --build
 
  Vous pouvez maintenant accéder à l'application sur <http://localhost:80>.
 
- Cette application comprends un serveur web (Nginx) et un serveur d'API (NestJS) et un front (Vue).
+ Cette application comprends un serveur web (Nginx), un serveur d'API (NestJS) et un front (Vue).
