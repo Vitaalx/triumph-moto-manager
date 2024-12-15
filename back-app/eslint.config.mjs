@@ -12,7 +12,7 @@ export default [
 		rules: {
 			...duplojsEslintBase.rules,
 			"new-cap": "off",
-			"no-unsafe-call": "on",
+			"no-unsafe-call": "off",
 		}
 	},
 ];
