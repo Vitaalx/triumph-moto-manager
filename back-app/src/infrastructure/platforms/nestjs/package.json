@@ -6,7 +6,7 @@
 	"scripts": {
 		"start:dev": "nest start --watch --entryFile infrastructure/platforms/nestjs/main.js",
 		"start:debug": "nest start --debug --watch",
-		"start:prod": "node dist/infrastructure/platforms/nestjs/main",
+		"start:prod": "node dist/src/infrastructure/platforms/nestjs/main",
 		"build": "nest build"
 	},
 	"dependencies": {

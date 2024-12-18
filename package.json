@@ -5,9 +5,9 @@
 	"license": "ISC",
 	"workspaces": [
 		"back-app",
-		"back-app/application",
-		"back-app/domain",
-		"back-app/infrastructure/platforms/nestjs",
+		"back-app/src/application",
+		"back-app/src/domain",
+		"back-app/src/infrastructure/platforms/nestjs",
 		"front-app"
 	],
 	"scripts": {

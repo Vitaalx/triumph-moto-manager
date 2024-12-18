@@ -1,6 +1,6 @@
-import { HelloWorldQuery } from "@application/queries/definitions/hello-world-query";
 import { Controller, Get } from "@nestjs/common";
 import { QueryBus } from "@nestjs/cqrs";
+import { HelloWorldQuery } from "@application/queries/definitions/hello-world-query";
 
 @Controller("hello-world")
 export class HelloWorldController {
