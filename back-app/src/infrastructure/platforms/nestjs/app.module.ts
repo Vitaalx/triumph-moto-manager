@@ -18,3 +18,4 @@ import { AppInitializerModule } from "./modules/app-initializer.module";
 	],
 })
 export class AppModule {}
+
