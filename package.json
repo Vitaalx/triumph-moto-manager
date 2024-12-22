@@ -5,8 +5,6 @@
 	"license": "ISC",
 	"workspaces": [
 		"back-app",
-		"back-app/src/application",
-		"back-app/src/domain",
 		"back-app/src/infrastructure/platforms/nestjs",
 		"front-app"
 	],
@@ -14,6 +12,9 @@
 		"dev:vue": "npm -w @triumph-moto-manager/vue run dev",
 		"dev:nestjs": "npm -w @triumph-moto-manager/nestjs run start:dev",
 		"dev:build": "docker-compose up --build",
-		"dev": "docker-compose up"
+		"dev": "docker-compose up",
+		"generate:prisma": "npm -w @triumph-moto-manager/back run generate:prisma",
+		"web/ui:prisma": "docker-compose exec nestjs npm -w @triumph-moto-manager/back run web/ui:prisma",
+		"migrate:dev": "docker-compose exec nestjs npm -w @triumph-moto-manager/back run migrate:dev"
 	}
 }

@@ -1,13 +1,22 @@
 {
+	"name": "@triumph-moto-manager/back",
 	"version": "1.0.0",
 	"workspaces": [
 		"src/application",
 		"src/domain",
-		"src/infrastructure/platforms/nestjs"
+		"src/infrastructure"
 	],
-	"scripts": {},
+	"scripts": {
+		"web/ui:prisma": "prisma studio -n 0.0.0.0",
+		"migrate:dev": "prisma migrate dev",
+		"generate:prisma": "npx prisma generate"
+	},
+	"prisma": {
+		"schema": "src/infrastructure/database/prisma/schema.prisma"
+	},
 	"dependencies": {
 		"@nestjs/cqrs": "^9.0.4",
+		"@prisma/client": "^6.1.0",
 		"dotenv": "^16.4.5",
 		"dotenv-expand": "^12.0.1",
 		"zod": "^3.23.8"
