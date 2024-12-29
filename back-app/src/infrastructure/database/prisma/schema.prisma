@@ -25,3 +25,15 @@ enum Role {
     ADMIN
     FLEET_MANAGER
 }
+
+model Motocycle {
+    id                  String   @id @default(uuid())
+    brand               String
+    model               String
+    year                Int
+    price               Float
+    maintenanceInterval String
+    licensePlate        String
+    created_at          DateTime @default(now())
+    updated_at          DateTime @updatedAt
+}
