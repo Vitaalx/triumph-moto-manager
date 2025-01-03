@@ -12,6 +12,12 @@
 			"@config/*": [
 				"src/infrastructure/config/*"
 			],
+			"@providers/*": [
+				"src/infrastructure/providers/*"
+			],
+			"@adapters/*": [
+				"src/infrastructure/platforms/nestjs/adapters/*"
+			],
 		}
 	}
 }

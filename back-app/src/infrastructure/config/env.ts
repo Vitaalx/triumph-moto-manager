@@ -26,6 +26,8 @@ export default global.ENV = z
 		JWT_KEY: z.string(),
 		JWT_TIME: z.string(),
 		ORIGIN: z.string().url(),
+		APP_ADMIN_EMAIL: z.string().email().default("admin@admin.fr"),
+		APP_ADMIN_PASSWORD: z.string().default("admin"),
 	})
 	.readonly()
 	.parse(process.env);
