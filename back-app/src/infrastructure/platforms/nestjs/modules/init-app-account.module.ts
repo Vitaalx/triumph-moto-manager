@@ -1,9 +1,9 @@
-import { UserRepositoryImpl } from "@adapters/repositories/user.repository-impl";
-import { CreateAdminAccountImpl } from "@adapters/services/create-admin-account-impl";
+import { UserRepositoryImpl } from "@nestjs@repositories/user.repository-impl";
+import { CreateAdminAccountImpl } from "@nestjs@services/create-admin-account-impl";
 import { USER_REPOSITORY_INTERFACE } from "@application/ports/repositories/user-repository";
 import { Module } from "@nestjs/common";
 import { ProviderInjectionModule } from "./provider-injection.module";
-import { AppInitializer } from "@adapters/services/app-initializer";
+import { AppInitializer } from "@nestjs@services/app-initializer";
 
 const initAppAccountProviders = [
 	{

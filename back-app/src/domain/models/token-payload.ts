@@ -1,7 +1,6 @@
 import { type User } from "./user";
 
 export interface TokenPayload {
-	email: User["email"];
-	password: User["password"];
+	id: User["id"];
 	role: User["role"];
 }

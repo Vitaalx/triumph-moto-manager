@@ -1,23 +1,4 @@
 {
 	"extends": "../../../../tsconfig.json",
-	"compilerOptions": {
-		"baseUrl": "../../../../",
-		"paths": {
-			"@domain/*": [
-				"src/domain/*"
-			],
-			"@application/*": [
-				"src/application/*"
-			],
-			"@config/*": [
-				"src/infrastructure/config/*"
-			],
-			"@providers/*": [
-				"src/infrastructure/providers/*"
-			],
-			"@adapters/*": [
-				"src/infrastructure/platforms/nestjs/adapters/*"
-			],
-		}
-	}
+	"compilerOptions": {},
 }

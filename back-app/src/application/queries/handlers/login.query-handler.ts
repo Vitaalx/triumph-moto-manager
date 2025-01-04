@@ -1,6 +1,6 @@
 import { QueryHandler, type IQueryHandler } from "@nestjs/cqrs";
 import { LoginQuery } from "../definitions/login-query";
-import { Login } from "src/application/usecases/login";
+import { Login } from "@application/usecases/login";
 
 @QueryHandler(LoginQuery)
 export class LoginQueryHandler implements IQueryHandler<LoginQuery> {

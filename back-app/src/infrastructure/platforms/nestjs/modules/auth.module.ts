@@ -8,9 +8,9 @@ import { USER_REPOSITORY_INTERFACE } from "@application/ports/repositories/user-
 import { TOKEN_SERVICE_INTERFACE } from "@application/ports/services/token-service";
 import { PASSWORD_SERVICE_INTERFACE } from "@application/ports/services/password-service";
 import { ProviderInjectionModule } from "./provider-injection.module";
-import { TokenServiceImpl } from "@adapters/services/token.service-impl";
-import { UserRepositoryImpl } from "@adapters/repositories/user.repository-impl";
-import { PasswordServiceImpl } from "@adapters/services/password.service-impl";
+import { TokenServiceImpl } from "@nestjs@services/token.service-impl";
+import { UserRepositoryImpl } from "@nestjs@repositories/user.repository-impl";
+import { PasswordServiceImpl } from "@nestjs@services/password.service-impl";
 
 const authProviders = [
 	{

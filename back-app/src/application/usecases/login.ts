@@ -32,8 +32,7 @@ export class Login {
 		}
 
 		const tokenPayload: TokenPayload = {
-			email: user.email,
-			password: user.password,
+			id: user.id,
 			role: user.role,
 		};
 

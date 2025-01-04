@@ -25,10 +25,34 @@
 		"module": "commonjs", /* Specify what module code is generated. */
 		//"rootDir": "./src", /* Specify the root folder within your source files. */
 		"moduleResolution": "node", /* Specify how TypeScript looks up a file from a given module specifier. */
-		"baseUrl": "./", /* Specify the base directory to resolve non-relative module names. */
+		"baseUrl": "./src", /* Specify the base directory to resolve non-relative module names. */
 		"paths": {
+			"@application/*": [
+				"application/*"
+			],
 			"@domain/*": [
-				"src/domain/*"
+				"domain/*"
+			],
+			"@infrastructure/*": [
+				"infrastructure/*"
+			],
+			"@adapters/*": [
+				"infrastructure/adapters/*"
+			],
+			"@config/*": [
+				"infrastructure/config/*"
+			],
+			"@database/*": [
+				"infrastructure/database/*"
+			],
+			"@providers/*": [
+				"infrastructure/providers/*"
+			],
+			"@nestjs@services/*": [
+				"infrastructure/platforms/nestjs/adapters/services/*"
+			],
+			"@nestjs@repositories/*": [
+				"infrastructure/platforms/nestjs/adapters/repositories/*"
 			],
 		}, /* Specify a set of entries that re-map imports to additional lookup locations. */
 		// "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
@@ -104,9 +128,10 @@
 		"skipLibCheck": true /* Skip type checking all .d.ts files. */
 	},
 	"include": [
-		"**/*.ts"
+		"src/**/*.ts" // Inclut tous les fichiers TypeScript sous le dossier 'src/'
 	],
 	"exclude": [
-		"node_modules"
+		"node_modules", // Exclut 'node_modules' de la compilation
+		"dist" // Exclut le dossier de sortie 'dist'
 	]
 }
