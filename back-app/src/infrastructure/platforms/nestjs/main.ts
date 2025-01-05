@@ -1,14 +1,16 @@
 import { HttpAdapterHost, NestFactory } from "@nestjs/core";
+import cookieParser from "cookie-parser";
 import { AppModule } from "./app.module";
-import "@config/env";
-import "@providers/prisma";
 import { HttpExceptionFilter } from "./exceptions/filters/http-exception.filter";
 import { AllExceptionsFilter } from "./exceptions/filters/all-exceptions.filter";
+import "@config/env";
+import "@providers/prisma";
 
 void NestFactory.create(AppModule)
 	.then((app) => {
 		void app.listen(ENV.PORT);
 		const httpAdapterHost = app.get(HttpAdapterHost);
+		app.use(cookieParser());
 		app.useGlobalFilters(new AllExceptionsFilter(httpAdapterHost));
 		app.useGlobalFilters(new HttpExceptionFilter());
 		process.stdout.write(

@@ -1,17 +1,24 @@
-import { type UserRepository } from "@application/ports/repositories/user-repository";
-import { type CreateAdminAccount } from "@application/ports/services/create-admin-account";
 import { Injectable, Logger } from "@nestjs/common";
 
-@Injectable()
-export class CreateAdminAccountImpl implements CreateAdminAccount {
-	public constructor(private readonly userRepository: UserRepository) {}
+import { type ICreateAdminAccount } from "@application/ports/services/create-admin-account";
+import { PasswordService } from "@nestjs@services/password.service-impl";
+import { UserRepository } from "@nestjs@repositories/user.repository-impl";
 
-	private readonly logger = new Logger(CreateAdminAccountImpl.name);
+@Injectable()
+export class CreateAdminAccount implements ICreateAdminAccount {
+	public constructor(
+		private readonly userRepository: UserRepository,
+		private readonly passwordService: PasswordService,
+	) {}
+
+	private readonly logger = new Logger(CreateAdminAccount.name);
 
 	public async createAdminAccount(email: string, password: string): Promise<void> {
 		this.logger.log("Creating admin account...");
 
-		await this.userRepository.createAdminAccount(email, password);
+		const hashedPassword = await this.passwordService.hash(password);
+
+		await this.userRepository.createAdminAccount(email, hashedPassword);
 
 		this.logger.log(`Admin account with email ${email} created!`);
 	}

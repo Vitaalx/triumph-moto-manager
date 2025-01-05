@@ -10,7 +10,8 @@
 	"scripts": {
 		"web/ui:prisma": "prisma studio -n 0.0.0.0",
 		"migrate:dev": "prisma migrate dev",
-		"generate:prisma": "npx prisma generate"
+		"generate:prisma": "npx prisma generate",
+		"migrate:reset": "prisma migrate reset"
 	},
 	"prisma": {
 		"schema": "src/infrastructure/database/prisma/schema.prisma"

@@ -1,8 +1,9 @@
 import { Module } from "@nestjs/common";
 import { APP_PIPE } from "@nestjs/core";
 import { ZodValidationPipe } from "nestjs-zod";
+
 import { AuthModule } from "./modules/auth.module";
-import { InitAppAccountModule } from "./modules/init-app-account.module";
+import { AppInitializerModule } from "./modules/app-initializer.module";
 
 @Module({
 	providers: [
@@ -11,6 +12,9 @@ import { InitAppAccountModule } from "./modules/init-app-account.module";
 			useClass: ZodValidationPipe,
 		},
 	],
-	imports: [AuthModule, InitAppAccountModule],
+	imports: [
+		AuthModule,
+		AppInitializerModule,
+	],
 })
 export class AppModule {}

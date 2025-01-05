@@ -1,17 +1,15 @@
 import { UserNotFound } from "@domain/errors/user-not-found";
-import { type UserRepository } from "../ports/repositories/user-repository";
-import { type TokenService } from "../ports/services/token-service";
+import { type IUserRepository } from "../ports/repositories/user-repository";
+import { type ITokenService } from "../ports/services/token-service";
 import { type TokenPayload } from "@domain/models/token-payload";
 import { InvalidPassword } from "@domain/errors/invalid-password";
-import { type PasswordService } from "../ports/services/password-service";
-import { Role } from "@domain/types/roles";
-import { UserUnauthorized } from "@domain/errors/user-unauthorized";
+import { type IPasswordService } from "../ports/services/password-service";
 
 export class Login {
 	public constructor(
-		private readonly userRepository: UserRepository,
-		private readonly tokenService: TokenService,
-		private readonly passwordService: PasswordService,
+		private readonly userRepository: IUserRepository,
+		private readonly tokenService: ITokenService,
+		private readonly passwordService: IPasswordService,
 	) {}
 
 	public async execute(email: string, password: string) {
@@ -19,10 +17,6 @@ export class Login {
 
 		if (!user) {
 			return new UserNotFound("user.notfound");
-		}
-
-		if (user.role !== Role.FLEET_MANAGER) {
-			return new UserUnauthorized("role.invalid");
 		}
 
 		const validPassword = await this.passwordService.compare(password, user.password);
@@ -33,7 +27,7 @@ export class Login {
 
 		const tokenPayload: TokenPayload = {
 			id: user.id,
-			role: user.role,
+			roles: user.role,
 		};
 
 		return this.tokenService.generate(tokenPayload);

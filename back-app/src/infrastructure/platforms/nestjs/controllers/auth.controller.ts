@@ -1,14 +1,15 @@
-import { Body, Controller, Get, HttpStatus, Res } from "@nestjs/common";
+import { Body, Controller, Get, HttpStatus, Res, UseGuards } from "@nestjs/common";
 import { Response } from "express";
 import { QueryBus } from "@nestjs/cqrs";
+
 import { UserNotFound } from "@domain/errors/user-not-found";
 import { InvalidPassword } from "@domain/errors/invalid-password";
-import { UserUnauthorized } from "@domain/errors/user-unauthorized";
 import { LoginQuery } from "@application/queries/definitions/login-query";
 import { UserNotFoundHttpException } from "../exceptions/user-not-found.exception";
-import { UserUnauthorizedHttpException } from "../exceptions/user-unauthorized.exception";
 import { InvalidPasswordHttpException } from "../exceptions/invalid-password.exception";
 import { UserLoginDto } from "../dtos/user-login.dto";
+import { RequiredRoles } from "../decorators/roles.decorator";
+import { AuthGuard } from "../guards/auth.guard";
 
 @Controller("/auth")
 export class AuthController {
@@ -24,9 +25,6 @@ export class AuthController {
 
 		if (result instanceof UserNotFound) {
 			throw new UserNotFoundHttpException();
-		}
-		if (result instanceof UserUnauthorized) {
-			throw new UserUnauthorizedHttpException();
 		}
 		if (result instanceof InvalidPassword) {
 			throw new InvalidPasswordHttpException();
@@ -46,5 +44,12 @@ export class AuthController {
 	public logout(@Res() res: Response) {
 		res.clearCookie(this.ACCESS_TOKEN_KEY);
 		res.status(HttpStatus.OK).send();
+	}
+
+	@Get("/test")
+	@RequiredRoles("ADMIN", "FLEET_MANAGER")
+	@UseGuards(AuthGuard)
+	public test() {
+		return "test";
 	}
 }

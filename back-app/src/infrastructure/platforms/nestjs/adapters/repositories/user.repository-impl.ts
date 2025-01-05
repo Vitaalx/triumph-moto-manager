@@ -1,15 +1,18 @@
-import { type User } from "@domain/models/user";
-import { type UserRepository } from "@application/ports/repositories/user-repository";
 import { Injectable } from "@nestjs/common";
 import { Role } from "@prisma/client";
 
+import { type User } from "@domain/models/user";
+import { type IUserRepository } from "@application/ports/repositories/user-repository";
+
 @Injectable()
-export class UserRepositoryImpl implements UserRepository {
+export class UserRepository implements IUserRepository {
 	public async createAdminAccount(email: string, password: string): Promise<void> {
 		const user = await prisma.user.findFirst(
 			{
 				where: {
-					role: Role.ADMIN,
+					role: {
+						has: Role.ADMIN,
+					},
 				},
 			},
 		);
@@ -28,7 +31,7 @@ export class UserRepositoryImpl implements UserRepository {
 				data: {
 					email,
 					password,
-					role: Role.ADMIN,
+					role: [Role.ADMIN],
 				},
 			});
 		}

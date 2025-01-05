@@ -1,8 +1,9 @@
+import { type AccessTokenContent } from "@domain/models/access-token-content";
 import { type TokenPayload } from "@domain/models/token-payload";
 
-export interface TokenService {
+export interface ITokenService {
 	generate(tokenPayload: TokenPayload): string;
-	verify(token: string): string | null;
+	verify(token: string): AccessTokenContent | null;
 }
 
-export const TOKEN_SERVICE_INTERFACE = Symbol("TokenService");
+export const TOKEN_SERVICE_INTERFACE = Symbol("ITokenService");

@@ -1,10 +1,12 @@
-import { type TokenPayload } from "@domain/models/token-payload";
-import { type TokenService } from "@application/ports/services/token-service";
-import { type JwtService } from "@nestjs/jwt";
+import { JwtService } from "@nestjs/jwt";
 import { Injectable } from "@nestjs/common";
 
+import { type TokenPayload } from "@domain/models/token-payload";
+import { type ITokenService } from "@application/ports/services/token-service";
+import { AccessTokenContent } from "@domain/models/access-token-content";
+
 @Injectable()
-export class TokenServiceImpl implements TokenService {
+export class TokenService implements ITokenService {
 	public constructor(private readonly jwtService: JwtService) {}
 
 	public generate(tokenPayload: TokenPayload): string {
@@ -17,12 +19,12 @@ export class TokenServiceImpl implements TokenService {
 		);
 	}
 
-	public verify(token: string): string | null {
+	public verify(token: string): AccessTokenContent | null {
 		try {
 			const decoded = this.jwtService.verify(token, {
 				secret: ENV.JWT_KEY,
 			});
-			return decoded;
+			return decoded as AccessTokenContent;
 		} catch {
 			return null;
 		}

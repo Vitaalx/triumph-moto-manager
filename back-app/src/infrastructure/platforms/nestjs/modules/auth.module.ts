@@ -1,24 +1,24 @@
 import { Module } from "@nestjs/common";
 import { CqrsModule } from "@nestjs/cqrs";
-import { JwtModule } from "@nestjs/jwt";
+
 import { AuthController } from "../controllers/auth.controller";
 import { LoginQueryHandler } from "@application/queries/handlers/login.query-handler";
 import { Login } from "@application/usecases/login";
 import { USER_REPOSITORY_INTERFACE } from "@application/ports/repositories/user-repository";
-import { TOKEN_SERVICE_INTERFACE } from "@application/ports/services/token-service";
+import { ITokenService, TOKEN_SERVICE_INTERFACE } from "@application/ports/services/token-service";
 import { PASSWORD_SERVICE_INTERFACE } from "@application/ports/services/password-service";
-import { ProviderInjectionModule } from "./provider-injection.module";
-import { TokenServiceImpl } from "@nestjs@services/token.service-impl";
-import { UserRepositoryImpl } from "@nestjs@repositories/user.repository-impl";
-import { PasswordServiceImpl } from "@nestjs@services/password.service-impl";
+import { ProviderInjectionModule } from "./common/provider-injection.module";
+import { UserRepository } from "@nestjs@repositories/user.repository-impl";
+import { PasswordService } from "@nestjs@services/password.service-impl";
+import { TokenService } from "@nestjs@services/token.service-impl";
 
-const authProviders = [
+const authProvidersConf = [
 	{
 		provide: Login,
 		useFactory: (
-			userRepository: UserRepositoryImpl,
-			tokenService: TokenServiceImpl,
-			passwordService: PasswordServiceImpl,
+			userRepository: UserRepository,
+			tokenService: ITokenService,
+			passwordService: PasswordService,
 		) => new Login(userRepository, tokenService, passwordService),
 		inject: [USER_REPOSITORY_INTERFACE, TOKEN_SERVICE_INTERFACE, PASSWORD_SERVICE_INTERFACE],
 	},
@@ -27,16 +27,14 @@ const authProviders = [
 @Module({
 	imports: [
 		CqrsModule,
-		JwtModule.register({
-			global: true,
-		}),
 		ProviderInjectionModule,
 	],
 	controllers: [AuthController],
 	providers: [
+		TokenService,
 		LoginQueryHandler,
 		Login,
-		...authProviders,
+		...authProvidersConf,
 	],
 })
 export class AuthModule {}
