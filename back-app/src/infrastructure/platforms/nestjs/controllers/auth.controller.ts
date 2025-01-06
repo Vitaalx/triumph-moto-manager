@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Res, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, HttpStatus, Res, UseGuards } from "@nestjs/common";
 import { Response } from "express";
 import { QueryBus } from "@nestjs/cqrs";
 
