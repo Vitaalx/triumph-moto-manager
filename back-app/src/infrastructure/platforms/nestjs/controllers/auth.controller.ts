@@ -21,26 +21,24 @@ export class AuthController {
 	public async login(@Res() res: Response, @Body() userLoginDto: UserLoginDto) {
 		const { email, password } = userLoginDto;
 
-		try {
-			const token = await this.queryBus.execute(new LoginQuery(email, password));
+		const token = await this.queryBus.execute(new LoginQuery(email, password));
 
-			res.cookie(
-				this.ACCESS_TOKEN_KEY,
-				token,
-				{ httpOnly: true },
-			);
-			res.status(HttpStatus.OK).json(
-				{ accessToken: token },
-			);
-		} catch (error) {
-			if (error instanceof UserNotFound) {
-				throw new UserNotFoundHttpException();
-			}
-			if (error instanceof PasswordInvalid) {
-				throw new PasswordInvalidHttpException();
-			}
-			throw new HttpException(error as Error, HttpStatus.INTERNAL_SERVER_ERROR);
+		if (token instanceof UserNotFound) {
+			throw new UserNotFoundHttpException();
 		}
+
+		if (token instanceof PasswordInvalid) {
+			throw new PasswordInvalidHttpException();
+		}
+
+		res.cookie(
+			this.ACCESS_TOKEN_KEY,
+			token,
+			{ httpOnly: true },
+		);
+		res.status(HttpStatus.OK).json(
+			{ accessToken: token },
+		);
 	}
 
 	@Get("/logout")

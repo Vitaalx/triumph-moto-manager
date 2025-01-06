@@ -16,13 +16,13 @@ export class Login {
 		const user = await this.userRepository.findByEmail(email);
 
 		if (!user) {
-			throw new UserNotFound();
+			return new UserNotFound();
 		}
 
 		const validPassword = await this.passwordService.compare(password, user.password);
 
 		if (!validPassword) {
-			throw new PasswordInvalid();
+			return new PasswordInvalid();
 		}
 
 		const tokenPayload: TokenPayload = {
