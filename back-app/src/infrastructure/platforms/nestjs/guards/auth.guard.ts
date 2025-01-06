@@ -1,36 +1,51 @@
-import { type ExecutionContext, UnauthorizedException, type CanActivate, Injectable } from "@nestjs/common";
-import { type Observable } from "rxjs";
+import { type ExecutionContext, type CanActivate, Injectable } from "@nestjs/common";
 import { type Request } from "express";
 import { Reflector } from "@nestjs/core";
 
-import { TokenService } from "@nestjs@services/token.service-impl";
+import { TokenService } from "@infrastructure/platforms/nestjs/adapters/services/token.service";
 import { Role } from "@domain/types/roles";
-import { RequiredRoles } from "../decorators/roles.decorator";
+import { RequiredRoles } from "../decorators/required-roles.decorator";
+import { UserRepository } from "../adapters/repositories/user.repository";
+import { TokenInvalidHttpException } from "../exceptions/token-invalid.exception";
+import { UserUnauthorizedHttpException } from "../exceptions/user-unauthorized.exception";
 
 @Injectable()
 export class AuthGuard implements CanActivate {
 	public constructor(
 		private readonly tokenService: TokenService,
+		private readonly userRepository: UserRepository,
 		private readonly reflector: Reflector,
 	) {}
 
-	public canActivate(context: ExecutionContext): Observable<boolean> | Promise<boolean> | boolean {
+	public async canActivate(context: ExecutionContext): Promise<boolean> {
 		const requiredRoles: Role[] = this.reflector.get(RequiredRoles, context.getHandler());
 		const request = context.switchToHttp().getRequest<Request>();
 		const cookies = request.cookies;
 		const token: string = cookies.accessToken;
 
 		if (!token) {
-			throw new UnauthorizedException("Token not provided");
+			throw new TokenInvalidHttpException();
 		}
 
 		const decodedToken = this.tokenService.verify(token);
 
 		if (decodedToken === null) {
-			throw new UnauthorizedException("Invalid token");
+			throw new TokenInvalidHttpException();
 		}
 
-		const userRoles = decodedToken.roles;
+		const { userId } = decodedToken;
+
+		if (!userId) {
+			throw new TokenInvalidHttpException();
+		}
+
+		const user = await this.userRepository.findById(userId);
+
+		if (user === null) {
+			throw new TokenInvalidHttpException();
+		}
+
+		const userRoles = user.roles;
 
 		// Si je suis ADMIN alors pas de vérif de Role car j'ai accès à tout
 		if (userRoles.includes(Role.ADMIN)) {
@@ -39,7 +54,7 @@ export class AuthGuard implements CanActivate {
 
 		// Sinon on vérifie les roles
 		if (requiredRoles && !this.checkRoles(requiredRoles, userRoles)) {
-			throw new UnauthorizedException("User does not have the required role(s).");
+			throw new UserUnauthorizedHttpException();
 		}
 
 		return true;

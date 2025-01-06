@@ -1,8 +1,7 @@
-import { type InvalidPassword } from "@domain/errors/invalid-password";
-import { type UserNotFound } from "@domain/errors/user-not-found";
+import { type Login } from "@application/usecases/login";
 import { Query } from "@nestjs-architects/typed-cqrs";
 
-export class LoginQuery extends Query<string | UserNotFound | InvalidPassword> {
+export class LoginQuery extends Query<ReturnType<Login["execute"]>> {
 	public constructor(public readonly email: string, public readonly password: string) {
 		super();
 	}

@@ -1,8 +1,8 @@
 import { Injectable, Logger } from "@nestjs/common";
 
 import { type ICreateAdminAccount } from "@application/ports/services/create-admin-account";
-import { PasswordService } from "@nestjs@services/password.service-impl";
-import { UserRepository } from "@nestjs@repositories/user.repository-impl";
+import { PasswordService } from "@infrastructure/platforms/nestjs/adapters/services/password.service";
+import { UserRepository } from "@infrastructure/platforms/nestjs/adapters/repositories/user.repository";
 
 @Injectable()
 export class CreateAdminAccount implements ICreateAdminAccount {

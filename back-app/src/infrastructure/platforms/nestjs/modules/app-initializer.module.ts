@@ -1,10 +1,10 @@
 import { Module } from "@nestjs/common";
 
-import { UserRepository } from "@nestjs@repositories/user.repository-impl";
-import { CreateAdminAccount } from "@nestjs@services/create-admin-account-impl";
-import { ProviderInjectionModule } from "./common/provider-injection.module";
+import { UserRepository } from "@nestjs@repositories/user.repository";
+import { CreateAdminAccount } from "@nestjs@services/create-admin-account";
+import { InterfaceInjectionModule } from "./common/interface-injection.module";
 import { AppInitializer } from "@nestjs@services/app-initializer";
-import { PasswordService } from "@nestjs@services/password.service-impl";
+import { PasswordService } from "@nestjs@services/password.service";
 
 @Module({
 	providers: [
@@ -13,6 +13,6 @@ import { PasswordService } from "@nestjs@services/password.service-impl";
 		UserRepository,
 		PasswordService,
 	],
-	imports: [ProviderInjectionModule],
+	imports: [InterfaceInjectionModule],
 })
 export class AppInitializerModule {}

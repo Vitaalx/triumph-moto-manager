@@ -1,6 +1,6 @@
 import { Injectable, type OnApplicationBootstrap } from "@nestjs/common";
 
-import { CreateAdminAccount } from "./create-admin-account-impl";
+import { CreateAdminAccount } from "./create-admin-account";
 
 /**
  * Service permettant d'initialiser l'application avec un compte admin.

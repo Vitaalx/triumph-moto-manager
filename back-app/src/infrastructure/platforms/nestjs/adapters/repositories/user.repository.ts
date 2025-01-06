@@ -6,11 +6,20 @@ import { type IUserRepository } from "@application/ports/repositories/user-repos
 
 @Injectable()
 export class UserRepository implements IUserRepository {
+	public async findById(id: string): Promise<User | null> {
+		const user = await prisma.user.findUnique({
+			where: {
+				id,
+			},
+		});
+		return user as User | null;
+	}
+
 	public async createAdminAccount(email: string, password: string): Promise<void> {
 		const user = await prisma.user.findFirst(
 			{
 				where: {
-					role: {
+					roles: {
 						has: Role.ADMIN,
 					},
 				},
@@ -31,7 +40,7 @@ export class UserRepository implements IUserRepository {
 				data: {
 					email,
 					password,
-					role: [Role.ADMIN],
+					roles: [Role.ADMIN],
 				},
 			});
 		}
@@ -43,9 +52,6 @@ export class UserRepository implements IUserRepository {
 				email,
 			},
 		}) as User | null;
-		if (!user) {
-			return null;
-		}
 		return user;
 	}
 }

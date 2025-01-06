@@ -5,5 +5,3 @@ export interface ITokenService {
 	generate(tokenPayload: TokenPayload): string;
 	verify(token: string): AccessTokenContent | null;
 }
-
-export const TOKEN_SERVICE_INTERFACE = Symbol("ITokenService");

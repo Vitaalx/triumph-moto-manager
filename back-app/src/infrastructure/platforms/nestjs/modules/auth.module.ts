@@ -4,20 +4,22 @@ import { CqrsModule } from "@nestjs/cqrs";
 import { AuthController } from "../controllers/auth.controller";
 import { LoginQueryHandler } from "@application/queries/handlers/login.query-handler";
 import { Login } from "@application/usecases/login";
-import { USER_REPOSITORY_INTERFACE } from "@application/ports/repositories/user-repository";
-import { ITokenService, TOKEN_SERVICE_INTERFACE } from "@application/ports/services/token-service";
-import { PASSWORD_SERVICE_INTERFACE } from "@application/ports/services/password-service";
-import { ProviderInjectionModule } from "./common/provider-injection.module";
-import { UserRepository } from "@nestjs@repositories/user.repository-impl";
-import { PasswordService } from "@nestjs@services/password.service-impl";
-import { TokenService } from "@nestjs@services/token.service-impl";
+import { InterfaceInjectionModule } from "./common/interface-injection.module";
+import { UserRepository } from "@nestjs@repositories/user.repository";
+import { PasswordService } from "@nestjs@services/password.service";
+import { TokenService } from "@nestjs@services/token.service";
+import {
+	PASSWORD_SERVICE_INTERFACE,
+	TOKEN_SERVICE_INTERFACE,
+	USER_REPOSITORY_INTERFACE,
+} from "@application/ports/symbols";
 
-const authProvidersConf = [
+const useCaseInjectionMap = [
 	{
 		provide: Login,
 		useFactory: (
 			userRepository: UserRepository,
-			tokenService: ITokenService,
+			tokenService: TokenService,
 			passwordService: PasswordService,
 		) => new Login(userRepository, tokenService, passwordService),
 		inject: [USER_REPOSITORY_INTERFACE, TOKEN_SERVICE_INTERFACE, PASSWORD_SERVICE_INTERFACE],
@@ -27,14 +29,15 @@ const authProvidersConf = [
 @Module({
 	imports: [
 		CqrsModule,
-		ProviderInjectionModule,
+		InterfaceInjectionModule,
 	],
 	controllers: [AuthController],
 	providers: [
 		TokenService,
 		LoginQueryHandler,
 		Login,
-		...authProvidersConf,
+		UserRepository,
+		...useCaseInjectionMap,
 	],
 })
 export class AuthModule {}
