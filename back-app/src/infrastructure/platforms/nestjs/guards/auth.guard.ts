@@ -2,12 +2,12 @@ import { type ExecutionContext, type CanActivate, Injectable } from "@nestjs/com
 import { type Request } from "express";
 import { Reflector } from "@nestjs/core";
 
-import { TokenService } from "@infrastructure/platforms/nestjs/adapters/services/token.service";
+import { TokenService } from "@nestjs@services/token";
 import { Role } from "@domain/types/roles";
-import { RequiredRoles } from "../decorators/required-roles.decorator";
-import { UserRepository } from "../adapters/repositories/user.repository";
-import { TokenInvalidHttpException } from "../exceptions/token-invalid.exception";
-import { UserUnauthorizedHttpException } from "../exceptions/user-unauthorized.exception";
+import { RequiredRoles } from "../decorators/required-roles";
+import { UserRepository } from "@nestjs@repositories/user";
+import { TokenInvalidHttpException } from "../exceptions/token-invalid";
+import { UserUnauthorizedHttpException } from "../exceptions/user-unauthorized";
 
 @Injectable()
 export class AuthGuard implements CanActivate {

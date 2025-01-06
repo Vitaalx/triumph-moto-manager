@@ -5,10 +5,10 @@ import { QueryBus } from "@nestjs/cqrs";
 import { UserNotFound } from "@domain/errors/user-not-found";
 import { PasswordInvalid } from "@domain/errors/password-invalid";
 import { LoginQuery } from "@application/queries/definitions/login-query";
-import { UserNotFoundHttpException } from "../exceptions/user-not-found.exception";
-import { PasswordInvalidHttpException } from "../exceptions/password-invalid.exception";
-import { UserLoginDto } from "../dtos/user-login.dto";
-import { RequiredRoles } from "../decorators/required-roles.decorator";
+import { UserNotFoundHttpException } from "../exceptions/user-not-found";
+import { PasswordInvalidHttpException } from "../exceptions/password-invalid";
+import { UserLoginDto } from "../dtos/user-login";
+import { RequiredRoles } from "../decorators/required-roles";
 import { AuthGuard } from "../guards/auth.guard";
 
 @Controller("/auth")

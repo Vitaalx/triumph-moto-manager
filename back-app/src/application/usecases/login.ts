@@ -1,9 +1,9 @@
 import { UserNotFound } from "@domain/errors/user-not-found";
-import { type IUserRepository } from "../ports/repositories/user-repository";
-import { type ITokenService } from "../ports/services/token-service";
+import { type IUserRepository } from "../ports/repositories/user";
+import { type ITokenService } from "../ports/services/token";
 import { type TokenPayload } from "@domain/models/token-payload";
 import { PasswordInvalid } from "@domain/errors/password-invalid";
-import { type IPasswordService } from "../ports/services/password-service";
+import { type IPasswordService } from "../ports/services/password";
 
 export class Login {
 	public constructor(

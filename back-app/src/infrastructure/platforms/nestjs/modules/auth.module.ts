@@ -5,9 +5,9 @@ import { AuthController } from "../controllers/auth.controller";
 import { LoginQueryHandler } from "@application/queries/handlers/login.query-handler";
 import { Login } from "@application/usecases/login";
 import { InterfaceInjectionModule } from "./common/interface-injection.module";
-import { UserRepository } from "@nestjs@repositories/user.repository";
-import { PasswordService } from "@nestjs@services/password.service";
-import { TokenService } from "@nestjs@services/token.service";
+import { UserRepository } from "@nestjs@repositories/user";
+import { PasswordService } from "@nestjs@services/password";
+import { TokenService } from "@nestjs@services/token";
 import {
 	PASSWORD_SERVICE_INTERFACE,
 	TOKEN_SERVICE_INTERFACE,

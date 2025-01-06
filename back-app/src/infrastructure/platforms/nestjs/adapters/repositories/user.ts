@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { Role } from "@prisma/client";
 
 import { type User } from "@domain/models/user";
-import { type IUserRepository } from "@application/ports/repositories/user-repository";
+import { type IUserRepository } from "@application/ports/repositories/user";
 
 @Injectable()
 export class UserRepository implements IUserRepository {

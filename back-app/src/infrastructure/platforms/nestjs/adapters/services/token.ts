@@ -2,7 +2,7 @@ import { JwtService } from "@nestjs/jwt";
 import { Injectable } from "@nestjs/common";
 
 import { type TokenPayload } from "@domain/models/token-payload";
-import { type ITokenService } from "@application/ports/services/token-service";
+import { type ITokenService } from "@application/ports/services/token";
 import { AccessTokenContent } from "@domain/models/access-token-content";
 
 @Injectable()

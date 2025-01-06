@@ -1,9 +1,9 @@
 import { Module } from "@nestjs/common";
 import { JwtModule, JwtService } from "@nestjs/jwt";
 
-import { PasswordService } from "@nestjs@services/password.service";
-import { UserRepository } from "@nestjs@repositories/user.repository";
-import { TokenService } from "@nestjs@services/token.service";
+import { PasswordService } from "@nestjs@services/password";
+import { UserRepository } from "@nestjs@repositories/user";
+import { TokenService } from "@nestjs@services/token";
 import {
 	PASSWORD_SERVICE_INTERFACE,
 	TOKEN_SERVICE_INTERFACE,
