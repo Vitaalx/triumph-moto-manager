@@ -1,8 +1,9 @@
 import { type Role } from "@domain/types/roles";
 
-export interface User {
+export interface UserEntity {
 	id: string;
 	email: string;
 	password: string;
 	roles: Role[];
 }
+

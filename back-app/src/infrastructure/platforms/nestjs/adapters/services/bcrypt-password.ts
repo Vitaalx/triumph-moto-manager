@@ -1,10 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import * as bcrypt from "bcrypt";
 
-import { type IPasswordService } from "@application/ports/services/password";
-
 @Injectable()
-export class PasswordService implements IPasswordService {
+export class BcryptPasswordService {
 	private readonly SALT_ROUNDS = 10;
 
 	public async compare(password: string, hash: string): Promise<boolean> {

@@ -1,15 +1,14 @@
 import { JwtService } from "@nestjs/jwt";
 import { Injectable } from "@nestjs/common";
 
-import { type TokenPayload } from "@domain/models/token-payload";
-import { type ITokenService } from "@application/ports/services/token";
-import { AccessTokenContent } from "@domain/models/access-token-content";
+import { type TokenPayload } from "@domain/entities/token-payload";
+import { AccessTokenContent } from "@domain/entities/access-token-content";
 
 @Injectable()
-export class TokenService implements ITokenService {
+export class TokenService {
 	public constructor(private readonly jwtService: JwtService) {}
 
-	public generate(tokenPayload: TokenPayload): string {
+	public generate(tokenPayload: TokenPayload) {
 		return this.jwtService.sign(
 			tokenPayload,
 			{

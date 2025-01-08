@@ -48,7 +48,7 @@ export class AuthGuard implements CanActivate {
 		const userRoles = user.roles;
 
 		// Si je suis ADMIN alors pas de vérif de Role car j'ai accès à tout
-		if (userRoles.includes(Role.ADMIN)) {
+		if (userRoles.includes("ADMIN")) {
 			return true;
 		}
 

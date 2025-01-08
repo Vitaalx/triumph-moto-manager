@@ -1,14 +1,14 @@
 import { Injectable, Logger } from "@nestjs/common";
 
 import { type ICreateAdminAccount } from "@application/ports/services/create-admin-account";
-import { PasswordService } from "@nestjs@services/password";
+import { BcryptPasswordService } from "@infrastructure/platforms/nestjs/adapters/services/bcrypt-password";
 import { UserRepository } from "@nestjs@repositories/user";
 
 @Injectable()
 export class CreateAdminAccount implements ICreateAdminAccount {
 	public constructor(
 		private readonly userRepository: UserRepository,
-		private readonly passwordService: PasswordService,
+		private readonly passwordService: BcryptPasswordService,
 	) {}
 
 	private readonly logger = new Logger(CreateAdminAccount.name);

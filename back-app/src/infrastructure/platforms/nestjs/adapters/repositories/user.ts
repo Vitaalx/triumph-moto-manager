@@ -1,18 +1,18 @@
 import { Injectable } from "@nestjs/common";
-import { Role } from "@prisma/client";
 
-import { type User } from "@domain/models/user";
+import { type UserEntity } from "@domain/entities/user";
 import { type IUserRepository } from "@application/ports/repositories/user";
 
 @Injectable()
 export class UserRepository implements IUserRepository {
-	public async findById(id: string): Promise<User | null> {
+	public async findById(id: string): Promise<UserEntity | null> {
 		const user = await prisma.user.findUnique({
 			where: {
 				id,
 			},
 		});
-		return user as User | null;
+
+		return user;
 	}
 
 	public async createAdminAccount(email: string, password: string): Promise<void> {
@@ -20,7 +20,7 @@ export class UserRepository implements IUserRepository {
 			{
 				where: {
 					roles: {
-						has: Role.ADMIN,
+						has: "ADMIN",
 					},
 				},
 			},
@@ -40,18 +40,18 @@ export class UserRepository implements IUserRepository {
 				data: {
 					email,
 					password,
-					roles: [Role.ADMIN],
+					roles: ["ADMIN"],
 				},
 			});
 		}
 	}
 
-	public async findByEmail(email: string): Promise<User | null> {
+	public async findByEmail(email: string): Promise<UserEntity | null> {
 		const user = await prisma.user.findUnique({
 			where: {
 				email,
 			},
-		}) as User | null;
+		});
 		return user;
 	}
 }
