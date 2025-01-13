@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpStatus, Res, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, HttpStatus, Post, Res, UseGuards } from "@nestjs/common";
 import { Response } from "express";
 import { RequiredRoles } from "../decorators/required-roles";
 import { AuthGuard } from "../guards/auth.guard";
@@ -11,7 +11,7 @@ export class AuthController {
 
 	public constructor(private readonly loginService: LoginService) {}
 
-	@Get("/login")
+	@Post("/login")
 	public async login(@Res() res: Response, @Body() input: InputLoginDto) {
 		const token = await this.loginService.login(input);
 
@@ -26,7 +26,7 @@ export class AuthController {
 		);
 	}
 
-	@Get("/logout")
+	@Post("/logout")
 	public logout(@Res() res: Response) {
 		res.clearCookie(this.ACCESS_TOKEN_KEY);
 		return res.status(HttpStatus.OK).send();
