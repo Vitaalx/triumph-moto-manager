@@ -18,7 +18,7 @@ export class AuthController {
 		res.cookie(
 			this.ACCESS_TOKEN_KEY,
 			token,
-			{ httpOnly: true },
+			{ httpOnly: false },
 		);
 
 		return res.status(HttpStatus.OK).json(

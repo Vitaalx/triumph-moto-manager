@@ -17,5 +17,12 @@
 		"web/ui:prisma": "docker-compose exec nestjs npm -w @triumph-moto-manager/back run web/ui:prisma",
 		"migrate:dev": "docker-compose exec nestjs npm -w @triumph-moto-manager/back run migrate:dev",
 		"migrate:reset": "docker-compose exec nestjs npm -w @triumph-moto-manager/back run migrate:reset"
+	},
+	"dependencies": {
+		"axios": "^1.7.9",
+		"zod": "^3.24.1"
+	},
+	"devDependencies": {
+		"@types/js-cookie": "^3.0.6"
 	}
 }

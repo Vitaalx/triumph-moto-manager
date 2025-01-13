@@ -1,25 +1,25 @@
-import { defineStore } from 'pinia';
+import { defineStore } from "pinia";
+import { computed, ref } from "vue";
+import { type User } from "@/schemas/userSchema";
+import Cookies from "js-cookie";
 
-export const useUserStore = defineStore('user', {
-    state: () => ({
-        isConnected: true,
-        // TODO: replace with real user data
-        user: {
-            id: 1,
-            email: 'john.doe@example.com',
-            password: 'password',
-            lastName: 'Doe',
-            firstName: 'John',
-            phone: '+1234567890',
-            role: 'user',
-        }
-    }),
-    actions: {
-        login() {
-            this.isConnected = true;
-        },
-        logout() {
-            this.isConnected = false;
-        }
-    },
-});
+export const useUserStore = defineStore(
+	"user",
+	() => {
+		const user = ref<User | null>(null);
+		const accessToken = ref<string | null>(Cookies.get("accessToken") || null);
+		const isConnected = computed(() => !!accessToken.value);
+
+		function removeAccessToken() {
+			Cookies.remove("accessToken");
+			accessToken.value = null;
+		}
+
+		return {
+			removeAccessToken,
+			user,
+			accessToken,
+			isConnected,
+		};
+	}
+);
