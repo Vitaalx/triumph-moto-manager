@@ -8,7 +8,7 @@
 		"src/infrastructure/platforms/nestjs"
 	],
 	"scripts": {
-		"web/ui:prisma": "prisma studio -n 0.0.0.0",
+		"studio:prisma": "prisma studio -n 0.0.0.0",
 		"migrate:dev": "prisma migrate dev",
 		"generate:prisma": "npx prisma generate",
 		"migrate:reset": "prisma migrate reset"
@@ -30,7 +30,7 @@
 		"@types/bcrypt": "^5.0.2",
 		"@types/node": "^20.3.1",
 		"eslint": "^9.8.0",
-		"prisma": "^6.1.0",
+		"prisma": "^6.2.1",
 		"source-map-support": "^0.5.21",
 		"ts-loader": "^9.4.3",
 		"ts-node": "^10.9.1",

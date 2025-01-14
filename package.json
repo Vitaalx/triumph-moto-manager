@@ -14,7 +14,7 @@
 		"dev:build": "docker-compose up --build",
 		"dev": "docker-compose up",
 		"generate:prisma": "npm -w @triumph-moto-manager/back run generate:prisma",
-		"web/ui:prisma": "docker-compose exec nestjs npm -w @triumph-moto-manager/back run web/ui:prisma",
+		"studio:prisma": "docker-compose exec nestjs npm -w @triumph-moto-manager/back run studio:prisma",
 		"migrate:dev": "docker-compose exec nestjs npm -w @triumph-moto-manager/back run migrate:dev",
 		"migrate:reset": "docker-compose exec nestjs npm -w @triumph-moto-manager/back run migrate:reset"
 	}

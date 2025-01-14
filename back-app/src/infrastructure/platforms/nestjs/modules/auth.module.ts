@@ -22,5 +22,6 @@ import { BcryptPasswordService } from "../adapters/services/bcrypt-password";
 		TokenService,
 		UserRepository,
 	],
+	exports: [TokenService, UserRepository],
 })
 export class AuthModule {}
