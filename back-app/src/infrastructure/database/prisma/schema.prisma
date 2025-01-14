@@ -15,10 +15,12 @@ datasource db {
 }
 
 model User {
-    id       String @id @default(uuid())
-    email    String @unique
-    password String
-    roles    Role[]
+    id         String   @id @default(uuid())
+    email      String   @unique
+    password   String
+    roles      Role[]
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
 }
 
 enum Role {
@@ -26,14 +28,21 @@ enum Role {
     FLEET_MANAGER
 }
 
-model Motocycle {
-    id                  String   @id @default(uuid())
+model Motorcycle {
+    licensePlate        String   @unique
     brand               String
     model               String
     year                Int
     price               Float
     maintenanceInterval String
-    licensePlate        String
     created_at          DateTime @default(now())
     updated_at          DateTime @updatedAt
+}
+
+model Events {
+    id         String   @id @default(uuid())
+    identifier String
+    eventName  String
+    data       Json
+    created_at DateTime @default(now())
 }

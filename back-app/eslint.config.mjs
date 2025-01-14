@@ -13,6 +13,7 @@ export default [
 			...duplojsEslintBase.rules,
 			"new-cap": "off",
 			"no-unsafe-call": "off",
+			"@typescript-eslint/max-params": "off",
 		}
 	},
 ];

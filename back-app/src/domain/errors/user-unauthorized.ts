@@ -1,4 +1,4 @@
-export class UserUnauthorized extends Error {
+export class UserUnauthorizedError extends Error {
 	public constructor() {
 		super();
 	}

@@ -2,8 +2,8 @@ import { Injectable } from "@nestjs/common";
 import { TokenService } from "./token";
 import { BcryptPasswordService } from "./bcrypt-password";
 import { UserRepository } from "../repositories/user";
-import { PasswordInvalidHttpException } from "../../exceptions/password-invalid";
-import { UserNotFoundHttpException } from "../../exceptions/user-not-found";
+import { PasswordInvalidHttpException } from "../../exceptions/user/password-invalid";
+import { UserNotFoundHttpException } from "../../exceptions/user/user-not-found";
 import { InputLoginDto } from "../../dtos/input-login";
 
 @Injectable()

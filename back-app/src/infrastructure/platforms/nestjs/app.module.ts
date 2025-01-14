@@ -4,6 +4,7 @@ import { ZodValidationPipe } from "nestjs-zod";
 
 import { AuthModule } from "./modules/auth.module";
 import { AppInitializerModule } from "./modules/app-initializer.module";
+import { MotorcycleModule } from "./modules/motorcycle.module";
 
 @Module({
 	providers: [
@@ -14,6 +15,7 @@ import { AppInitializerModule } from "./modules/app-initializer.module";
 	],
 	imports: [
 		AuthModule,
+		MotorcycleModule,
 		AppInitializerModule,
 	],
 })

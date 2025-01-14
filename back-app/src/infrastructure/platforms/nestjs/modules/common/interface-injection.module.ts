@@ -1,13 +1,31 @@
 import { Module } from "@nestjs/common";
 
+import { EVENT_STORE_REPOSITORY_INTERFACE, MOTORCYCLE_REPOSITORY_INTERFACE } from "@application/ports/symbols";
+import { MotorcycleRepository } from "@nestjs@repositories/motorcycle";
+import { MotorcycleMapper } from "../../mappers/motorcycle";
+import { EventStoreRepository } from "../../adapters/repositories/event-store";
+
 /**
  * Map permettant de lier les interfaces des services et des repositories avec leurs réelles implémentations.
  */
-export const interfaceInjectionMap = [];
+const interfaceInjectionMap = [
+	{
+		provide: MOTORCYCLE_REPOSITORY_INTERFACE,
+		useClass: MotorcycleRepository,
+	},
+	{
+		provide: EVENT_STORE_REPOSITORY_INTERFACE,
+		useClass: EventStoreRepository,
+	},
+];
+
+const entityMappers = [MotorcycleMapper];
 
 @Module({
-	imports: [],
-	providers: [...interfaceInjectionMap],
+	providers: [
+		...interfaceInjectionMap,
+		...entityMappers,
+	],
 	exports: [...interfaceInjectionMap],
 })
 export class InterfaceInjectionModule {

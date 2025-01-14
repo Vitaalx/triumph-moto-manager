@@ -1,17 +1,14 @@
-import { type IQueryHandler } from "@nestjs/cqrs";
-import { type GetMotorcycleQuery } from "../definitions/get-motorcycle-query";
-import { type MotorcycleRepository } from "src/application/ports/repositories/MotorcycleRepository";
-import { type Motorcycle } from "@domain/models/Motorcycle";
-import { MotorcycleNotFound } from "@domain/errors/MotorcycleNotFound";
+import { QueryHandler, type IQueryHandler } from "@nestjs/cqrs";
+import { GetMotorcycleQuery } from "../definitions/get-motorcycle-query";
+import { GetMotorcycleUsecase } from "@application/usecases/motorcycle/get-motorcycle-usecase";
 
-export class GetMotorcycleQueryHandler implements IQueryHandler<GetMotorcycleQuery> {
-	public constructor(private readonly motorcycleRepository: MotorcycleRepository) {}
+@QueryHandler(GetMotorcycleQuery)
+export class GetMotorcycleQueryHandler implements IQueryHandler<
+	GetMotorcycleQuery
+> {
+	public constructor(private readonly getMotorcycle: GetMotorcycleUsecase) {}
 
-	public async execute(query: GetMotorcycleQuery): Promise<Motorcycle | MotorcycleNotFound> {
-		const motorcycle = await this.motorcycleRepository.findById(query.motorcycleId);
-		if (!motorcycle) {
-			return new MotorcycleNotFound("Motorcycle not found");
-		}
-		return motorcycle;
+	public async execute(query: GetMotorcycleQuery) {
+		return this.getMotorcycle.execute(query.licensePlate);
 	}
 }

@@ -6,8 +6,8 @@ import { TokenService } from "@nestjs@services/token";
 import { Role } from "@domain/types/roles";
 import { RequiredRoles } from "../decorators/required-roles";
 import { UserRepository } from "@nestjs@repositories/user";
-import { TokenInvalidHttpException } from "../exceptions/token-invalid";
-import { UserUnauthorizedHttpException } from "../exceptions/user-unauthorized";
+import { TokenInvalidHttpException } from "../exceptions/user/token-invalid";
+import { UserUnauthorizedHttpException } from "../exceptions/user/user-unauthorized";
 
 @Injectable()
 export class AuthGuard implements CanActivate {
