@@ -1,9 +1,9 @@
-import type { RouteRecordRaw } from 'vue-router'
+import type { RouteRecordRaw } from "vue-router";
 
 export default (): RouteRecordRaw[] => [
-    {
-        name: 'connection',
-        path: '/connection',
-        component: () => import('./pages/ConnectionPage.vue'),
-    },
-]
+	{
+		name: "connection",
+		path: "/connection",
+		component: () => import("./pages/ConnectionPage.vue"),
+	},
+];

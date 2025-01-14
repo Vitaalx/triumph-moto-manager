@@ -1,9 +1,9 @@
-import type { RouteRecordRaw } from 'vue-router'
+import type { RouteRecordRaw } from "vue-router";
 
 export default (): RouteRecordRaw[] => [
-    {
-        name: 'profile',
-        path: '/profile',
-        component: () => import('./pages/ProfilePage.vue'),
-    },
-]
+	{
+		name: "profile",
+		path: "/profile",
+		component: () => import("./pages/ProfilePage.vue"),
+	},
+];
