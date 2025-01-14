@@ -1,17 +1,17 @@
+/* eslint-disable no-undef */
 import animate from "tailwindcss-animate";
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     darkMode: ["class"],
-    safelist: ["dark"],
-    prefix: "",
-
     safelist: [
         // Ensure these classes are always included in the final CSS bundle
+		"dark",
         'h-1/2', 'h-1/3', 'h-2/3', 'h-1/4', 'h-3/4', 'h-1/5', 'h-2/5', 'h-3/5', 'h-4/5',
         'w-1/2', 'w-1/3', 'w-2/3', 'w-1/4', 'w-3/4', 'w-1/5', 'w-2/5', 'w-3/5', 'w-4/5',
         'flex', 'flex-row', 'flex-col', 'flex-row-reverse', 'flex-col-reverse',
     ],
+	prefix: "",
 
     content: [
         './pages/**/*.{ts,tsx,vue}',

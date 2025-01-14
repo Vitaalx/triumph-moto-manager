@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router';
-import TheLoader from '@/components/TheLoader.vue';
+import { RouterView } from "vue-router";
+import TheLoader from "@/components/TheLoader.vue";
 </script>
 
 <template>
-    <RouterView />
+	<RouterView />
 
-    <TheLoader />
+	<TheLoader />
 </template>
 
 <style scoped></style>

@@ -39,6 +39,14 @@ const { logout } = useAuth();
 
 			<DropdownMenuSeparator />
 
+			<DropdownMenuItem>
+				<RouterLink :to="{ name: 'admin-panel' }">
+					Administration 
+				</RouterLink>
+			</DropdownMenuItem>
+
+			<DropdownMenuSeparator />
+
 			<DropdownMenuItem @click="logout">
 				<span class="cursor-pointer">Se déconnecter</span>
 			</DropdownMenuItem>
