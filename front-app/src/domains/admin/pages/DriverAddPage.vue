@@ -1,13 +1,8 @@
 <script setup lang="ts">
-
+import AdminSection from "../components/AdminSection.vue";
 </script>
 
 <template>
-	<section>
-		<h1 class="mb-12 text-2xl font-semibold">
-			Ajouter un conducteur
-		</h1>
-
-		<div class="flex flex-col items-center w-full gap-10 p-6" />
-	</section>
+	<AdminSection title="Ajouter un conducteur" />
 </template>
+
