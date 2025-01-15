@@ -25,17 +25,49 @@ const {
 	MOTORBIKE_LIST,
 	MOTORBIKE_ADD,
 	MAINTENANCE_PLANNING,
-	MAINTENANCE_HISTORY
+	MAINTENANCE_HISTORY,
+	PIECE_LIST,
+	PIECE_ADD,
+	PIECE_DELIVERY_HISTORY,
+	PIECE_SUPPLIER_LIST,
+	PIECE_SUPPLIER_ADD,
+	USER_LIST,
+	USER_ADD,
+	PERMISSION_MANAGEMENT,
+	DRIVER_LIST,
+	DRIVER_ADD,
+	INCIDENT_HISTORY,
+	TRY_MOTORBIKE_LIST,
+	TRY_HISTORY,
+	TROUBLESHOOTING_ADD
 } = routerPageName;
 const route = useRoute();
 
 const defaultOpenAccordion = computed(() => {
-	const routeName = route.name?.toString() || "";
+	const routeName: string = route.name?.toString() || "";
 
-	if (routeName === MOTORBIKE_LIST || routeName === MOTORBIKE_ADD) return "fleet";
-	if (routeName === MAINTENANCE_PLANNING || routeName === MAINTENANCE_HISTORY) return "maintenance";
+	const routeCategoryMap: Record<string, string> = {
+		[MOTORBIKE_LIST]: "fleet",
+		[MOTORBIKE_ADD]: "fleet",
+		[MAINTENANCE_PLANNING]: "maintenance",
+		[MAINTENANCE_HISTORY]: "maintenance",
+		[PIECE_LIST]: "Stock",
+		[PIECE_ADD]: "Stock",
+		[PIECE_DELIVERY_HISTORY]: "Stock",
+		[PIECE_SUPPLIER_LIST]: "Stock",
+		[PIECE_SUPPLIER_ADD]: "Stock",
+		[USER_LIST]: "Utilisateurs",
+		[USER_ADD]: "Utilisateurs",
+		[PERMISSION_MANAGEMENT]: "Utilisateurs",
+		[DRIVER_LIST]: "Utilisateurs",
+		[DRIVER_ADD]: "Utilisateurs",
+		[INCIDENT_HISTORY]: "Utilisateurs",
+		[TRY_MOTORBIKE_LIST]: "Essais",
+		[TRY_HISTORY]: "Essais",
+		[TROUBLESHOOTING_ADD]: "Essais"
+	};
 
-	return "";
+	return routeCategoryMap[routeName] || "";
 });
 </script>
 
@@ -170,8 +202,13 @@ const defaultOpenAccordion = computed(() => {
 								<ul class="ml-2 flex flex-col gap-2">
 									<li class="rounded-md no-underline outline-none focus:shadow-md text-muted-foreground hover:text-foreground">
 										<RouterLink
-											:to="{ name: '' }"
+											:to="{ name: PIECE_LIST }"
 											class="px-3 py-2 flex items-center gap-3 rounded-lg transition-all hover:text-primary"
+											:class="
+												route.name === PIECE_LIST
+													? 'bg-muted text-primary'
+													: 'text-muted-foreground'
+											"
 										>
 											<TheIcon :icon="mdiFormatListBulleted" />
 											Liste des pièces détachées
@@ -180,8 +217,13 @@ const defaultOpenAccordion = computed(() => {
 
 									<li class="rounded-md no-underline outline-none focus:shadow-md text-muted-foreground hover:text-foreground">
 										<RouterLink
-											:to="{ name: '' }"
+											:to="{ name: PIECE_ADD }"
 											class="px-3 py-2 flex items-center gap-3 rounded-lg transition-all hover:text-primary"
+											:class="
+												route.name === PIECE_ADD
+													? 'bg-muted text-primary'
+													: 'text-muted-foreground'
+											"
 										>
 											<TheIcon :icon="mdiPlus" />
 											Ajouter une pièce
@@ -190,8 +232,13 @@ const defaultOpenAccordion = computed(() => {
 
 									<li class="rounded-md no-underline outline-none focus:shadow-md text-muted-foreground hover:text-foreground">
 										<RouterLink
-											:to="{ name: '' }"
+											:to="{ name: PIECE_DELIVERY_HISTORY }"
 											class="px-3 py-2 flex items-center gap-3 rounded-lg transition-all hover:text-primary"
+											:class="
+												route.name === PIECE_DELIVERY_HISTORY
+													? 'bg-muted text-primary'
+													: 'text-muted-foreground'
+											"
 										>
 											<TheIcon :icon="mdiHistory" />
 											Historique des commandes
@@ -200,8 +247,13 @@ const defaultOpenAccordion = computed(() => {
 
 									<li class="rounded-md no-underline outline-none focus:shadow-md text-muted-foreground hover:text-foreground">
 										<RouterLink
-											:to="{ name: '' }"
+											:to="{ name: PIECE_SUPPLIER_LIST }"
 											class="px-3 py-2 flex items-center gap-3 rounded-lg transition-all hover:text-primary"
+											:class="
+												route.name === PIECE_SUPPLIER_LIST
+													? 'bg-muted text-primary'
+													: 'text-muted-foreground'
+											"
 										>
 											<TheIcon :icon="mdiAccountHardHat" />
 											Liste des fournisseurs
@@ -210,8 +262,13 @@ const defaultOpenAccordion = computed(() => {
 
 									<li class="rounded-md no-underline outline-none focus:shadow-md text-muted-foreground hover:text-foreground">
 										<RouterLink
-											:to="{ name: '' }"
+											:to="{ name: PIECE_SUPPLIER_ADD }"
 											class="px-3 py-2 flex items-center gap-3 rounded-lg transition-all hover:text-primary"
+											:class="
+												route.name === PIECE_SUPPLIER_ADD
+													? 'bg-muted text-primary'
+													: 'text-muted-foreground'
+											"
 										>
 											<TheIcon :icon="mdiPlus" />
 											Ajouter un fournisseur
@@ -233,8 +290,13 @@ const defaultOpenAccordion = computed(() => {
 								<ul class="ml-2 flex flex-col gap-2">
 									<li class="rounded-md no-underline outline-none focus:shadow-md text-muted-foreground hover:text-foreground">
 										<RouterLink
-											:to="{ name: '' }"
+											:to="{ name: USER_LIST }"
 											class="px-3 py-2 flex items-center gap-3 rounded-lg transition-all hover:text-primary"
+											:class="
+												route.name === USER_LIST
+													? 'bg-muted text-primary'
+													: 'text-muted-foreground'
+											"
 										>
 											<TheIcon :icon="mdiAccountGroup" />
 											Liste des utilisateurs
@@ -243,8 +305,13 @@ const defaultOpenAccordion = computed(() => {
 
 									<li class="rounded-md no-underline outline-none focus:shadow-md text-muted-foreground hover:text-foreground">
 										<RouterLink
-											:to="{ name: '' }"
+											:to="{ name: USER_ADD }"
 											class="px-3 py-2 flex items-center gap-3 rounded-lg transition-all hover:text-primary"
+											:class="
+												route.name === USER_ADD
+													? 'bg-muted text-primary'
+													: 'text-muted-foreground'
+											"
 										>
 											<TheIcon :icon="mdiAccountPlus" />
 											Ajouter un utilisateur
@@ -253,8 +320,13 @@ const defaultOpenAccordion = computed(() => {
 
 									<li class="rounded-md no-underline outline-none focus:shadow-md text-muted-foreground hover:text-foreground">
 										<RouterLink
-											:to="{ name: '' }"
+											:to="{ name: PERMISSION_MANAGEMENT }"
 											class="px-3 py-2 flex items-center gap-3 rounded-lg transition-all hover:text-primary"
+											:class="
+												route.name === PERMISSION_MANAGEMENT
+													? 'bg-muted text-primary'
+													: 'text-muted-foreground'
+											"
 										>
 											<TheIcon :icon="mdiCards" />
 											Permissions et rôles
@@ -263,8 +335,13 @@ const defaultOpenAccordion = computed(() => {
 
 									<li class="rounded-md no-underline outline-none focus:shadow-md text-muted-foreground hover:text-foreground">
 										<RouterLink
-											:to="{ name: '' }"
+											:to="{ name: DRIVER_LIST }"
 											class="px-3 py-2 flex items-center gap-3 rounded-lg transition-all hover:text-primary"
+											:class="
+												route.name === DRIVER_LIST
+													? 'bg-muted text-primary'
+													: 'text-muted-foreground'
+											"
 										>
 											<TheIcon :icon="mdiCardAccountDetails" />
 											Liste des conducteurs
@@ -273,8 +350,13 @@ const defaultOpenAccordion = computed(() => {
 
 									<li class="rounded-md no-underline outline-none focus:shadow-md text-muted-foreground hover:text-foreground">
 										<RouterLink
-											:to="{ name: '' }"
+											:to="{ name: DRIVER_ADD }"
 											class="px-3 py-2 flex items-center gap-3 rounded-lg transition-all hover:text-primary"
+											:class="
+												route.name === DRIVER_ADD
+													? 'bg-muted text-primary'
+													: 'text-muted-foreground'
+											"
 										>
 											<TheIcon :icon="mdiPlus" />
 											Ajouter un conducteur
@@ -283,8 +365,13 @@ const defaultOpenAccordion = computed(() => {
 
 									<li class="rounded-md no-underline outline-none focus:shadow-md text-muted-foreground hover:text-foreground">
 										<RouterLink
-											:to="{ name: '' }"
+											:to="{ name: INCIDENT_HISTORY }"
 											class="px-3 py-2 flex items-center gap-3 rounded-lg transition-all hover:text-primary"
+											:class="
+												route.name === INCIDENT_HISTORY
+													? 'bg-muted text-primary'
+													: 'text-muted-foreground'
+											"
 										>
 											<TheIcon :icon="mdiHistory" />
 											Historique des incidents
@@ -306,8 +393,13 @@ const defaultOpenAccordion = computed(() => {
 								<ul class="ml-2 flex flex-col gap-2">
 									<li class="rounded-md no-underline outline-none focus:shadow-md text-muted-foreground hover:text-foreground">
 										<RouterLink
-											:to="{ name: '' }"
+											:to="{ name: TRY_MOTORBIKE_LIST }"
 											class="px-3 py-2 flex items-center gap-3 rounded-lg transition-all hover:text-primary"
+											:class="
+												route.name === TRY_MOTORBIKE_LIST
+													? 'bg-muted text-primary'
+													: 'text-muted-foreground'
+											"
 										>
 											<TheIcon :icon="mdiMotorbike" />
 											Motos en essai
@@ -316,8 +408,13 @@ const defaultOpenAccordion = computed(() => {
 
 									<li class="rounded-md no-underline outline-none focus:shadow-md text-muted-foreground hover:text-foreground">
 										<RouterLink
-											:to="{ name: '' }"
+											:to="{ name: TRY_HISTORY }"
 											class="px-3 py-2 flex items-center gap-3 rounded-lg transition-all hover:text-primary"
+											:class="
+												route.name === TRY_HISTORY
+													? 'bg-muted text-primary'
+													: 'text-muted-foreground'
+											"
 										>
 											<TheIcon :icon="mdiHistory" />
 											Historique des essais
@@ -326,8 +423,13 @@ const defaultOpenAccordion = computed(() => {
 
 									<li class="rounded-md no-underline outline-none focus:shadow-md text-muted-foreground hover:text-foreground">
 										<RouterLink
-											:to="{ name: '' }"
+											:to="{ name: TROUBLESHOOTING_ADD }"
 											class="px-3 py-2 flex items-center gap-3 rounded-lg transition-all hover:text-primary"
+											:class="
+												route.name === TROUBLESHOOTING_ADD
+													? 'bg-muted text-primary'
+													: 'text-muted-foreground'
+											"
 										>
 											<TheIcon :icon="mdiAlert" />
 											Signaler un incident
