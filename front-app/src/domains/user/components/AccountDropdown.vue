@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useAuth } from "@/domains/auth/composables/useAuth";
-import { mdiAccountOutline } from "@mdi/js";
+import { routerPageName } from "@/router/routerPageName";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -11,7 +11,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import ButtonSecondary from "@/components/ButtonSecondary.vue";
 import TheIcon from "@/components/TheIcon.vue";
+import { mdiAccountOutline } from "@mdi/js";
 
+const { DASHBOARD } = routerPageName;
 const { logout } = useAuth();
 </script>
 
@@ -40,7 +42,7 @@ const { logout } = useAuth();
 			<DropdownMenuSeparator />
 
 			<DropdownMenuItem>
-				<RouterLink :to="{ name: 'admin-panel' }">
+				<RouterLink :to="{ name: DASHBOARD }">
 					Administration 
 				</RouterLink>
 			</DropdownMenuItem>

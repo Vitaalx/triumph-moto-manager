@@ -2,19 +2,38 @@
 import { useRoute } from "vue-router";
 import { routerPageName } from "@/router/routerPageName";
 import { computed } from "vue";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { TheAccordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import TheIcon from "@/components/TheIcon.vue";
-import { mdiHome, mdiWrenchCog, mdiScrewRoundTop, mdiPlus, mdiMotorbike, mdiSecurity } from "@mdi/js";
+import {
+	mdiHome,
+	mdiMotorbike,
+	mdiPlus,
+	mdiCalendarClock,
+	mdiHistory,
+	mdiFormatListBulleted,
+	mdiAccountHardHat,
+	mdiAccountGroup,
+	mdiAccountPlus,
+	mdiCards,
+	mdiCardAccountDetails,
+	mdiAlert
+} from "@mdi/js";
 
-const { ADMIN_PANEL_HOME } = routerPageName;
+const {
+	DASHBOARD,
+	MOTORBIKE_LIST,
+	MOTORBIKE_ADD,
+	MAINTENANCE_PLANNING,
+	MAINTENANCE_HISTORY
+} = routerPageName;
 const route = useRoute();
 
 const defaultOpenAccordion = computed(() => {
 	const routeName = route.name?.toString() || "";
 
-	if (routeName.includes("maintenance")) return "Gestion des entretiens";
-	if (routeName.includes("piece")) return "Gestion des pièces";
-	if (routeName.includes("test")) return "Gestion des essais";
+	if (routeName === MOTORBIKE_LIST || routeName === MOTORBIKE_ADD) return "fleet";
+	if (routeName === MAINTENANCE_PLANNING || routeName === MAINTENANCE_HISTORY) return "maintenance";
 
 	return "";
 });
@@ -22,23 +41,23 @@ const defaultOpenAccordion = computed(() => {
 
 <template>
 	<div class="hidden border-r bg-muted/50 md:block">
-		<div class="flex h-full max-h-screen flex-col gap-2">
+		<div class="flex h-full max-h-screen flex-col">
 			<div class="flex h-28 justify-center items-center border-b px-4 lg:px-6">
 				<RouterLink
-					:to="{ name: 'admin-panel' }"
+					:to="{ name: 'dashboard' }"
 					class="flex items-center gap-2 text-center font-semibold"
 				>
 					<span>Panneau d'administration</span>
 				</RouterLink>
 			</div>
   
-			<div class="flex-1">
+			<ScrollArea class="py-2 flex-1">
 				<nav class="grid gap-2 items-start px-2 text-sm font-medium lg:px-4">
 					<RouterLink
-						:to="{ name: 'admin-panel' }"
+						:to="{ name: DASHBOARD }"
 						class="px-3 py-2 flex items-center gap-3 rounded-lg transition-all hover:text-primary"
 						:class="
-							route.name === ADMIN_PANEL_HOME
+							route.name === DASHBOARD
 								? 'bg-muted text-primary'
 								: 'text-muted-foreground'
 						"
@@ -55,7 +74,50 @@ const defaultOpenAccordion = computed(() => {
 					>
 						<AccordionItem
 							class="border-b-0"
-							value="Gestion des entretiens"
+							value="fleet"
+						>
+							<AccordionTrigger class="h-10 px-3 py-2 text-muted-foreground rounded-lg hover:no-underline data-[state=open]:bg-muted">
+								Gestion de flotte
+							</AccordionTrigger>
+
+							<AccordionContent class="py-2">
+								<ul class="ml-2 flex flex-col gap-2">
+									<li class="rounded-md no-underline outline-none focus:shadow-md text-muted-foreground hover:text-foreground">
+										<RouterLink
+											:to="{ name: MOTORBIKE_LIST }"
+											class="px-3 py-2 flex items-center gap-3 rounded-lg transition-all hover:text-primary"
+											:class="
+												route.name === MOTORBIKE_LIST
+													? 'bg-muted text-primary'
+													: 'text-muted-foreground'
+											"
+										>
+											<TheIcon :icon="mdiMotorbike" />
+											Liste des motos
+										</RouterLink>
+									</li>
+
+									<li class="rounded-md no-underline outline-none focus:shadow-md text-muted-foreground hover:text-foreground">
+										<RouterLink
+											:to="{ name: MOTORBIKE_ADD }"
+											class="px-3 py-2 flex items-center gap-3 rounded-lg transition-all hover:text-primary"
+											:class="
+												route.name === MOTORBIKE_ADD
+													? 'bg-muted text-primary'
+													: 'text-muted-foreground'
+											"
+										>
+											<TheIcon :icon="mdiPlus" />
+											Ajouter une moto
+										</RouterLink>
+									</li>
+								</ul>
+							</AccordionContent>
+						</AccordionItem>
+
+						<AccordionItem
+							class="border-b-0"
+							value="maintenance"
 						>
 							<AccordionTrigger class="h-10 px-3 py-2 text-muted-foreground rounded-lg hover:no-underline data-[state=open]:bg-muted">
 								Gestion des entretiens
@@ -65,59 +127,54 @@ const defaultOpenAccordion = computed(() => {
 								<ul class="ml-2 flex flex-col gap-2">
 									<li class="rounded-md no-underline outline-none focus:shadow-md text-muted-foreground hover:text-foreground">
 										<RouterLink
-											:to="{ name: '' }"
+											:to="{ name: MAINTENANCE_PLANNING }"
 											class="px-3 py-2 flex items-center gap-3 rounded-lg transition-all hover:text-primary"
 											:class="
-												route.name === ''
+												route.name === MAINTENANCE_PLANNING
 													? 'bg-muted text-primary'
 													: 'text-muted-foreground'
 											"
 										>
-											<TheIcon :icon="mdiWrenchCog" />
-											Liste des entretiens
+											<TheIcon :icon="mdiCalendarClock" />
+											Planification des entretiens
 										</RouterLink>
 									</li>
 
 									<li class="rounded-md no-underline outline-none focus:shadow-md text-muted-foreground hover:text-foreground">
 										<RouterLink
-											:to="{ name: '' }"
+											:to="{ name: MAINTENANCE_HISTORY }"
 											class="px-3 py-2 flex items-center gap-3 rounded-lg transition-all hover:text-primary"
 											:class="
-												route.name === ''
+												route.name === MAINTENANCE_HISTORY
 													? 'bg-muted text-primary'
 													: 'text-muted-foreground'
 											"
 										>
-											<TheIcon :icon="mdiPlus" />
-											Créer un entretien
+											<TheIcon :icon="mdiHistory" />
+											Historique des entretiens
 										</RouterLink>
 									</li>
 								</ul>
 							</AccordionContent>
 						</AccordionItem>
-  
+
 						<AccordionItem
 							class="border-b-0"
-							value="Gestion des pièces"
+							value="Stock"
 						>
 							<AccordionTrigger class="h-10 px-3 py-2 text-muted-foreground rounded-lg hover:no-underline data-[state=open]:bg-muted">
-								Gestion des pièces
+								Gestion des stocks
 							</AccordionTrigger>
 
 							<AccordionContent class="py-2">
-								<ul class="pl-2 flex flex-col gap-2">
+								<ul class="ml-2 flex flex-col gap-2">
 									<li class="rounded-md no-underline outline-none focus:shadow-md text-muted-foreground hover:text-foreground">
 										<RouterLink
 											:to="{ name: '' }"
 											class="px-3 py-2 flex items-center gap-3 rounded-lg transition-all hover:text-primary"
-											:class="
-												route.name === ''
-													? 'bg-muted text-primary'
-													: 'text-muted-foreground'
-											"
 										>
-											<TheIcon :icon="mdiScrewRoundTop" />
-											Liste des pièces
+											<TheIcon :icon="mdiFormatListBulleted" />
+											Liste des pièces détachées
 										</RouterLink>
 									</li>
 
@@ -125,42 +182,19 @@ const defaultOpenAccordion = computed(() => {
 										<RouterLink
 											:to="{ name: '' }"
 											class="px-3 py-2 flex items-center gap-3 rounded-lg transition-all hover:text-primary"
-											:class="
-												route.name === ''
-													? 'bg-muted text-primary'
-													: 'text-muted-foreground'
-											"
 										>
 											<TheIcon :icon="mdiPlus" />
 											Ajouter une pièce
 										</RouterLink>
 									</li>
-								</ul>
-							</AccordionContent>
-						</AccordionItem>
-  
-						<AccordionItem
-							class="border-b-0"
-							value="Gestion des essais"
-						>
-							<AccordionTrigger class="h-10 px-3 py-2 text-muted-foreground rounded-lg hover:no-underline data-[state=open]:bg-muted">
-								Gestion des essais
-							</AccordionTrigger>
 
-							<AccordionContent class="py-2">
-								<ul class="pl-2 flex flex-col gap-2">
 									<li class="rounded-md no-underline outline-none focus:shadow-md text-muted-foreground hover:text-foreground">
 										<RouterLink
 											:to="{ name: '' }"
 											class="px-3 py-2 flex items-center gap-3 rounded-lg transition-all hover:text-primary"
-											:class="
-												route.name === ''
-													? 'bg-muted text-primary'
-													: 'text-muted-foreground'
-											"
 										>
-											<TheIcon :icon="mdiMotorbike" />
-											Liste des essais
+											<TheIcon :icon="mdiHistory" />
+											Historique des commandes
 										</RouterLink>
 									</li>
 
@@ -168,35 +202,145 @@ const defaultOpenAccordion = computed(() => {
 										<RouterLink
 											:to="{ name: '' }"
 											class="px-3 py-2 flex items-center gap-3 rounded-lg transition-all hover:text-primary"
-											:class="
-												route.name === ''
-													? 'bg-muted text-primary'
-													: 'text-muted-foreground'
-											"
+										>
+											<TheIcon :icon="mdiAccountHardHat" />
+											Liste des fournisseurs
+										</RouterLink>
+									</li>
+
+									<li class="rounded-md no-underline outline-none focus:shadow-md text-muted-foreground hover:text-foreground">
+										<RouterLink
+											:to="{ name: '' }"
+											class="px-3 py-2 flex items-center gap-3 rounded-lg transition-all hover:text-primary"
 										>
 											<TheIcon :icon="mdiPlus" />
-											Ajouter un essai
+											Ajouter un fournisseur
+										</RouterLink>
+									</li>
+								</ul>
+							</AccordionContent>
+						</AccordionItem>
+
+						<AccordionItem
+							class="border-b-0"
+							value="Utilisateurs"
+						>
+							<AccordionTrigger class="h-10 px-3 py-2 text-muted-foreground rounded-lg hover:no-underline data-[state=open]:bg-muted">
+								Gestions des utilisateurs
+							</AccordionTrigger>
+
+							<AccordionContent class="py-2">
+								<ul class="ml-2 flex flex-col gap-2">
+									<li class="rounded-md no-underline outline-none focus:shadow-md text-muted-foreground hover:text-foreground">
+										<RouterLink
+											:to="{ name: '' }"
+											class="px-3 py-2 flex items-center gap-3 rounded-lg transition-all hover:text-primary"
+										>
+											<TheIcon :icon="mdiAccountGroup" />
+											Liste des utilisateurs
+										</RouterLink>
+									</li>
+
+									<li class="rounded-md no-underline outline-none focus:shadow-md text-muted-foreground hover:text-foreground">
+										<RouterLink
+											:to="{ name: '' }"
+											class="px-3 py-2 flex items-center gap-3 rounded-lg transition-all hover:text-primary"
+										>
+											<TheIcon :icon="mdiAccountPlus" />
+											Ajouter un utilisateur
+										</RouterLink>
+									</li>
+
+									<li class="rounded-md no-underline outline-none focus:shadow-md text-muted-foreground hover:text-foreground">
+										<RouterLink
+											:to="{ name: '' }"
+											class="px-3 py-2 flex items-center gap-3 rounded-lg transition-all hover:text-primary"
+										>
+											<TheIcon :icon="mdiCards" />
+											Permissions et rôles
+										</RouterLink>
+									</li>
+
+									<li class="rounded-md no-underline outline-none focus:shadow-md text-muted-foreground hover:text-foreground">
+										<RouterLink
+											:to="{ name: '' }"
+											class="px-3 py-2 flex items-center gap-3 rounded-lg transition-all hover:text-primary"
+										>
+											<TheIcon :icon="mdiCardAccountDetails" />
+											Liste des conducteurs
+										</RouterLink>
+									</li>
+
+									<li class="rounded-md no-underline outline-none focus:shadow-md text-muted-foreground hover:text-foreground">
+										<RouterLink
+											:to="{ name: '' }"
+											class="px-3 py-2 flex items-center gap-3 rounded-lg transition-all hover:text-primary"
+										>
+											<TheIcon :icon="mdiPlus" />
+											Ajouter un conducteur
+										</RouterLink>
+									</li>
+
+									<li class="rounded-md no-underline outline-none focus:shadow-md text-muted-foreground hover:text-foreground">
+										<RouterLink
+											:to="{ name: '' }"
+											class="px-3 py-2 flex items-center gap-3 rounded-lg transition-all hover:text-primary"
+										>
+											<TheIcon :icon="mdiHistory" />
+											Historique des incidents
+										</RouterLink>
+									</li>
+								</ul>
+							</AccordionContent>
+						</AccordionItem>
+
+						<AccordionItem
+							class="border-b-0"
+							value="Essais"
+						>
+							<AccordionTrigger class="h-10 px-3 py-2 text-muted-foreground rounded-lg hover:no-underline data-[state=open]:bg-muted">
+								Gestions des essais
+							</AccordionTrigger>
+
+							<AccordionContent class="py-2">
+								<ul class="ml-2 flex flex-col gap-2">
+									<li class="rounded-md no-underline outline-none focus:shadow-md text-muted-foreground hover:text-foreground">
+										<RouterLink
+											:to="{ name: '' }"
+											class="px-3 py-2 flex items-center gap-3 rounded-lg transition-all hover:text-primary"
+										>
+											<TheIcon :icon="mdiMotorbike" />
+											Motos en essai
+										</RouterLink>
+									</li>
+
+									<li class="rounded-md no-underline outline-none focus:shadow-md text-muted-foreground hover:text-foreground">
+										<RouterLink
+											:to="{ name: '' }"
+											class="px-3 py-2 flex items-center gap-3 rounded-lg transition-all hover:text-primary"
+										>
+											<TheIcon :icon="mdiHistory" />
+											Historique des essais
+										</RouterLink>
+									</li>
+
+									<li class="rounded-md no-underline outline-none focus:shadow-md text-muted-foreground hover:text-foreground">
+										<RouterLink
+											:to="{ name: '' }"
+											class="px-3 py-2 flex items-center gap-3 rounded-lg transition-all hover:text-primary"
+										>
+											<TheIcon :icon="mdiAlert" />
+											Signaler un incident
 										</RouterLink>
 									</li>
 								</ul>
 							</AccordionContent>
 						</AccordionItem>
 					</TheAccordion>
-  
-					<RouterLink
-						:to="{ name: '' }"
-						class="px-3 py-2 flex items-center gap-3 rounded-lg transition-all hover:text-primary"
-						:class="
-							route.name === ''
-								? 'bg-muted text-primary'
-								: 'text-muted-foreground'
-						"
-					>
-						<TheIcon :icon="mdiSecurity" />
-						Administration
-					</RouterLink>
 				</nav>
-			</div>
+
+				<ScrollBar orientation="vertical" />
+			</ScrollArea>
 		</div>
 	</div>
 </template>
