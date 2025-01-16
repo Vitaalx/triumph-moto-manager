@@ -42,7 +42,8 @@ model Motorcycle {
 model Events {
     id         String   @id @default(uuid())
     identifier String
-    eventName  String
+    type       String
     data       Json
+    version    Int
     created_at DateTime @default(now())
 }

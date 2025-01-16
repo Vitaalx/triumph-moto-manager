@@ -1,4 +1,4 @@
-export class InvalidLicensePlateError extends Error {
+export class InvalidMotorcycleLicensePlateError extends Error {
 	public constructor() {
 		super("motorcycle.invalidLicensePlate");
 	}

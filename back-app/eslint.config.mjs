@@ -14,6 +14,7 @@ export default [
 			"new-cap": "off",
 			"no-unsafe-call": "off",
 			"@typescript-eslint/max-params": "off",
+			"@typescript-eslint/no-magic-numbers": "off",
 		}
 	},
 ];

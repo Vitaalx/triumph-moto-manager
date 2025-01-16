@@ -6,7 +6,7 @@ export class MotorcyclePrice {
 	public static from(price: number) {
 		const minimalPrice = 0;
 
-		if (price < minimalPrice) {
+		if (price <= minimalPrice) {
 			return new InvalidMotorcyclePriceError();
 		}
 

@@ -1,12 +1,8 @@
 import { type IEventStoreRepository } from "@application/ports/repositories/event-store";
 import { type IMotorcycleRepository } from "@application/ports/repositories/motorcycle";
 import { MotorcycleEntity } from "@domain/entities/motorcycle";
-import { InvalidLicensePlateError } from "@domain/errors/motorcycle/invalid-license-plate";
-import { InvalidMotorcyclePriceError } from "@domain/errors/motorcycle/invalid-motorcycle-price";
-import { InvalidMotorcycleYearError } from "@domain/errors/motorcycle/invalid-motorcycle-year";
 import { MotorcycleAlreadyExistsError } from "@domain/errors/motorcycle/motorcycle-already-exists";
-import { MotorcycleCreatedEvent } from "@domain/events/motorcycle-created-event";
-import { randomUUID } from "crypto";
+import { type MotorcycleCreatedEvent } from "@domain/events/motorcycle/motorcycle-created-event";
 
 export class CreateMotorcycleUsecase {
 	public constructor(
@@ -31,15 +27,7 @@ export class CreateMotorcycleUsecase {
 			maintenanceInterval,
 		);
 
-		if (motorcycle instanceof InvalidLicensePlateError) {
-			return motorcycle;
-		}
-
-		if (motorcycle instanceof InvalidMotorcycleYearError) {
-			return motorcycle;
-		}
-
-		if (motorcycle instanceof InvalidMotorcyclePriceError) {
+		if (motorcycle instanceof Error) {
 			return motorcycle;
 		}
 
@@ -49,19 +37,22 @@ export class CreateMotorcycleUsecase {
 			return new MotorcycleAlreadyExistsError();
 		}
 
-		await this.eventStore.publish(
-			new MotorcycleCreatedEvent(
-				{
-					identifier: randomUUID(),
-					licensePlate: motorcycle.licensePlate.value,
-					brand: motorcycle.brand,
-					model: motorcycle.model,
-					year: motorcycle.year.value,
-					price: motorcycle.price.value,
-					maintenanceInterval: motorcycle.maintenanceInterval,
-				},
-			),
-		);
+		const event: MotorcycleCreatedEvent = {
+			date: new Date(),
+			identifier: motorcycle.licensePlate.value,
+			type: "MOTORCYCLE_CREATED",
+			version: 1,
+			data: {
+				licensePlate: motorcycle.licensePlate.value,
+				brand: motorcycle.brand,
+				model: motorcycle.model,
+				year: motorcycle.year.value,
+				price: motorcycle.price.value,
+				maintenanceInterval: motorcycle.maintenanceInterval,
+			},
+		};
+
+		await this.eventStore.publish(event);
 
 		await this.motorcycleRepository.save(motorcycle);
 	}
