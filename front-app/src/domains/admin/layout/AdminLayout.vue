@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AdminHeader from "../components/AdminHeader.vue";
-import AdminNavbar from "../components/AdminNavbar.vue";
+import { AdminNavbar } from "../components/admin-nav";
 </script>
 
 <template>
