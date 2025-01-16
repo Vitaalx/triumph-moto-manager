@@ -12,7 +12,7 @@ defineProps<Props>();
 			{{ title }}
 		</h1>
 
-		<div class="flex flex-col items-center w-full gap-10 p-6">
+		<div class="w-full p-6 flex flex-col gap-10">
 			<slot />
 		</div>
 	</section>
