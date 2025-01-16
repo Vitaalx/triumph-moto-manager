@@ -1,17 +1,11 @@
-export abstract class GenericEvent <
-	EventName extends string,
-	EventIdentifier extends string,
-	EventData extends unknown,
-> {
-	public constructor(
-		public readonly name: EventName,
-		public readonly identifier: EventIdentifier,
-		public readonly data: EventData,
-	) {}
+import { type MotorcycleEvent } from "./motorcycle/motorcycle-event";
+
+export interface EventGeneric<Type, Version, Data> {
+	readonly identifier: string;
+	readonly type: Type;
+	readonly date: Date;
+	readonly version: Version;
+	readonly data: Data;
 }
 
-export type Event<
-	EventName extends string = string,
-	EventIdentifier extends string = string,
-	EventData extends unknown = unknown,
-> = typeof GenericEvent<EventName, EventIdentifier, EventData>;
+export type Event = MotorcycleEvent;

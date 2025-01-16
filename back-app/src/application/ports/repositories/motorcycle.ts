@@ -5,4 +5,5 @@ export interface IMotorcycleRepository {
 	save(motorcycle: MotorcycleEntity): Promise<void>;
 	getMotorcycles(): Promise<MotorcycleEntity[]>;
 	findByLicensePlate(licensePlate: MotorcycleLicensePlate): Promise<MotorcycleEntity | null>;
+	delete(licensePlate: MotorcycleLicensePlate): Promise<void>;
 }

@@ -1,4 +1,4 @@
-import { InvalidLicensePlateError } from "@domain/errors/motorcycle/invalid-license-plate";
+import { InvalidMotorcycleLicensePlateError } from "@domain/errors/motorcycle/invalid-license-plate";
 import { InvalidMotorcyclePriceError } from "@domain/errors/motorcycle/invalid-motorcycle-price";
 import { InvalidMotorcycleYearError } from "@domain/errors/motorcycle/invalid-motorcycle-year";
 import { MotorcycleLicensePlate } from "@domain/types/license-plate";
@@ -28,7 +28,7 @@ export class MotorcycleEntity extends AggregateRoot {
 	) {
 		const motorcycleLicensePlate = MotorcycleLicensePlate.from(licensePlate);
 
-		if (motorcycleLicensePlate instanceof InvalidLicensePlateError) {
+		if (motorcycleLicensePlate instanceof InvalidMotorcycleLicensePlateError) {
 			return motorcycleLicensePlate;
 		}
 

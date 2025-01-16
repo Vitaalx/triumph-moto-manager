@@ -8,6 +8,14 @@ import { MotorcycleMapper } from "../../mappers/motorcycle";
 export class MotorcycleRepository implements IMotorcycleRepository {
 	public constructor(private readonly motorcycleMapper: MotorcycleMapper) {}
 
+	public async delete(licensePlate: MotorcycleLicensePlate): Promise<void> {
+		await prisma.motorcycle.delete({
+			where: {
+				licensePlate: licensePlate.value,
+			},
+		});
+	}
+
 	public async save(motorcycle: MotorcycleEntity): Promise<void> {
 		await prisma.motorcycle.create({
 			data: {

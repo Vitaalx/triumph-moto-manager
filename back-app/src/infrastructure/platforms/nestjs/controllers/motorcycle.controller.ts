@@ -1,9 +1,9 @@
-import { Body, Controller, Get, HttpStatus, Param, Post, Res, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Res, UseGuards } from "@nestjs/common";
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
 import { CreateMotorcycleDto } from "../dtos/motorcycle/create";
 import { CreateMotorcycleCommand } from "@application/command/definitions/create-motorcycle";
 import { Response } from "express";
-import { InvalidLicensePlateError } from "@domain/errors/motorcycle/invalid-license-plate";
+import { InvalidMotorcycleLicensePlateError } from "@domain/errors/motorcycle/invalid-license-plate";
 import { InvalidLicensePlateHttpException } from "../exceptions/motorcycle/invalid-license-plate";
 import { InvalidMotorcyclePriceError } from "@domain/errors/motorcycle/invalid-motorcycle-price";
 import { InvalidMotorcycleYearError } from "@domain/errors/motorcycle/invalid-motorcycle-year";
@@ -16,6 +16,7 @@ import { RequiredRoles } from "../decorators/required-roles";
 import { GetMotorcycleQuery } from "@application/queries/definitions/get-motorcycle-query";
 import { MotorcycleNotFoundError } from "@domain/errors/motorcycle/motorcycle-not-found";
 import { MotorcycleNotFoundHttpException } from "../exceptions/motorcycle/motorcycle-not-found";
+import { DeleteMotorcycleCommand } from "@application/command/definitions/delete-motorcycle";
 
 @Controller()
 export class MotorcycleController {
@@ -39,7 +40,7 @@ export class MotorcycleController {
 			maintenanceInterval,
 		));
 
-		if (commandResult instanceof InvalidLicensePlateError) {
+		if (commandResult instanceof InvalidMotorcycleLicensePlateError) {
 			throw new InvalidLicensePlateHttpException(commandResult.message);
 		}
 
@@ -64,7 +65,7 @@ export class MotorcycleController {
 	public async get(@Res() res: Response, @Param("licensePlate") licensePlate: string) {
 		const motorcycle = await this.queryBus.execute(new GetMotorcycleQuery(licensePlate));
 
-		if (motorcycle instanceof InvalidLicensePlateError) {
+		if (motorcycle instanceof InvalidMotorcycleLicensePlateError) {
 			throw new InvalidLicensePlateHttpException(motorcycle.message);
 		}
 
@@ -73,5 +74,22 @@ export class MotorcycleController {
 		}
 
 		return res.status(HttpStatus.OK).json({ motorcycle });
+	}
+
+	@RequiredRoles("FLEET_MANAGER")
+	@UseGuards(AuthGuard)
+	@Delete("/motorcycle/:licensePlate")
+	public async delete(@Res() res: Response, @Param("licensePlate") licensePlate: string) {
+		const motorcycle = await this.commandBus.execute(new DeleteMotorcycleCommand(licensePlate));
+
+		if (motorcycle instanceof InvalidMotorcycleLicensePlateError) {
+			throw new InvalidLicensePlateHttpException(motorcycle.message);
+		}
+
+		if (motorcycle instanceof MotorcycleNotFoundError) {
+			throw new MotorcycleNotFoundHttpException(motorcycle.message);
+		}
+
+		return res.status(HttpStatus.NO_CONTENT).send();
 	}
 }
