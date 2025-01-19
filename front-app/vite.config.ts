@@ -1,11 +1,11 @@
-import { fileURLToPath, URL } from 'node:url'
+import { fileURLToPath, URL } from "node:url"
 
-import vue from '@vitejs/plugin-vue'
-import vueDevTools from 'vite-plugin-vue-devtools'
-import autoprefixer from 'autoprefixer'
+import vue from "@vitejs/plugin-vue"
+import vueDevTools from "vite-plugin-vue-devtools"
+import autoprefixer from "autoprefixer"
 
-import tailwind from 'tailwindcss'
-import { defineConfig } from 'vite'
+import tailwind from "tailwindcss"
+import { defineConfig } from "vite"
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -20,7 +20,8 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
+	  "@lib": fileURLToPath(new URL("./src/lib", import.meta.url)),
     },
   },
   server: {
