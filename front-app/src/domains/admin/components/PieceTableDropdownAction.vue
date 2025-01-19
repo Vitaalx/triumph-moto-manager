@@ -9,16 +9,24 @@ import {
 	DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-vue-next";
+import { ref } from "vue";
 
 interface Piece {
 	id: string
 }
 
 defineProps<Piece>();
-defineEmits<(e: "expand") => void>();
+
+const emit = defineEmits<(e: "expand") => void>();
+const isExpanded = ref(false);
 
 function copy(id: string) {
 	navigator.clipboard.writeText(id);
+}
+
+function toggleExpand() {
+	isExpanded.value = !isExpanded.value;
+	emit("expand");
 }
 </script>
 
@@ -46,10 +54,10 @@ function copy(id: string) {
 			</DropdownMenuItem>
 
 			<DropdownMenuItem
-				@click="$emit('expand')"
+				@click="toggleExpand"
 				class="cursor-pointer"
 			>
-				Développer
+				{{ isExpanded ? "Réduire" : "Développer" }}
 			</DropdownMenuItem>
 
 			<DropdownMenuSeparator />
