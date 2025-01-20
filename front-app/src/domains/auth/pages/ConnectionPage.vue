@@ -1,23 +1,38 @@
 <script setup lang="ts">
-import { ref } from "vue";
 import { useAuth } from "../composables/useAuth";
+import { toTypedSchema } from "@vee-validate/zod";
+import { useForm } from "vee-validate";
+import { z } from "zod";
+import {
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from "@/components/ui/form";
 import ButtonPrimary from "@/components/ButtonPrimary.vue";
-import TheLabel from "@/components/ui/label/TheLabel.vue";
 import TheInput from "@/components/ui/input/TheInput.vue";
 
 const { login } = useAuth();
 
-const isLoginForm = ref(true);
-const email = ref("");
-const password = ref("");
+const formSchema = toTypedSchema(
+	z.object({
+		email: z
+			.string({ message: "L'email est obligatoire." })
+			.email({ message: "L'email doit être valide." }),
+		password: z
+			.string({ message: "Le mot de passe est obligatoire." })
+			.min(5, { message: "Le mot de passe doit contenir au moins 5 caractères." }),
+	})
+);
 
-function handleLogin() {
-	login(email.value, password.value);
-}
+const { handleSubmit } = useForm({
+	validationSchema: formSchema,
+});
 
-function handleRegister() {
-	console.log("register");
-}
+const onSubmit = handleSubmit(async (values) => {
+	login(values);
+});
 </script>
 
 <template>
@@ -27,66 +42,59 @@ function handleRegister() {
 				<div class="mx-auto grid w-96 gap-6">
 					<div class="grid gap-2 text-center">
 						<h1 class="text-3xl font-bold">
-							{{ isLoginForm ? 'Connexion' : 'Inscription' }}
+							Connexion
 						</h1>
 
 						<p class="text-balance text-muted-foreground">
-							{{ isLoginForm ? 'Connectez-vous à votre compte' : 'Créez un compte' }}
+							Connectez-vous à votre compte
 						</p>
 					</div>
 
-					<div class="grid gap-4">
-						<div class="grid gap-2">
-							<TheLabel for="email">
-								Email
-							</TheLabel>
-
-							<TheInput
-								id="email"
-								type="email"
-								v-model="email"
-								placeholder="email@example.com"
-								required
-							/>
-						</div>
-
-						<div class="grid gap-2">
-							<div class="flex items-center">
-								<TheLabel for="password">
-									Mot de passe
-								</TheLabel>
-
-								<RouterLink
-									v-if="isLoginForm"
-									to=""
-									class="ml-auto inline-block text-sm underline"
-								>
-									Mot de passe oublié ?
-								</RouterLink>
-							</div>
-
-							<TheInput
-								id="password"
-								type="password"
-								v-model="password"
-								required
-							/>
-						</div>
-
-						<ButtonPrimary @click="isLoginForm ? handleLogin() : handleRegister()">
-							{{ isLoginForm ? 'Se connecter' : "S'inscrire" }}
-						</ButtonPrimary>
-					</div>
-
-					<div class="mt-4 text-center text-sm">
-						{{ isLoginForm ? 'Pas encore de compte ?' : 'Déjà inscrit ?' }}
-						<span
-							class="text-balance cursor-pointer underline"
-							@click="isLoginForm = !isLoginForm"
+					<form
+						@submit="onSubmit" 
+						class="grid gap-4"
+					>
+						<FormField
+							v-slot="{ componentField }"
+							name="email"
 						>
-							{{ isLoginForm ? 'Inscrivez-vous' : 'Connectez-vous' }}
-						</span>
-					</div>
+							<FormItem>
+								<FormLabel>Email</FormLabel>
+
+								<FormControl>
+									<TheInput
+										type="email"
+										placeholder="mail@exemple.com"
+										v-bind="componentField"
+									/>
+								</FormControl>
+
+								<FormMessage />
+							</FormItem>
+						</FormField>
+
+						<FormField
+							v-slot="{ componentField }"
+							name="password"
+						>
+							<FormItem>
+								<FormLabel>Mot de passe</FormLabel>
+
+								<FormControl>
+									<TheInput
+										type="password"
+										v-bind="componentField"
+									/>
+								</FormControl>
+
+								<FormMessage />
+							</FormItem>
+						</FormField>
+
+						<ButtonPrimary type="submit">
+							Se connecter
+						</ButtonPrimary>
+					</form>
 				</div>
 			</div>
 
