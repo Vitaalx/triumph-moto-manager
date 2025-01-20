@@ -1,47 +1,47 @@
 <script setup lang="ts">
-import { useUserStore } from '@/stores/userStore';
-import { mdiAccountOutline } from '@mdi/js';
+import { useAuth } from "@/domains/auth/composables/useAuth";
+import { mdiAccountOutline } from "@mdi/js";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import ButtonSecondary from '@/components/ButtonSecondary.vue';
-import TheIcon from '@/components/TheIcon.vue';
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuLabel,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import ButtonSecondary from "@/components/ButtonSecondary.vue";
+import TheIcon from "@/components/TheIcon.vue";
 
-const userStore = useUserStore();
+const { logout } = useAuth();
 </script>
 
 <template>
-  <DropdownMenu>
-    <DropdownMenuTrigger>
-        <ButtonSecondary
-            size="icon"
-            class="rounded-full"
-        >
-            <TheIcon :icon="mdiAccountOutline" />
-		</ButtonSecondary>
-    </DropdownMenuTrigger>
+	<DropdownMenu>
+		<DropdownMenuTrigger>
+			<ButtonSecondary
+				size="icon"
+				class="rounded-full"
+			>
+				<TheIcon :icon="mdiAccountOutline" />
+			</ButtonSecondary>
+		</DropdownMenuTrigger>
 
-    <DropdownMenuContent align="end">
-      <DropdownMenuLabel>Mon compte</DropdownMenuLabel>
+		<DropdownMenuContent align="end">
+			<DropdownMenuLabel>Mon compte</DropdownMenuLabel>
 
-      <DropdownMenuSeparator />
+			<DropdownMenuSeparator />
 
-      <DropdownMenuItem>
-        <RouterLink :to="{ name: '' }">
-          Mon profil
-        </RouterLink>
-      </DropdownMenuItem>
+			<DropdownMenuItem>
+				<RouterLink :to="{ name: '' }">
+					Mon profil
+				</RouterLink>
+			</DropdownMenuItem>
 
-      <DropdownMenuSeparator />
+			<DropdownMenuSeparator />
 
-      <DropdownMenuItem @click="userStore.logout">
-        <span class="cursor-pointer">Se déconnecter</span>
-      </DropdownMenuItem>
-    </DropdownMenuContent>
-  </DropdownMenu>
+			<DropdownMenuItem @click="logout">
+				<span class="cursor-pointer">Se déconnecter</span>
+			</DropdownMenuItem>
+		</DropdownMenuContent>
+	</DropdownMenu>
 </template>

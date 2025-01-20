@@ -2,7 +2,7 @@
 import { RouterLink } from "vue-router";
 import { useUserStore } from "@/stores/userStore";
 import ButtonPrimary from "./ButtonPrimary.vue";
-import AccountDropdown from "@/domains/auth/components/AccountDropdown.vue";
+import AccountDropdown from "@/domains/user/components/AccountDropdown.vue";
 import TheMobileNav from "./TheMobileNav.vue";
 
 const userStore = useUserStore();

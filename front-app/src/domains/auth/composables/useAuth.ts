@@ -20,5 +20,10 @@ export function useAuth() {
 		}
 	}
 
-	return { login };
+	function logout() {
+		api.post("/api/auth/logout");
+		userStore.user = null;
+	}
+
+	return { login, logout };
 }
