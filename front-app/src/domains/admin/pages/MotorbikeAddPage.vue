@@ -56,8 +56,6 @@ const { handleSubmit } = useForm({
 });
 
 const onSubmit = handleSubmit(async (values) => {
-	console.log(values);
-
 	try {
 		await api.post("/api/motorcycle", values);
 
@@ -76,8 +74,8 @@ const onSubmit = handleSubmit(async (values) => {
 <template>
 	<AdminSection title="Ajouter une moto">
 		<form
-			class="space-y-6"
 			@submit="onSubmit"
+			class="space-y-6"
 		>
 			<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 				<FormField
