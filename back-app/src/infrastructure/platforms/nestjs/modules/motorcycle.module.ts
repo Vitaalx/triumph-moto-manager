@@ -12,6 +12,10 @@ import { GetMotorcycleUsecase } from "@application/usecases/motorcycle/get-motor
 import { EventStoreRepository } from "../adapters/repositories/event-store";
 import { DeleteMotorcycleCommandHandler } from "@application/command/handlers/delete-motorcycle.command-handler";
 import { DeleteMotorcycleUsecase } from "@application/usecases/motorcycle/delete-motorcycle-usecase";
+import { UpdateMotorcycleUsecase } from "@application/usecases/motorcycle/update-motorcycle-usecase";
+import { GetMotorcyclesUsecase } from "@application/usecases/motorcycle/get-motorcycles-usecase";
+import { GetMotorcyclesQueryHandler } from "@application/queries/handlers/get-motorcycles.query-handler";
+import { UpdateMotorcycleCommandHandler } from "@application/command/handlers/update-motorcycle.command-handler";
 
 const motorcycleInjectionUsecases = [
 	{
@@ -23,8 +27,21 @@ const motorcycleInjectionUsecases = [
 		inject: [MOTORCYCLE_REPOSITORY_INTERFACE, EVENT_STORE_REPOSITORY_INTERFACE],
 	},
 	{
+		provide: UpdateMotorcycleUsecase,
+		useFactory: (
+			motorcycleRepository: MotorcycleRepository,
+			eventStoreRepository: EventStoreRepository,
+		) => new UpdateMotorcycleUsecase(motorcycleRepository, eventStoreRepository),
+		inject: [MOTORCYCLE_REPOSITORY_INTERFACE, EVENT_STORE_REPOSITORY_INTERFACE],
+	},
+	{
 		provide: GetMotorcycleUsecase,
 		useFactory: (motorcycleRepository: MotorcycleRepository) => new GetMotorcycleUsecase(motorcycleRepository),
+		inject: [MOTORCYCLE_REPOSITORY_INTERFACE],
+	},
+	{
+		provide: GetMotorcyclesUsecase,
+		useFactory: (motorcycleRepository: MotorcycleRepository) => new GetMotorcyclesUsecase(motorcycleRepository),
 		inject: [MOTORCYCLE_REPOSITORY_INTERFACE],
 	},
 	{
@@ -39,10 +56,11 @@ const motorcycleInjectionUsecases = [
 
 const commandHandlers = [
 	CreateMotorcycleCommandHandler,
+	UpdateMotorcycleCommandHandler,
 	DeleteMotorcycleCommandHandler,
 ];
 
-const queryHandlers = [GetMotorcycleQueryHandler];
+const queryHandlers = [GetMotorcycleQueryHandler, GetMotorcyclesQueryHandler];
 
 @Module({
 	imports: [

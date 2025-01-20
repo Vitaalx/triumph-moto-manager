@@ -1,7 +1,5 @@
-import { Body, Controller, Get, HttpStatus, Post, Res, UseGuards } from "@nestjs/common";
+import { Body, Controller, HttpStatus, Post, Res } from "@nestjs/common";
 import { Response } from "express";
-import { RequiredRoles } from "../decorators/required-roles";
-import { AuthGuard } from "../guards/auth.guard";
 import { LoginService } from "@nestjs@services/login";
 import { InputLoginDto } from "../dtos/input-login";
 
@@ -30,12 +28,5 @@ export class AuthController {
 	public logout(@Res() res: Response) {
 		res.clearCookie(this.ACCESS_TOKEN_KEY);
 		return res.status(HttpStatus.OK).send();
-	}
-
-	@Get("/test")
-	@RequiredRoles("ADMIN", "FLEET_MANAGER")
-	@UseGuards(AuthGuard)
-	public test() {
-		return "test";
 	}
 }

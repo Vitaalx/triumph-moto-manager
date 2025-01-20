@@ -29,8 +29,27 @@ export class MotorcycleRepository implements IMotorcycleRepository {
 		});
 	}
 
-	public getMotorcycles(): Promise<MotorcycleEntity[]> {
-		throw new Error("Method not implemented.");
+	public async updateByLicensePlate(
+		licensePlate: MotorcycleLicensePlate,
+		motorcycle: MotorcycleEntity,
+	): Promise<void> {
+		await prisma.motorcycle.update({
+			where: {
+				licensePlate: licensePlate.value,
+			},
+			data: {
+				brand: motorcycle.brand,
+				model: motorcycle.model,
+				year: motorcycle.year.value,
+				price: motorcycle.price.value,
+				maintenanceInterval: motorcycle.maintenanceInterval,
+			},
+		});
+	}
+
+	public async getMotorcycles(): Promise<MotorcycleEntity[]> {
+		const motorcycles = await prisma.motorcycle.findMany();
+		return motorcycles.map((motorcycle) => this.motorcycleMapper.toDomainEntity(motorcycle));
 	}
 
 	public async findByLicensePlate(licensePlate: MotorcycleLicensePlate): Promise<MotorcycleEntity | null> {

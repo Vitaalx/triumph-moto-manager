@@ -15,6 +15,7 @@ export default [
 			"no-unsafe-call": "off",
 			"@typescript-eslint/max-params": "off",
 			"@typescript-eslint/no-magic-numbers": "off",
+			"@typescript-eslint/no-useless-constructor": "off",
 		}
 	},
 ];

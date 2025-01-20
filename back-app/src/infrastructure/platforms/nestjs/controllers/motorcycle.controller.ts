@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Res, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpStatus, Param, Patch, Post, Res, UseGuards } from "@nestjs/common";
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
 import { CreateMotorcycleDto } from "../dtos/motorcycle/create";
 import { CreateMotorcycleCommand } from "@application/command/definitions/create-motorcycle";
@@ -17,6 +17,9 @@ import { GetMotorcycleQuery } from "@application/queries/definitions/get-motorcy
 import { MotorcycleNotFoundError } from "@domain/errors/motorcycle/motorcycle-not-found";
 import { MotorcycleNotFoundHttpException } from "../exceptions/motorcycle/motorcycle-not-found";
 import { DeleteMotorcycleCommand } from "@application/command/definitions/delete-motorcycle";
+import { UpdateMotorcycleCommand } from "@application/command/definitions/update-motorcycle-command";
+import { UpdateMotorcycleDto } from "../dtos/motorcycle/update";
+import { GetMotorcyclesQuery } from "@application/queries/definitions/get-motorcycles-query";
 
 @Controller()
 export class MotorcycleController {
@@ -57,6 +60,49 @@ export class MotorcycleController {
 		}
 
 		return res.status(HttpStatus.CREATED).send();
+	}
+
+	@RequiredRoles("FLEET_MANAGER")
+	@UseGuards(AuthGuard)
+	@Patch("/motorcycle/:licensePlate")
+	public async update(@Res() res: Response, @Param("licensePlate") licensePlate: string, @Body() updateMotorcycleDto: UpdateMotorcycleDto) {
+		const { model, year, brand, price, maintenanceInterval } = updateMotorcycleDto;
+
+		const commandResult = await this.commandBus.execute(new UpdateMotorcycleCommand(
+			licensePlate,
+			model,
+			year,
+			brand,
+			price,
+			maintenanceInterval,
+		));
+
+		if (commandResult instanceof InvalidMotorcycleLicensePlateError) {
+			throw new InvalidLicensePlateHttpException(commandResult.message);
+		}
+
+		if (commandResult instanceof InvalidMotorcyclePriceError) {
+			throw new InvalidMotorcyclePriceHttpException(commandResult.message);
+		}
+
+		if (commandResult instanceof InvalidMotorcycleYearError) {
+			throw new InvalidMotorcycleYearHttpException(commandResult.message);
+		}
+
+		if (commandResult instanceof MotorcycleNotFoundError) {
+			throw new MotorcycleNotFoundHttpException(commandResult.message);
+		}
+
+		return res.status(HttpStatus.OK).send();
+	}
+
+	@RequiredRoles("FLEET_MANAGER")
+	@UseGuards(AuthGuard)
+	@Get("/motorcycles")
+	public async getAll(@Res() res: Response) {
+		const motorcycles = await this.queryBus.execute(new GetMotorcyclesQuery());
+
+		return res.status(HttpStatus.OK).json({ motorcycles });
 	}
 
 	@RequiredRoles("FLEET_MANAGER")
