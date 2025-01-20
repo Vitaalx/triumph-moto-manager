@@ -9,9 +9,10 @@ export function useAuth() {
 	async function login(email: string, password: string) {
 		try {
 			const response = await api.post("/api/auth/login", { email, password });
-			const { token } = response.data;
+			const userData = response.data;
 
-			userStore.accessToken = token;
+			userStore.user = userData;
+
 			await router.push("/");
 		} catch (error) {
 			console.error("Login failed:", error);
