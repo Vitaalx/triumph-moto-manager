@@ -5,11 +5,9 @@ import TheToaster from "./components/ui/toast/TheToaster.vue";
 </script>
 
 <template>
-	<TheToaster />
+	<TheLoader />
 
 	<RouterView />
 
-	<TheLoader />
+	<TheToaster />
 </template>
-
-<style scoped></style>
