@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { routerPageName } from "@/router/routerPageName";
 import { TheButton } from "@/components/ui/button";
 import {
 	DropdownMenu,
@@ -10,6 +11,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-vue-next";
 import { ref } from "vue";
+
+const { MOTORCYCLE_EDIT } = routerPageName;
 
 interface Props {
 	licensePlate: string
@@ -60,9 +63,18 @@ function toggleExpand() {
 				{{ isExpanded ? "Réduire" : "Développer" }}
 			</DropdownMenuItem>
 
+			<DropdownMenuItem>
+				<RouterLink
+					:to="{ name: MOTORCYCLE_EDIT, params: { licensePlate } }"
+					class="cursor-pointer"
+				>
+					Modifier
+				</RouterLink>
+			</DropdownMenuItem>
+
 			<DropdownMenuSeparator />
 
-			<DropdownMenuItem>Voir le fournisseur</DropdownMenuItem>
+			<DropdownMenuItem>Supprimer</DropdownMenuItem>
 		</DropdownMenuContent>
 	</DropdownMenu>
 </template>

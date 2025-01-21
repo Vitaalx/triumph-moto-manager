@@ -37,7 +37,7 @@ import {
 } from "@tanstack/vue-table";
 import { ArrowUpDown, ChevronDown } from "lucide-vue-next";
 import { h, ref } from "vue";
-import PieceTableDropdownAction from "./PieceTableDropdownAction.vue";
+import MotorcycleTableDropdownAction from "./MotorcycleTableDropdownAction.vue";
 
 const data: Motorcycle[] = [ // TDOO: Replace with real data
 	{
@@ -179,8 +179,8 @@ const columns: ColumnDef<Motorcycle>[] = [
 		cell: ({ row }: { row: Row<Motorcycle> }) => {
 			const motorcycle = row.original;
 
-			return h("div", { class: "relative" }, h(PieceTableDropdownAction, {
-				id: motorcycle.licensePlate,
+			return h("div", { class: "relative" }, h(MotorcycleTableDropdownAction, {
+				licensePlate: motorcycle.licensePlate,
 				onExpand: row.toggleExpanded,
 			}));
 		},

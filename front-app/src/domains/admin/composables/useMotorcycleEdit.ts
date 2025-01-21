@@ -3,7 +3,7 @@ import { toast } from "@/components/ui/toast";
 import { toTypedSchema } from "@vee-validate/zod";
 import { useForm } from "vee-validate";
 import { z } from "zod";
-import { h } from "vue";
+import type { Motorcycle } from "@/schemas/motorcycleSchema";
 
 const formSchema = toTypedSchema(
 	z.object({
@@ -39,38 +39,27 @@ const formSchema = toTypedSchema(
 	})
 );
 
-export function useMotorcycleAdd() {
-	const { handleSubmit, resetForm } = useForm({
+export function useMotorcycleEdit(motorcycle: Motorcycle) {
+	const { handleSubmit } = useForm({
 		validationSchema: formSchema,
+		initialValues: motorcycle,
 	});
 
 	const onSubmit = handleSubmit(async (formData) => {
 		try {
-			await api.post("/api/motorcycle", formData);
+			await api.patch(`/motorcycle/${motorcycle.licensePlate}`, formData);
 
 			toast({
-				title: "Moto ajoutée",
-				description: h("pre",
-					{ class: "mt-2 w-[340px] rounded-md bg-slate-950 p-4" },
-					h("code", { class: "text-white" }, JSON.stringify(formData, null, 2))),
+				title: "Moto Modifiée",
+				description: "La moto a été modifiée avec succès.",
 				variant: "success",
 			});
-
-			resetForm();
 		} catch (error) {
-			if (error.response.data.message === "motorcycle.alreadyExists") {
-				toast({
-					title: "Erreur",
-					description: "La moto existe déjà.",
-					variant: "destructive",
-				});
-			} else {
-				toast({
-					title: "Erreur inconnue",
-					description: "Une erreur inattendue est survenue.",
-					variant: "destructive",
-				});
-			}
+			toast({
+				title: "Erreur inconnue",
+				description: "Une erreur inattendue est survenue.",
+				variant: "destructive",
+			});
 		}
 	});
 
