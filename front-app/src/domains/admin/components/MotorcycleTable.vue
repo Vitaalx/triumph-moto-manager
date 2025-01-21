@@ -140,7 +140,7 @@ const columns: ColumnDef<Motorcycle>[] = [
 				currency: "EUR",
 			}).format(price);
 
-			return h("div", { class: "text-right font-medium" }, formatted);
+			return h("div", { class: "font-medium" }, formatted);
 		},
 	},
 	{
