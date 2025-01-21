@@ -5,8 +5,8 @@ import { computed } from "vue";
 export function useDefaultOpenAccordion() {
 	const route = useRoute();
 	const {
-		MOTORBIKE_LIST,
-		MOTORBIKE_ADD,
+		MOTORCYCLE_LIST,
+		MOTORCYCLE_ADD,
 		MAINTENANCE_PLANNING,
 		MAINTENANCE_HISTORY,
 		PIECE_LIST,
@@ -20,7 +20,7 @@ export function useDefaultOpenAccordion() {
 		DRIVER_LIST,
 		DRIVER_ADD,
 		INCIDENT_HISTORY,
-		TRY_MOTORBIKE_LIST,
+		TRY_MOTORCYCLE_LIST,
 		TRY_HISTORY,
 		TROUBLESHOOTING_ADD
 	} = routerPageName;
@@ -29,8 +29,8 @@ export function useDefaultOpenAccordion() {
 		const routeName: string = route.name?.toString() || "";
 
 		const routeCategoryMap: Record<string, string> = {
-			[MOTORBIKE_LIST]: "fleet",
-			[MOTORBIKE_ADD]: "fleet",
+			[MOTORCYCLE_LIST]: "fleet",
+			[MOTORCYCLE_ADD]: "fleet",
 			[MAINTENANCE_PLANNING]: "maintenance",
 			[MAINTENANCE_HISTORY]: "maintenance",
 			[PIECE_LIST]: "Stock",
@@ -44,7 +44,7 @@ export function useDefaultOpenAccordion() {
 			[DRIVER_LIST]: "Utilisateurs",
 			[DRIVER_ADD]: "Utilisateurs",
 			[INCIDENT_HISTORY]: "Utilisateurs",
-			[TRY_MOTORBIKE_LIST]: "Essais",
+			[TRY_MOTORCYCLE_LIST]: "Essais",
 			[TRY_HISTORY]: "Essais",
 			[TROUBLESHOOTING_ADD]: "Essais"
 		};

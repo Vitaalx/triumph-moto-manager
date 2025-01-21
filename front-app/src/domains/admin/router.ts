@@ -2,8 +2,8 @@ import type { RouteRecordRaw } from "vue-router";
 
 export const routerPageNameAdminPanel = Object.freeze({
 	DASHBOARD: "dashboard",
-	MOTORBIKE_LIST: "motorbike-list",
-	MOTORBIKE_ADD: "motorbike-add",
+	MOTORCYCLE_LIST: "motorcycle-list",
+	MOTORCYCLE_ADD: "motorcycle-add",
 	MAINTENANCE_PLANNING: "maintenance-planning",
 	MAINTENANCE_HISTORY: "maintenance-history",
 	PIECE_LIST: "piece-list",
@@ -17,7 +17,7 @@ export const routerPageNameAdminPanel = Object.freeze({
 	DRIVER_LIST: "driver-list",
 	DRIVER_ADD: "driver-add",
 	INCIDENT_HISTORY: "incident-history",
-	TRY_MOTORBIKE_LIST: "try-motorbike-list",
+	TRY_MOTORCYCLE_LIST: "try-motorcycle-list",
 	TRY_HISTORY: "try-history",
 	TROUBLESHOOTING_ADD: "troubleshooting-add",
 });
@@ -33,14 +33,14 @@ export default (): RouteRecordRaw[] => [
 				component: () => import("./pages/AdminHomePage.vue"),
 			},
 			{
-				name: routerPageNameAdminPanel.MOTORBIKE_LIST,
-				path: "/dashboard/motorbike-list",
-				component: () => import("./pages/MotorbikeListPage.vue"),
+				name: routerPageNameAdminPanel.MOTORCYCLE_LIST,
+				path: "/dashboard/motorcycle-list",
+				component: () => import("./pages/MotorcycleListPage.vue"),
 			},
 			{
-				name: routerPageNameAdminPanel.MOTORBIKE_ADD,
-				path: "/dashboard/motorbike-add",
-				component: () => import("./pages/MotorbikeAddPage.vue"),
+				name: routerPageNameAdminPanel.MOTORCYCLE_ADD,
+				path: "/dashboard/motorcycle-add",
+				component: () => import("./pages/MotorcycleAddPage.vue"),
 			},
 			{
 				name: routerPageNameAdminPanel.MAINTENANCE_PLANNING,
@@ -108,9 +108,9 @@ export default (): RouteRecordRaw[] => [
 				component: () => import("./pages/IncidentHistoryPage.vue"),
 			},
 			{
-				name: routerPageNameAdminPanel.TRY_MOTORBIKE_LIST,
-				path: "/dashboard/try-motorbike-list",
-				component: () => import("./pages/TryMotorbikeListPage.vue"),
+				name: routerPageNameAdminPanel.TRY_MOTORCYCLE_LIST,
+				path: "/dashboard/try-motorcycle-list",
+				component: () => import("./pages/TryMotorcycleListPage.vue"),
 			},
 			{
 				name: routerPageNameAdminPanel.TRY_HISTORY,

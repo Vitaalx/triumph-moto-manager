@@ -26,8 +26,8 @@ interface NavSection {
 }
 
 const {
-	MOTORBIKE_LIST,
-	MOTORBIKE_ADD,
+	MOTORCYCLE_LIST,
+	MOTORCYCLE_ADD,
 	MAINTENANCE_PLANNING,
 	MAINTENANCE_HISTORY,
 	PIECE_LIST,
@@ -41,7 +41,7 @@ const {
 	DRIVER_LIST,
 	DRIVER_ADD,
 	INCIDENT_HISTORY,
-	TRY_MOTORBIKE_LIST,
+	TRY_MOTORCYCLE_LIST,
 	TRY_HISTORY,
 	TROUBLESHOOTING_ADD
 } = routerPageName;
@@ -51,10 +51,10 @@ const adminNavSections: NavSection[] = [
 		value: "fleet",
 		items: [
 			{
-				name: "MOTORBIKE_LIST", icon: mdiMotorbike, route: MOTORBIKE_LIST, label: "Liste des motos" 
+				name: "MOTORCYCLE_LIST", icon: mdiMotorbike, route: MOTORCYCLE_LIST, label: "Liste des motos" 
 			},
 			{
-				name: "MOTORBIKE_ADD", icon: mdiPlus, route: MOTORBIKE_ADD, label: "Ajouter une moto" 
+				name: "MOTORCYCLE_ADD", icon: mdiPlus, route: MOTORCYCLE_ADD, label: "Ajouter une moto" 
 			}
 		]
 	},
@@ -120,7 +120,7 @@ const adminNavSections: NavSection[] = [
 		value: "Essais",
 		items: [
 			{
-				name: "TRY_MOTORBIKE_LIST", icon: mdiMotorbike, route: TRY_MOTORBIKE_LIST, label: "Motos en essai" 
+				name: "TRY_MOTORCYCLE_LIST", icon: mdiMotorbike, route: TRY_MOTORCYCLE_LIST, label: "Motos en essai" 
 			},
 			{
 				name: "TRY_HISTORY", icon: mdiHistory, route: TRY_HISTORY, label: "Historique des essais" 
