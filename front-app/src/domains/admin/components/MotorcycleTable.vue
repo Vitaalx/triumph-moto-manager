@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import api from "@/lib/axios";
 import { type Motorcycle } from "@/schemas/motorcycleSchema";
+import { toast } from "@/components/ui/toast";
 import type {
 	ColumnDef,
 	Row,
@@ -36,55 +38,33 @@ import {
 	useVueTable,
 } from "@tanstack/vue-table";
 import { ArrowUpDown, ChevronDown } from "lucide-vue-next";
-import { h, ref } from "vue";
+import { h, ref, onMounted } from "vue";
 import MotorcycleTableDropdownAction from "./MotorcycleTableDropdownAction.vue";
 
-const data: Motorcycle[] = [ // TDOO: Replace with real data
-	{
-		licensePlate: "AB-123-CD",
-		brand: "Yamaha",
-		model: "FZ6",
-		year: 2006,
-		price: 3000,
-		maintenanceInterval: "10000 km",
-		created_at: "2021-10-01",
-		updated_at: "2021-10-01",
-	},
-	{
-		licensePlate: "CD-456-EF",
-		brand: "Honda",
-		model: "CBR",
-		year: 2008,
-		price: 4000,
-		maintenanceInterval: "8000 km",
-		created_at: "2021-10-01",
-		updated_at: "2021-10-01",
-	},
-	{
-		licensePlate: "AB-123-CD",
-		brand: "Yamaha",
-		model: "FZ6",
-		year: 2006,
-		price: 3000,
-		maintenanceInterval: "10000 km",
-		created_at: "2021-10-01",
-		updated_at: "2021-10-01",
-	},
-	{
-		licensePlate: "CD-456-EF",
-		brand: "Honda",
-		model: "CBR",
-		year: 2008,
-		price: 4000,
-		maintenanceInterval: "8000 km",
-		created_at: "2021-10-01",
-		updated_at: "2021-10-01",
-	},
-];
-	
+const motorcycle = ref<Motorcycle[]>([]);
+
+async function getMotorcycles() {
+	try {
+		const response = await api.get("/api/motorcycles");
+		console.log(response.data.motorcycles);
+		motorcycle.value = response.data.motorcycles;
+	} catch (error) {
+		toast({
+			title: "Erreur inconnue",
+			description: "Une erreur inattendue est survenue.",
+			variant: "destructive",
+		});
+	}
+}
+
+onMounted(() => {
+	getMotorcycles();
+});
+
 const columns: ColumnDef<Motorcycle>[] = [
 	{
-		accessorKey: "licensePlate",
+		accessorFn: (row) => row.licensePlate.value,
+		id: "licensePlate",
 		header: ({ column }: { column: Column<Motorcycle, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
@@ -114,7 +94,8 @@ const columns: ColumnDef<Motorcycle>[] = [
 		cell: ({ row }: { row: Row<Motorcycle> }) => h("div", { class: "" }, row.getValue("model")),
 	},
 	{
-		accessorKey: "year",
+		accessorFn: (row) => row.year.value,
+		id: "year",
 		header: ({ column }: { column: Column<Motorcycle, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
@@ -124,7 +105,8 @@ const columns: ColumnDef<Motorcycle>[] = [
 		cell: ({ row }: { row: Row<Motorcycle> }) => h("div", { class: "" }, row.getValue("year")),
 	},
 	{
-		accessorKey: "price",
+		accessorFn: (row) => row.price.value,
+		id: "price",
 		header: ({ column }: { column: Column<Motorcycle, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
@@ -143,6 +125,7 @@ const columns: ColumnDef<Motorcycle>[] = [
 			return h("div", { class: "font-medium" }, formatted);
 		},
 	},
+
 	{
 		accessorKey: "maintenanceInterval",
 		header: ({ column }: { column: Column<Motorcycle, unknown> }) => {
@@ -154,33 +137,13 @@ const columns: ColumnDef<Motorcycle>[] = [
 		cell: ({ row }: { row: Row<Motorcycle> }) => h("div", { class: "" }, row.getValue("maintenanceInterval")),
 	},
 	{
-		accessorKey: "created_at",
-		header: ({ column }: { column: Column<Motorcycle, unknown> }) => {
-			return h(TheButton, {
-				variant: "ghost",
-				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
-			}, () => ["Créé le", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
-		},
-		cell: ({ row }: { row: Row<Motorcycle> }) => h("div", { class: "" }, row.getValue("created_at")),
-	},
-	{
-		accessorKey: "updated_at",
-		header: ({ column }: { column: Column<Motorcycle, unknown> }) => {
-			return h(TheButton, {
-				variant: "ghost",
-				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
-			}, () => ["Mis à jour le", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
-		},
-		cell: ({ row }: { row: Row<Motorcycle> }) => h("div", { class: "" }, row.getValue("updated_at")),
-	},
-	{
 		id: "actions",
 		enableHiding: false,
 		cell: ({ row }: { row: Row<Motorcycle> }) => {
 			const motorcycle = row.original;
 
 			return h("div", { class: "relative" }, h(MotorcycleTableDropdownAction, {
-				licensePlate: motorcycle.licensePlate,
+				licensePlate: motorcycle.licensePlate.value,
 				onExpand: row.toggleExpanded,
 			}));
 		},
@@ -195,7 +158,7 @@ const expanded = ref<ExpandedState>({});
 const globalFilter = ref("");
 
 const table = useVueTable({
-	data,
+	data: motorcycle,
 	columns,
 	getCoreRowModel: getCoreRowModel(),
 	getPaginationRowModel: getPaginationRowModel(),
