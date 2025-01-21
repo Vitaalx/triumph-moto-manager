@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type Motorcycle } from "@/schemas/motorcycle";
+import { type Motorcycle } from "@/schemas/motorcycleSchema";
 import type {
 	ColumnDef,
 	Row,
