@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { Piece } from "@/schemas/pieceSchema";
 import type {
 	ColumnDef,
 	Row,
@@ -38,14 +39,7 @@ import { ArrowUpDown, ChevronDown } from "lucide-vue-next";
 import { h, ref } from "vue";
 import PieceTableDropdownAction from "./PieceTableDropdownAction.vue";
 
-export interface Piece {
-  id: string
-  price: number
-  status: "in stock" | "low stock" | "out of stock"
-  name: string
-}
-
-const data: Piece[] = [
+const data: Piece[] = [ // TODO: Replace with real data
 	{
 		id: "m5gr84i9",
 		name: "Kit chaîne",
@@ -81,7 +75,13 @@ const data: Piece[] = [
 const columns: ColumnDef<Piece>[] = [
 	{
 		accessorKey: "status",
-		header: "Statut",
+		// header: "Statut",
+		header: ({ column }: { column: Column<Piece, unknown> }) => {
+			return h(TheButton, {
+				variant: "ghost",
+				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
+			}, () => ["Statut", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
+		},
 		cell: ({ row }: { row: Row<Piece> }) => h("div", { class: "capitalize" }, row.getValue("status")),
 	},
 	{
@@ -96,7 +96,14 @@ const columns: ColumnDef<Piece>[] = [
 	},
 	{
 		accessorKey: "price",
-		header: () => h("div", { class: "text-right" }, "Prix"),
+		header: ({ column }: { column: Column<Piece, unknown> }) => {
+			return h("div", { class: "text-right" }, [
+				h(TheButton, {
+					variant: "ghost",
+					onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
+				}, () => ["Prix", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]),
+			]);
+		},
 		cell: ({ row }: { row: Row<Piece> }) => {
 			const price = Number.parseFloat(row.getValue("price"));
 
@@ -128,6 +135,7 @@ const columnFilters = ref<ColumnFiltersState>([]);
 const columnVisibility = ref<VisibilityState>({});
 const rowSelection = ref({});
 const expanded = ref<ExpandedState>({});
+const globalFilter = ref("");
 
 const table = useVueTable({
 	data,
@@ -157,12 +165,22 @@ const table = useVueTable({
 		updaterOrValue: ExpandedState | ((prev: ExpandedState) => ExpandedState)
 	) => valueUpdater(updaterOrValue, expanded),
 
+	onGlobalFilterChange: (
+		updaterOrValue: string | ((prev: string) => string)
+	) => valueUpdater(updaterOrValue, globalFilter),
+
 	state: {
 		get sorting() { return sorting.value; },
 		get columnFilters() { return columnFilters.value; },
 		get columnVisibility() { return columnVisibility.value; },
 		get rowSelection() { return rowSelection.value; },
 		get expanded() { return expanded.value; },
+		get globalFilter() { return globalFilter.value; },
+	},
+	globalFilterFn: (row, columnId, filterValue) => {
+		return Object.values(row.original).some(value =>
+			String(value).toLowerCase().includes(filterValue.toLowerCase())
+		);
 	},
 });
 </script>
@@ -172,9 +190,9 @@ const table = useVueTable({
 		<div class="flex gap-2 items-center py-4">
 			<TheInput
 				class="max-w-sm"
-				placeholder="Filter par nom..."
-				:model-value="table.getColumn('name')?.getFilterValue() as string"
-				@update:model-value=" table.getColumn('name')?.setFilterValue($event)"
+				placeholder="Filter..."
+				:model-value="table.getState().globalFilter"
+				@update:model-value="table.setGlobalFilter"
 			/>
 
 			<DropdownMenu>

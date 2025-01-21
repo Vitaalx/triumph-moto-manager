@@ -11,11 +11,11 @@ import {
 import { MoreHorizontal } from "lucide-vue-next";
 import { ref } from "vue";
 
-interface Piece {
+interface Props {
 	id: string
 }
 
-defineProps<Piece>();
+defineProps<Props>();
 
 const emit = defineEmits<(e: "expand") => void>();
 const isExpanded = ref(false);
