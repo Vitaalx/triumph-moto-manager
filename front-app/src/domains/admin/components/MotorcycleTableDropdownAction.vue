@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-vue-next";
 import { ref } from "vue";
+import { useMotorcycleDelete } from "../composables/useMotorcycleDelete";
 
 const { MOTORCYCLE_EDIT } = routerPageName;
 
@@ -21,7 +22,9 @@ interface Props {
 defineProps<Props>();
 
 const emit = defineEmits<(e: "expand") => void>();
+
 const isExpanded = ref(false);
+const { deleteMotorcycle } = useMotorcycleDelete();
 
 function copy(licensePlate: string) {
 	navigator.clipboard.writeText(licensePlate);
@@ -30,6 +33,11 @@ function copy(licensePlate: string) {
 function toggleExpand() {
 	isExpanded.value = !isExpanded.value;
 	emit("expand");
+}
+
+function handleDeleteMotorcycle(licensePlate: string) {
+	deleteMotorcycle(licensePlate);
+	window.location.reload();
 }
 </script>
 
@@ -74,7 +82,12 @@ function toggleExpand() {
 
 			<DropdownMenuSeparator />
 
-			<DropdownMenuItem>Supprimer</DropdownMenuItem>
+			<DropdownMenuItem 
+				class="cursor-pointer bg-red-600 text-white hover:bg-red-500"
+				@click="handleDeleteMotorcycle(licensePlate)"
+			>
+				Supprimer
+			</DropdownMenuItem>
 		</DropdownMenuContent>
 	</DropdownMenu>
 </template>
