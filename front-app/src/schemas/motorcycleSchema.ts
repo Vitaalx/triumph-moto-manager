@@ -13,7 +13,7 @@ export const motorcycleSchema = z.object({
 		.string({ message: "L'immatriculation est obligatoire." })
 		.regex(
 			/^[A-HJ-NP-Z]{2}-\d{3}-[A-HJ-NP-Z]{2}$/,
-			{ message: "L'immatriculation doit être au format AA-123-BB." }
+			{ message: "L'immatriculation doit être au format AA-123-BB, sans \"O\" ni \"I\"" }
 		)
 		.min(5, { message: "L'immatriculation doit contenir au moins 5 caractères." })
 		.max(10, { message: "L'immatriculation ne doit pas dépasser 10 caractères." }),

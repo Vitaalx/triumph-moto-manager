@@ -7,41 +7,42 @@ export function useAuth() {
 	const router = useRouter();
 	const userStore = useUserStore();
 
-	async function login(formData: { email: string; password: string }) {
-		try {
-			const response = await api.post("/auth/login", formData);
-			const userData = response.data;
+	function login(formData: { email: string; password: string }) {
+		api.post("/auth/login", formData)
+			.then((response) => {
+				const userData = response.data;
 
-			userStore.user = userData;
+				userStore.user = userData;
 
-			toast({
-				title: "Connexion réussie !",
-				description: "Vous êtes maintenant connecté.",
-				variant: "success",
+				toast({
+					title: "Connexion réussie !",
+					description: "Vous êtes maintenant connecté.",
+					variant: "success",
+				});
+
+				router.push("/");
+			})
+			.catch((error) => {
+				if (error.response.data.message === "user.notfound") {
+					toast({
+						title: "Utilisateur introuvable",
+						description: "Veuillez vérifier votre adresse email.",
+						variant: "destructive",
+					});
+				} else if (error.response.data.message === "password.invalid") {
+					toast({
+						title: "Mot de passe incorrect",
+						description: "Veuillez vérifier votre mot de passe.",
+						variant: "destructive",
+					});
+				} else {
+					toast({
+						title: "Erreur inconnue",
+						description: "Une erreur inattendue est survenue.",
+						variant: "destructive",
+					});
+				}
 			});
-
-			router.push("/");
-		} catch (error) {
-			if (error.response.data.message === "user.notfound") {
-				toast({
-					title: "Utilisateur introuvable",
-					description: "Veuillez vérifier votre adresse email.",
-					variant: "destructive",
-				});
-			} else if (error.response.data.message === "password.invalid") {
-				toast({
-					title: "Mot de passe incorrect",
-					description: "Veuillez vérifier votre mot de passe.",
-					variant: "destructive",
-				});
-			} else {
-				toast({
-					title: "Erreur inconnue",
-					description: "Une erreur inattendue est survenue.",
-					variant: "destructive",
-				});
-			}
-		}
 	}
 
 	function logout() {
