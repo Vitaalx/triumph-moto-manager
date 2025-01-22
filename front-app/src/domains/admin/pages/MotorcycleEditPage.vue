@@ -1,46 +1,27 @@
 <script setup lang="ts">
-import api from "@/lib/axios";
 import { useRouteParams } from "@/composables/useRouteParams";
 import { z } from "zod";
-import { toast } from "@/components/ui/toast";
 import { useMotorcycleEdit } from "../composables/useMotorcycleEdit";
 import AdminSection from "../components/AdminSection.vue";
-import {
-	FormControl,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage,
-} from "@/components/ui/form";
-import { TheInput } from "@/components/ui/input";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import TheInput from "@/components/ui/input/TheInput.vue";
 import ButtonPrimary from "@/components/ButtonPrimary.vue";
 
 const params = useRouteParams({
 	licensePlate: z.string(),
 });
 
-async function getMotocycle(licensePlate: string) {
-	try {
-		const response = await api.get(`/motorcycle/${licensePlate}`);
-
-		return response.data;
-	} catch (error) {
-		toast({
-			title: "Erreur inconnue",
-			description: "Une erreur inattendue est survenue.",
-			variant: "destructive",
-		});
-	}
-}
-
-const motorcycle = await getMotocycle(params.value.licensePlate);
-
-const { onSubmit } = useMotorcycleEdit(motorcycle);
+const { isLoaded, onSubmit } = useMotorcycleEdit(params.value.licensePlate);
 </script>
 
 <template>
 	<AdminSection title="Ajouter une moto">
+		<div v-if="!isLoaded">
+			Chargement des données...
+		</div>
+
 		<form
+			v-else
 			@submit="onSubmit"
 			class="space-y-6"
 		>
