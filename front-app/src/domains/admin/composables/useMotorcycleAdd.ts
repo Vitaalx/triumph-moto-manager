@@ -46,7 +46,7 @@ export function useMotorcycleAdd() {
 
 	const onSubmit = handleSubmit(async (formData) => {
 		try {
-			await api.post("/api/motorcycle", formData);
+			await api.post("/motorcycle", formData);
 
 			toast({
 				title: "Moto ajoutée",

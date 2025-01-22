@@ -9,7 +9,7 @@ export function useAuth() {
 
 	async function login(formData: { email: string; password: string }) {
 		try {
-			const response = await api.post("/api/auth/login", formData);
+			const response = await api.post("/auth/login", formData);
 			const userData = response.data;
 
 			userStore.user = userData;
@@ -45,7 +45,7 @@ export function useAuth() {
 	}
 
 	function logout() {
-		api.post("/api/auth/logout");
+		api.post("/auth/logout");
 		userStore.user = null;
 	}
 

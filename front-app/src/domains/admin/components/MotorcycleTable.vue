@@ -45,7 +45,7 @@ const motorcycle = ref<Motorcycle[]>([]);
 
 async function getMotorcycles() {
 	try {
-		const response = await api.get("/api/motorcycles");
+		const response = await api.get("/motorcycles");
 		console.log(response.data.motorcycles);
 		motorcycle.value = response.data.motorcycles;
 	} catch (error) {

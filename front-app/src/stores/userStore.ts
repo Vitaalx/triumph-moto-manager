@@ -10,7 +10,7 @@ export const useUserStore = defineStore(
 		const isConnected = computed(() => !!user.value);
 
 		onMounted(async () => {
-			const response = await api.get("/api/auth/test"); // TODO: improve this
+			const response = await api.get("/auth/test"); // TODO: improve this
  
 			if (response.status === 200) {
 				user.value = response.data;
