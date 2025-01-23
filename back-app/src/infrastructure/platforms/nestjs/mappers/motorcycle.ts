@@ -1,10 +1,10 @@
-import { MotorcycleEntity } from "@domain/entities/motorcycle";
 import { type EntityMapper } from "./common/entity-mapper";
 import { type Motorcycle } from "@prisma/client";
 import { Injectable } from "@nestjs/common";
 import { MotorcycleLicensePlate } from "@domain/types/license-plate";
 import { MotorcycleYear } from "@domain/types/motorcycle-year";
 import { MotorcyclePrice } from "@domain/types/motorcycle-price";
+import { MotorcycleEntity } from "@domain/entities/motorcycle";
 
 @Injectable()
 export class MotorcycleMapper implements EntityMapper<Motorcycle, MotorcycleEntity> {

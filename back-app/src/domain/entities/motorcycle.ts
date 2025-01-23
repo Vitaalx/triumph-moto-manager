@@ -4,9 +4,8 @@ import { InvalidMotorcycleYearError } from "@domain/errors/motorcycle/invalid-mo
 import { MotorcycleLicensePlate } from "@domain/types/license-plate";
 import { MotorcyclePrice } from "@domain/types/motorcycle-price";
 import { MotorcycleYear } from "@domain/types/motorcycle-year";
-import { AggregateRoot } from "@nestjs/cqrs";
 
-export class MotorcycleEntity extends AggregateRoot {
+export class MotorcycleEntity {
 	public constructor(
 		public licensePlate: MotorcycleLicensePlate,
 		public brand: string,
@@ -15,7 +14,6 @@ export class MotorcycleEntity extends AggregateRoot {
 		public price: MotorcyclePrice,
 		public maintenanceInterval: string,
 	) {
-		super();
 	}
 
 	public static from(

@@ -29,14 +29,47 @@ enum Role {
 }
 
 model Motorcycle {
-    licensePlate        String   @unique
+    licensePlate        String               @unique
     brand               String
     model               String
     year                Int
     price               Float
     maintenanceInterval String
-    created_at          DateTime @default(now())
-    updated_at          DateTime @updatedAt
+    DriverSheet         DriverSheet?         @relation(fields: [driverId], references: [id])
+    driverId            String?
+    MotorcycleTry       MotorcycleTry[]
+    MotorcycleIncident  MotorcycleIncident[]
+}
+
+model MotorcycleTry {
+    id           String      @id
+    motorcycle   Motorcycle  @relation(fields: [motorcycleId], references: [licensePlate])
+    motorcycleId String
+    driverSheet  DriverSheet @relation(fields: [driverId], references: [id])
+    driverId     String
+    startDate    DateTime
+    endDate      DateTime
+}
+
+model MotorcycleIncident {
+    id           String      @id
+    description  String
+    motorcycle   Motorcycle  @relation(fields: [motorcycleId], references: [licensePlate])
+    motorcycleId String
+    driverSheet  DriverSheet @relation(fields: [driverId], references: [id])
+    driverId     String
+}
+
+model DriverSheet {
+    id                    String               @unique
+    fullName              String
+    age                   Int
+    email                 String               @unique
+    motorcycleLicenseType String
+    drivingExperience     String
+    motorcycles           Motorcycle[]
+    motorcycleTries       MotorcycleTry[]
+    motorcycleIncidents   MotorcycleIncident[]
 }
 
 model Events {

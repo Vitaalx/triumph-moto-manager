@@ -60,7 +60,10 @@ const commandHandlers = [
 	DeleteMotorcycleCommandHandler,
 ];
 
-const queryHandlers = [GetMotorcycleQueryHandler, GetMotorcyclesQueryHandler];
+const queryHandlers = [
+	GetMotorcycleQueryHandler,
+	GetMotorcyclesQueryHandler,
+];
 
 @Module({
 	imports: [
