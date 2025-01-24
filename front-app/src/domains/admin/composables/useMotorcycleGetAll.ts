@@ -23,7 +23,7 @@ export function useMotorcycleGetAll() {
 
 
 	function getAllMotorcycle() {
-		api.get("motorcycles")
+		api.get("/motorcycles")
 			.then((response) => {
 				const formattedMotorcycles = response.data.motorcycles.map((motorcycle: UnformattedMotorcycle) => {
 					return {
