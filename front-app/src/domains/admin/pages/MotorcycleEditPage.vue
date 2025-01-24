@@ -15,7 +15,7 @@ const { isLoaded, onSubmit } = useMotorcycleEdit(params.value.licensePlate);
 </script>
 
 <template>
-	<AdminSection title="Ajouter une moto">
+	<AdminSection :title="`Modifier la moto ${params.licensePlate}`">
 		<div v-if="!isLoaded">
 			Chargement des données...
 		</div>
