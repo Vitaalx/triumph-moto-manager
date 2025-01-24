@@ -12,7 +12,7 @@ export const motorcycleSchema = z.object({
 	licensePlate: z
 		.string({ message: "L'immatriculation est obligatoire." })
 		.regex(
-			/^[A-HJ-NP-Z]{2}-\d{3}-[A-HJ-NP-Z]{2}$/,
+			/^[A-HJ-NP-Z]{2}-\d{3}-[A-HJ-NP-Z]{2}/,  
 			{ message: "L'immatriculation doit être au format AA-123-BB, sans \"O\" ni \"I\"" }
 		)
 		.min(5, { message: "L'immatriculation doit contenir au moins 5 caractères." })
@@ -24,11 +24,11 @@ export const motorcycleSchema = z.object({
 		.max(new Date().getFullYear(), { message: "L'année ne peut pas être dans le futur." }),
 	price: z
 		.number({ message: "Le prix est obligatoire." })
-		.min(0, { message: "Le prix doit être supérieur ou égal à 0." })
-		.max(1000000, { message: "Le prix doit être inférieur ou égal à 1 000 000." }),
+		.min(1, { message: "Le prix doit être supérieur à 0." })
+		.max(999999, { message: "Le prix doit être inférieur à 1 000 000." }),
 	maintenanceInterval: z
 		.string({ message: "L'intervalle de maintenance est obligatoire." })
-		.regex(/^\d+\s?(km|KM|Km)$/, { message: "L'intervalle de maintenance doit être au format 'X km'." })
+		.regex(/^\d+\s?(km|KM|Km|fois par an)$/, { message: "L'intervalle de maintenance doit être au format 'X km' ou 'X fois par an'." })
 		.min(3, { message: "L'intervalle de maintenance doit être valide." }),
 });
 
