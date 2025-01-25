@@ -17,6 +17,7 @@ export const routerPageNameAdminPanel = Object.freeze({
 	PERMISSION_MANAGEMENT: "permission-management",
 	DRIVER_LIST: "driver-list",
 	DRIVER_ADD: "driver-add",
+	DRIVER_EDIT: "driver-edit",
 	INCIDENT_HISTORY: "incident-history",
 	TRY_MOTORCYCLE_LIST: "try-motorcycle-list",
 	TRY_HISTORY: "try-history",
@@ -107,6 +108,11 @@ export default (): RouteRecordRaw[] => [
 				name: routerPageNameAdminPanel.DRIVER_ADD,
 				path: "/dashboard/driver-add",
 				component: () => import("./pages/DriverAddPage.vue"),
+			},
+			{
+				name: routerPageNameAdminPanel.DRIVER_EDIT,
+				path: "/dashboard/driver-edit/:driverId",
+				component: () => import("./pages/DriverEditPage.vue"),
 			},
 			{
 				name: routerPageNameAdminPanel.INCIDENT_HISTORY,
