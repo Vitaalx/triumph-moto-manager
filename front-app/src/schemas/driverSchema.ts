@@ -26,3 +26,24 @@ export const driverAddSchema = z.object({
 
 export type DriverAdd = z.infer<typeof driverAddSchema>;
 
+export const driverSchema = z.object({
+	id: z
+		.string({ message: "L'identifiant est obligatoire." }),
+	fullName: z
+		.string({ message: "Le nom complet est obligatoire." }),
+	email: z
+		.string({ message: "L'adresse email est obligatoire." })
+		.email({ message: "L'email doit être valide." }),
+	age: z.number(),
+	motorcycleLicenseType: z
+		.string({ message: "Le type de permis est obligatoire." })
+		.regex(/^(A1|A2|A)$/, { message: "Le type de permis doit être A1, A2 ou A." }),
+	drivingExperience: z
+		.string({ message: "L'expérience de conduite est obligatoire." })
+		.regex(/^\d+\s?(an|ans)$/, { message: "L'expérience de conduite doit être au format 'X an(s)'." }),
+	motorcycles: z.array(z.string()),
+	motorcycleTries: z.array(z.string()),
+	incidents: z.array(z.string()),
+});
+
+export type Driver = z.infer<typeof driverSchema>;
