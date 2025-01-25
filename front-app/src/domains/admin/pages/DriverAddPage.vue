@@ -9,6 +9,14 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { TheInput } from "@/components/ui/input";
+import {
+	TheSelect,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 import ButtonPrimary from "@/components/ButtonPrimary.vue";
 
 const { onSubmit } = useDriverAdd();
@@ -104,15 +112,31 @@ const { onSubmit } = useDriverAdd();
 					name="motorcycleLicenseType"
 				>
 					<FormItem>
-						<FormLabel>Type de permis</FormLabel>
+						<FormLabel>Permis</FormLabel>
 
-						<FormControl>
-							<TheInput
-								type="text"
-								placeholder="A"
-								v-bind="componentField"
-							/>
-						</FormControl>
+						<TheSelect v-bind="componentField">
+							<FormControl>
+								<SelectTrigger>
+									<SelectValue placeholder="Sélectionner un type de permis" />
+								</SelectTrigger>
+							</FormControl>
+
+							<SelectContent>
+								<SelectGroup>
+									<SelectItem value="A1">
+										A1
+									</SelectItem>
+
+									<SelectItem value="A2">
+										A2
+									</SelectItem>
+
+									<SelectItem value="A">
+										A
+									</SelectItem>
+								</SelectGroup>
+							</SelectContent>
+						</TheSelect>
 
 						<FormMessage />
 					</FormItem>

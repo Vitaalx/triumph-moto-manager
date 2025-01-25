@@ -26,7 +26,24 @@ export function useMotorcycleAdd() {
 				resetForm();
 			})
 			.catch((error) => {
-				console.log(error);
+				const errorMessage = error.response.data.message;
+
+				switch (errorMessage) {
+				case "motorcycle.alreadyExists":
+					toast({
+						title: "Moto déjà existante",
+						description: "Cette moto existe déjà",
+						variant: "destructive",
+					});
+					break;
+				default:
+					toast({
+						title: "Erreur",
+						description: "Une erreur est survenue lors de l'ajout de la moto",
+						variant: "destructive",
+					});
+					break;
+				}
 			});
 	});
 

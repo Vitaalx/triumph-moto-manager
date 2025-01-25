@@ -5,6 +5,14 @@ import { useDriverEdit } from "../composables/useDriverEdit";
 import AdminSection from "../components/AdminSection.vue";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import TheInput from "@/components/ui/input/TheInput.vue";
+import {
+	TheSelect,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 import ButtonPrimary from "@/components/ButtonPrimary.vue";
 
 const params = useRouteParams({
@@ -65,26 +73,6 @@ const { isLoaded, onSubmit } = useDriverEdit(params.value.driverId);
 				</FormField>
 			</div>
   
-			<!-- <FormField
-				v-slot="{ componentField }"
-				name="licensePlate"
-			>
-				<FormItem>
-					<FormLabel>Immatriculation</FormLabel>
-
-					<FormControl>
-						<TheInput
-							type="text"
-							placeholder="AA-123-BB"
-							v-bind="componentField"
-							disabled
-						/>
-					</FormControl>
-
-					<FormMessage />
-				</FormItem>
-			</FormField> -->
-  
 			<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 				<FormField
 					v-slot="{ componentField }"
@@ -93,13 +81,37 @@ const { isLoaded, onSubmit } = useDriverEdit(params.value.driverId);
 					<FormItem>
 						<FormLabel>Permis</FormLabel>
 
-						<FormControl>
+						<!-- <FormControl>
 							<TheInput
 								type="text"
 								placeholder="A"
 								v-bind="componentField"
 							/>
-						</FormControl>
+						</FormControl> -->
+
+						<TheSelect v-bind="componentField">
+							<FormControl>
+								<SelectTrigger>
+									<SelectValue placeholder="Sélectionner un type de permis" />
+								</SelectTrigger>
+							</FormControl>
+
+							<SelectContent>
+								<SelectGroup>
+									<SelectItem value="A1">
+										A1
+									</SelectItem>
+
+									<SelectItem value="A2">
+										A2
+									</SelectItem>
+
+									<SelectItem value="A">
+										A
+									</SelectItem>
+								</SelectGroup>
+							</SelectContent>
+						</TheSelect>
 
 						<FormMessage />
 					</FormItem>
@@ -124,25 +136,6 @@ const { isLoaded, onSubmit } = useDriverEdit(params.value.driverId);
 					</FormItem>
 				</FormField>
 			</div>
-  
-			<!-- <FormField
-				v-slot="{ componentField }"
-				name="maintenanceInterval"
-			>
-				<FormItem>
-					<FormLabel>Intervalle de maintenance</FormLabel>
-
-					<FormControl>
-						<TheInput
-							type="text"
-							placeholder="6000 km"
-							v-bind="componentField"
-						/>
-					</FormControl>
-
-					<FormMessage />
-				</FormItem>
-			</FormField> -->
   
 			<div class="flex justify-end">
 				<ButtonPrimary type="submit">
