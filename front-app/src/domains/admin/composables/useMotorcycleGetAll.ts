@@ -1,31 +1,14 @@
 import api from "@/lib/axios";
-import type { Motorcycle } from "@/schemas/motorcycleSchema";
+import type { formattedMotorcycle, Motorcycle } from "@/schemas/motorcycleSchema";
 import { ref } from "vue";
 
-interface UnformattedMotorcycle {
-    licensePlate: {
-        value: string;
-    };
-    brand: string;
-    model: string;
-    year: {
-        value: number;
-    };
-    price: {
-        value: number;
-    };
-    maintenanceInterval: string;
-}
-	
-
 export function useMotorcycleGetAll() {
-	const motorcycles = ref<Motorcycle[]>([]);
-
+	const motorcycles = ref<formattedMotorcycle[]>([]);
 
 	function getAllMotorcycle() {
 		api.get("/motorcycles")
 			.then((response) => {
-				const formattedMotorcycles = response.data.motorcycles.map((motorcycle: UnformattedMotorcycle) => {
+				const formattedMotorcycles = response.data.motorcycles.map((motorcycle: Motorcycle) => {
 					return {
 						...motorcycle,
 						licensePlate: motorcycle.licensePlate.value,

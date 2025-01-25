@@ -1,9 +1,10 @@
 import api from "@/lib/axios";
-import type { Motorcycle } from "@/schemas/motorcycleSchema";
+import type { formattedMotorcycle } from "@/schemas/motorcycleSchema";
 import { ref } from "vue";
 
 export function useMotorcycleGet(licensePlate: string) {
-	const motorcycle = ref<Motorcycle>({
+
+	const motorcycle = ref<formattedMotorcycle>({
 		brand: "",
 		model: "",
 		licensePlate: "",

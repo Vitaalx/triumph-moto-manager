@@ -1,6 +1,30 @@
 import { z } from "zod";
 
-export const motorcycleSchema = z.object({
+export interface Motorcycle {
+	brand: string;
+	model: string;
+	licensePlate: {
+		value: string;
+	}
+	year: {
+		value: number;
+	}
+	price: {
+		value: number;
+	}
+	maintenanceInterval: string;
+}
+
+export interface formattedMotorcycle {
+	brand: string;
+	model: string;
+	licensePlate: string;
+	year: number;
+	price: number;
+	maintenanceInterval: string;
+}
+
+export const motorcycleFormSchema = z.object({
 	brand: z
 		.string({ message: "La marque est obligatoire." })
 		.min(2, { message: "La marque doit contenir au moins 2 caractères." })
@@ -31,5 +55,3 @@ export const motorcycleSchema = z.object({
 		.regex(/^\d+\s?(km|KM|Km|fois par an)$/, { message: "L'intervalle de maintenance doit être au format 'X km' ou 'X fois par an'." })
 		.min(3, { message: "L'intervalle de maintenance doit être valide." }),
 });
-
-export type Motorcycle = z.infer<typeof motorcycleSchema>;

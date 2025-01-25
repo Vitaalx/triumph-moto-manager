@@ -1,4 +1,4 @@
-import { motorcycleSchema } from "@/schemas/motorcycleSchema";
+import { motorcycleFormSchema } from "@/schemas/motorcycleSchema";
 import { toTypedSchema } from "@vee-validate/zod";
 import { useMotorcycleGet } from "./useMotorcycleGet";
 import { useForm } from "vee-validate";
@@ -6,7 +6,7 @@ import { ref, watch } from "vue";
 import api from "@/lib/axios";
 import { toast } from "@/components/ui/toast";
 
-const formSchema = toTypedSchema(motorcycleSchema);
+const formSchema = toTypedSchema(motorcycleFormSchema);
 
 export function useMotorcycleEdit(licensePlate: string) {
 	const { motorcycle } = useMotorcycleGet(licensePlate);

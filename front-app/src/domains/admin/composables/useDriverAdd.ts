@@ -3,9 +3,9 @@ import { toast } from "@/components/ui/toast";
 import { toTypedSchema } from "@vee-validate/zod";
 import { useForm } from "vee-validate";
 import { h } from "vue";
-import { driverAddSchema } from "@/schemas/driverSchema";
+import { driverAddFormSchema } from "@/schemas/driverSchema";
 
-const formSchema = toTypedSchema(driverAddSchema);
+const formSchema = toTypedSchema(driverAddFormSchema);
 
 export function useDriverAdd() {
 	const { handleSubmit, resetForm } = useForm({
@@ -13,6 +13,8 @@ export function useDriverAdd() {
 	});
 
 	const onSubmit = handleSubmit((formData) => {
+		console.log(formData);
+
 		api.post("/driver", formData)
 			.then(() => {
 				toast({

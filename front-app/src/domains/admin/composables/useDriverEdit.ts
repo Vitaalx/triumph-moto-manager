@@ -1,4 +1,4 @@
-import { driverSchema } from "@/schemas/driverSchema";
+import { driverUpdateFormSchema } from "@/schemas/driverSchema";
 import { toTypedSchema } from "@vee-validate/zod";
 import { useDriverGet } from "./useDriverGet";
 import { useForm } from "vee-validate";
@@ -6,7 +6,7 @@ import { ref, watch } from "vue";
 import api from "@/lib/axios";
 import { toast } from "@/components/ui/toast";
 
-const formSchema = toTypedSchema(driverSchema);
+const formSchema = toTypedSchema(driverUpdateFormSchema);
 
 export function useDriverEdit(driverId: string) {
 	const { driver } = useDriverGet(driverId);
@@ -21,6 +21,8 @@ export function useDriverEdit(driverId: string) {
 	watch(
 		() => driver.value,
 		(newValue) => {
+			console.log(newValue);
+
 			if (Object.keys(newValue).length > 0) {
 				resetForm({ values: newValue });
 				isLoaded.value = true;
