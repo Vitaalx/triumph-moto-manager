@@ -1,5 +1,5 @@
 export class DriverAlreadyExistError extends Error {
 	public constructor() {
-		super("driver.alreadyExist");
+		super("driver.alreadyExists");
 	}
 }

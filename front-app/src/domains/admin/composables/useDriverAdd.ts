@@ -28,7 +28,24 @@ export function useDriverAdd() {
 				resetForm();
 			})
 			.catch((error) => {
-				console.log(error);
+				const errorMessage = error.response.data.message;
+
+				switch (errorMessage) {
+				case "driver.alreadyExists":
+					toast({
+						title: "Conducteur déjà existant",
+						description: "Ce conducteur existe déjà",
+						variant: "destructive",
+					});
+					break;
+				default:
+					toast({
+						title: "Erreur",
+						description: "Une erreur est survenue lors de l'ajout du conducteur",
+						variant: "destructive",
+					});
+					break;
+				}
 			});
 	});
 
