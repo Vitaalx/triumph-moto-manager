@@ -72,7 +72,7 @@ const adminNavSections: NavSection[] = [
 	},
 	{
 		title: "Gestion des stocks",
-		value: "Stock",
+		value: "stock",
 		items: [
 			{
 				name: "PIECE_LIST", icon: mdiFormatListBulleted, route: PIECE_LIST, label: "Liste des pièces détachées" 
@@ -117,7 +117,7 @@ const adminNavSections: NavSection[] = [
 	},
 	{
 		title: "Gestions des essais",
-		value: "Essais",
+		value: "trials",
 		items: [
 			{
 				name: "TRY_MOTORCYCLE_LIST", icon: mdiMotorbike, route: TRY_MOTORCYCLE_LIST, label: "Motos en essai" 
