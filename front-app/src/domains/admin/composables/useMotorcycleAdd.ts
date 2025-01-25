@@ -3,9 +3,9 @@ import { toast } from "@/components/ui/toast";
 import { toTypedSchema } from "@vee-validate/zod";
 import { useForm } from "vee-validate";
 import { h } from "vue";
-import { motorcycleSchema } from "@/schemas/motorcycleSchema";
+import { motorcycleFormSchema } from "@/schemas/motorcycleSchema";
 
-const formSchema = toTypedSchema(motorcycleSchema);
+const formSchema = toTypedSchema(motorcycleFormSchema);
 
 export function useMotorcycleAdd() {
 	const { handleSubmit, resetForm } = useForm({

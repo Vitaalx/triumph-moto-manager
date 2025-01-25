@@ -1,37 +1,15 @@
 import api from "@/lib/axios";
-import type { Driver } from "@/schemas/driverSchema";
-import type { Motorcycle } from "@/schemas/motorcycleSchema";
+import type { formattedDriver, Driver } from "@/schemas/driverSchema";
 import { ref } from "vue";
 
-interface UnformattedDriver {
-    id: string;
-	fullName: {
-		value: string;
-	},
-	age: {
-		value: number;
-	},
-	email: {
-		value: string;
-	},
-	motorcycleLicenseType: {
-		value: string;
-	},
-	drivingExperience: string;
-	motorcycles: Motorcycle[];
-	motorcycleTries: string[];
-	incidents: string[];
-}
-	
-
 export function useDriverGetAll() {
-	const drivers = ref<Driver[]>([]);
+	const drivers = ref<formattedDriver[]>([]);
 
 
 	function getAllDriver() {
 		api.get("/drivers")
 			.then((response) => {
-				const formattedDrivers = response.data.drivers.map((driver: UnformattedDriver) => {
+				const formattedDrivers = response.data.drivers.map((driver: Driver) => {
 					return {
 						...driver,
 						fullName: driver.fullName.value,

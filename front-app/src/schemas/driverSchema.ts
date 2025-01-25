@@ -1,6 +1,38 @@
 import { z } from "zod";
+import type { Motorcycle } from "./motorcycleSchema";
 
-export const driverAddSchema = z.object({
+export interface Driver {
+	fullName: {
+		value: string;
+	}
+	email: {
+		value: string;
+	}
+	age: {
+		value: number;
+	}
+	motorcycleLicenseType: {
+		value: string;
+	}
+	drivingExperience: string;
+	motorcycles: Motorcycle[];
+	motorcycleTries: [];
+	incidents: [];
+}
+
+export interface formattedDriver {
+	id: string;
+	fullName: string;
+	email: string;
+	age: number;
+	motorcycleLicenseType: string;
+	drivingExperience: string;
+	motorcycles: Motorcycle[];
+	motorcycleTries: [];
+	incidents: [];
+}
+
+export const driverAddFormSchema = z.object({
 	name: z
 		.string({ message: "Le nom est obligatoire." })
 		.min(2, { message: "Le nom doit contenir au moins 2 caractères." })
@@ -24,26 +56,18 @@ export const driverAddSchema = z.object({
 		.regex(/^\d+\s?(an|ans)$/, { message: "L'expérience de conduite doit être au format 'X an(s)'." })
 });
 
-export type DriverAdd = z.infer<typeof driverAddSchema>;
-
-export const driverSchema = z.object({
-	id: z
-		.string({ message: "L'identifiant est obligatoire." }),
-	fullName: z
-		.string({ message: "Le nom complet est obligatoire." }),
+export const driverUpdateFormSchema = z.object({
 	email: z
 		.string({ message: "L'adresse email est obligatoire." })
 		.email({ message: "L'email doit être valide." }),
-	age: z.number(),
+	age: z
+		.number({ message: "L'âge est obligatoire." })
+		.min(16, { message: "L'âge doit être supérieur ou égal à 16 ans." })
+		.max(99, { message: "L'âge ne doit pas dépasser 99 ans." }),
 	motorcycleLicenseType: z
 		.string({ message: "Le type de permis est obligatoire." })
 		.regex(/^(A1|A2|A)$/, { message: "Le type de permis doit être A1, A2 ou A." }),
 	drivingExperience: z
 		.string({ message: "L'expérience de conduite est obligatoire." })
-		.regex(/^\d+\s?(an|ans)$/, { message: "L'expérience de conduite doit être au format 'X an(s)'." }),
-	motorcycles: z.array(z.string()),
-	motorcycleTries: z.array(z.string()),
-	incidents: z.array(z.string()),
+		.regex(/^\d+\s?(an|ans)$/, { message: "L'expérience de conduite doit être au format 'X an(s)'." })
 });
-
-export type Driver = z.infer<typeof driverSchema>;

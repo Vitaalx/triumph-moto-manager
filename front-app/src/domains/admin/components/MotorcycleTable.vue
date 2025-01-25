@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type Motorcycle } from "@/schemas/motorcycleSchema";
+import { type formattedMotorcycle } from "@/schemas/motorcycleSchema";
 import type {
 	ColumnDef,
 	Row,
@@ -42,59 +42,59 @@ import { useMotorcycleGetAll } from "../composables/useMotorcycleGetAll";
 
 const { motorcycles } = useMotorcycleGetAll(); 
 
-const columns: ColumnDef<Motorcycle>[] = [
+const columns: ColumnDef<formattedMotorcycle>[] = [
 	{
 		accessorKey: "licensePlate",
 		id: "licensePlate",
-		header: ({ column }: { column: Column<Motorcycle, unknown> }) => {
+		header: ({ column }: { column: Column<formattedMotorcycle, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
 				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
 			}, () => ["Plaque", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
 		},
-		cell: ({ row }: { row: Row<Motorcycle> }) => h("div", { class: "" }, row.getValue("licensePlate")),
+		cell: ({ row }: { row: Row<formattedMotorcycle> }) => h("div", { class: "" }, row.getValue("licensePlate")),
 	},
 	{
 		accessorKey: "brand",
-		header: ({ column }: { column: Column<Motorcycle, unknown> }) => {
+		header: ({ column }: { column: Column<formattedMotorcycle, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
 				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
 			}, () => ["Marque", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
 		},
-		cell: ({ row }: { row: Row<Motorcycle> }) => h("div", { class: "" }, row.getValue("brand")),
+		cell: ({ row }: { row: Row<formattedMotorcycle> }) => h("div", { class: "" }, row.getValue("brand")),
 	},
 	{
 		accessorKey: "model",
-		header: ({ column }: { column: Column<Motorcycle, unknown> }) => {
+		header: ({ column }: { column: Column<formattedMotorcycle, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
 				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
 			}, () => ["Modèle", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
 		},
-		cell: ({ row }: { row: Row<Motorcycle> }) => h("div", { class: "" }, row.getValue("model")),
+		cell: ({ row }: { row: Row<formattedMotorcycle> }) => h("div", { class: "" }, row.getValue("model")),
 	},
 	{
 		accessorKey: "year",
 		id: "year",
-		header: ({ column }: { column: Column<Motorcycle, unknown> }) => {
+		header: ({ column }: { column: Column<formattedMotorcycle, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
 				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
 			}, () => ["Année", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
 		},
-		cell: ({ row }: { row: Row<Motorcycle> }) => h("div", { class: "" }, row.getValue("year")),
+		cell: ({ row }: { row: Row<formattedMotorcycle> }) => h("div", { class: "" }, row.getValue("year")),
 	},
 	{
 		accessorKey: "price",
 		id: "price",
-		header: ({ column }: { column: Column<Motorcycle, unknown> }) => {
+		header: ({ column }: { column: Column<formattedMotorcycle, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
 				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
 			}, () => ["Prix", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
 		},
-		cell: ({ row }: { row: Row<Motorcycle> }) => {
+		cell: ({ row }: { row: Row<formattedMotorcycle> }) => {
 			const price = Number.parseFloat(row.getValue("price"));
 
 			// Format the price as a euro price
@@ -109,18 +109,18 @@ const columns: ColumnDef<Motorcycle>[] = [
 
 	{
 		accessorKey: "maintenanceInterval",
-		header: ({ column }: { column: Column<Motorcycle, unknown> }) => {
+		header: ({ column }: { column: Column<formattedMotorcycle, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
 				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
 			}, () => ["Int. de maintenance", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
 		},
-		cell: ({ row }: { row: Row<Motorcycle> }) => h("div", { class: "" }, row.getValue("maintenanceInterval")),
+		cell: ({ row }: { row: Row<formattedMotorcycle> }) => h("div", { class: "" }, row.getValue("maintenanceInterval")),
 	},
 	{
 		id: "actions",
 		enableHiding: false,
-		cell: ({ row }: { row: Row<Motorcycle> }) => {
+		cell: ({ row }: { row: Row<formattedMotorcycle> }) => {
 			const motorcycle = row.original;
 
 			return h("div", { class: "relative" }, h(MotorcycleTableDropdownAction, {
@@ -208,7 +208,7 @@ const table = useVueTable({
 
 				<DropdownMenuContent align="end">
 					<DropdownMenuCheckboxItem
-						v-for="column in table.getAllColumns().filter((column: Column<Motorcycle, unknown>) => column.getCanHide())"
+						v-for="column in table.getAllColumns().filter((column: Column<formattedMotorcycle, unknown>) => column.getCanHide())"
 						:key="column.id"
 						class="capitalize"
 						:checked="column.getIsVisible()"
