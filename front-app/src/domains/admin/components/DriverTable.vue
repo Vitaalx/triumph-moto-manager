@@ -5,7 +5,6 @@ import type {
 	Row,
 	Column,
 	ColumnFiltersState,
-	ExpandedState,
 	SortingState,
 	VisibilityState,
 } from "@tanstack/vue-table";
@@ -29,7 +28,6 @@ import { valueUpdater } from "@lib/utils";
 import {
 	FlexRender,
 	getCoreRowModel,
-	getExpandedRowModel,
 	getFilteredRowModel,
 	getPaginationRowModel,
 	getSortedRowModel,
@@ -105,7 +103,6 @@ const columns: ColumnDef<formattedDriver>[] = [
 			return h("div", { class: "relative" }, h(DriverTableDropdownAction, {
 				driverId: driver.id,
 				email: driver.email,
-				onExpand: row.toggleExpanded,
 			}));
 		},
 	}
@@ -115,7 +112,6 @@ const sorting = ref<SortingState>([]);
 const columnFilters = ref<ColumnFiltersState>([]);
 const columnVisibility = ref<VisibilityState>({});
 const rowSelection = ref({});
-const expanded = ref<ExpandedState>({});
 const globalFilter = ref("");
 
 const table = useVueTable({
@@ -125,7 +121,6 @@ const table = useVueTable({
 	getPaginationRowModel: getPaginationRowModel(),
 	getSortedRowModel: getSortedRowModel(),
 	getFilteredRowModel: getFilteredRowModel(),
-	getExpandedRowModel: getExpandedRowModel(),
 	onSortingChange: (
 		updaterOrValue: SortingState | ((prev: SortingState) => SortingState)
 	) => valueUpdater(updaterOrValue, sorting),
@@ -142,10 +137,6 @@ const table = useVueTable({
 		updaterOrValue: Record<string, boolean> | ((prev: Record<string, boolean>) => Record<string, boolean>)
 	) => valueUpdater(updaterOrValue, rowSelection),
 
-	onExpandedChange: (
-		updaterOrValue: ExpandedState | ((prev: ExpandedState) => ExpandedState)
-	) => valueUpdater(updaterOrValue, expanded),
-
 	onGlobalFilterChange: (
 		updaterOrValue: string | ((prev: string) => string)
 	) => valueUpdater(updaterOrValue, globalFilter),
@@ -155,7 +146,6 @@ const table = useVueTable({
 		get columnFilters() { return columnFilters.value; },
 		get columnVisibility() { return columnVisibility.value; },
 		get rowSelection() { return rowSelection.value; },
-		get expanded() { return expanded.value; },
 		get globalFilter() { return globalFilter.value; },
 	},
 	globalFilterFn: (row, columnId, filterValue) => {
@@ -237,12 +227,6 @@ const table = useVueTable({
 										:render="cell.column.columnDef.cell"
 										:props="cell.getContext()"
 									/>
-								</TableCell>
-							</TableRow>
-
-							<TableRow v-if="row.getIsExpanded()">
-								<TableCell :colspan="row.getAllCells().length">
-									{{ JSON.stringify(row.original) }}
 								</TableCell>
 							</TableRow>
 						</template>

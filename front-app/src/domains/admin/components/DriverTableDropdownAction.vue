@@ -10,10 +10,10 @@ import {
 	DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-vue-next";
-import { ref } from "vue";
+// import { ref } from "vue";
 import { useDriverDelete } from "../composables/useDriverDelete";
 
-const { DRIVER_EDIT } = routerPageName;
+const { DRIVER_PAGE, DRIVER_EDIT } = routerPageName;
 
 interface Props {
 	driverId: string
@@ -22,19 +22,19 @@ interface Props {
 
 defineProps<Props>();
 
-const emit = defineEmits<(e: "expand") => void>();
+// const emit = defineEmits<(e: "expand") => void>();
 
-const isExpanded = ref(false);
+// const isExpanded = ref(false);
 const { deleteDriver } = useDriverDelete();
 
 function copy(email: string) {
 	navigator.clipboard.writeText(email);
 }
 
-function toggleExpand() {
-	isExpanded.value = !isExpanded.value;
-	emit("expand");
-}
+// function toggleExpand() {
+// 	isExpanded.value = !isExpanded.value;
+// 	emit("expand");
+// }
 
 function handleDeleteMotorcycle(driverId: string) {
 	deleteDriver(driverId);
@@ -65,11 +65,20 @@ function handleDeleteMotorcycle(driverId: string) {
 				Copier l'email
 			</DropdownMenuItem>
 
-			<DropdownMenuItem
+			<!-- <DropdownMenuItem
 				@click="toggleExpand"
 				class="cursor-pointer"
 			>
 				{{ isExpanded ? "Réduire" : "Développer" }}
+			</DropdownMenuItem> -->
+
+			<DropdownMenuItem>
+				<RouterLink
+					:to="{ name: DRIVER_PAGE, params: { driverId } }"
+					class="cursor-pointer"
+				>
+					Voir
+				</RouterLink>
 			</DropdownMenuItem>
 
 			<DropdownMenuItem>

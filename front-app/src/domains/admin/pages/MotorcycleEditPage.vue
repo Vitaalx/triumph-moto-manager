@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useRouteParams } from "@/composables/useRouteParams";
+import { routerPageName } from "@/router/routerPageName";
 import { z } from "zod";
 import { useMotorcycleEdit } from "../composables/useMotorcycleEdit";
 import AdminSection from "../components/AdminSection.vue";
@@ -10,12 +11,15 @@ import ButtonPrimary from "@/components/ButtonPrimary.vue";
 const params = useRouteParams({
 	licensePlate: z.string(),
 });
-
+const { MOTORCYCLE_LIST } = routerPageName;
 const { isLoaded, onSubmit } = useMotorcycleEdit(params.value.licensePlate);
 </script>
 
 <template>
-	<AdminSection :title="`Modifier la moto ${params.licensePlate}`">
+	<AdminSection
+		:title="`Modifier la moto ${params.licensePlate}`"
+		:back-to="MOTORCYCLE_LIST"
+	>
 		<div v-if="!isLoaded">
 			Chargement des données...
 		</div>
