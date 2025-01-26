@@ -35,8 +35,8 @@ export class DriverSheetWithDetailsMapper implements EntityMapper<DriverSheetWit
 			new MotorcycleLicensePlate(motorcycle.licensePlate),
 			motorcycle.brand,
 			motorcycle.model,
-			new MotorcyclePrice(motorcycle.price),
 			new MotorcycleYear(motorcycle.year),
+			new MotorcyclePrice(motorcycle.price),
 			motorcycle.maintenanceInterval,
 		));
 
