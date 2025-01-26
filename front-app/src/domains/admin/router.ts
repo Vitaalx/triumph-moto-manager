@@ -20,8 +20,10 @@ export const routerPageNameAdminPanel = Object.freeze({
 	DRIVER_ADD: "driver-add",
 	DRIVER_EDIT: "driver-edit",
 	INCIDENT_HISTORY: "incident-history",
-	TRY_MOTORCYCLE_LIST: "try-motorcycle-list",
-	TRY_HISTORY: "try-history",
+	TRY_MOTORCYCLE_CURRENT_LIST: "try-motorcycle-current-list",
+	TRY_MOTORCYCLE_INCOMING_LIST: "try-motorcycle-incoming-list",
+	TRY_MOTORCYCLE_HISTORY: "try-history",
+	TRY_MOTORCYCLE_ADD: "try-motorcycle-add",
 	TROUBLESHOOTING_ADD: "troubleshooting-add",
 });
 
@@ -126,12 +128,22 @@ export default (): RouteRecordRaw[] => [
 				component: () => import("./pages/IncidentHistoryPage.vue"),
 			},
 			{
-				name: routerPageNameAdminPanel.TRY_MOTORCYCLE_LIST,
+				name: routerPageNameAdminPanel.TRY_MOTORCYCLE_CURRENT_LIST,
 				path: "/dashboard/try-motorcycle-list",
 				component: () => import("./pages/TryMotorcycleListPage.vue"),
 			},
 			{
-				name: routerPageNameAdminPanel.TRY_HISTORY,
+				name: routerPageNameAdminPanel.TRY_MOTORCYCLE_INCOMING_LIST,
+				path: "/dashboard/try-motorcycle-incoming-list",
+				component: () => import("./pages/TryMotorcycleIncomingListPage.vue"),
+			},
+			{
+				name: routerPageNameAdminPanel.TRY_MOTORCYCLE_ADD,
+				path: "/dashboard/try-motorcycle-add",
+				component: () => import("./pages/TryMotorcycleAddPage.vue"),
+			},
+			{
+				name: routerPageNameAdminPanel.TRY_MOTORCYCLE_HISTORY,
 				path: "/dashboard/try-history",
 				component: () => import("./pages/TryHistoryPage.vue"),
 			},

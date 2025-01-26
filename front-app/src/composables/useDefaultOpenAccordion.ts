@@ -20,8 +20,10 @@ export function useDefaultOpenAccordion() {
 		DRIVER_LIST,
 		DRIVER_ADD,
 		INCIDENT_HISTORY,
-		TRY_MOTORCYCLE_LIST,
-		TRY_HISTORY,
+		TRY_MOTORCYCLE_CURRENT_LIST,
+		TRY_MOTORCYCLE_INCOMING_LIST,
+		TRY_MOTORCYCLE_HISTORY,
+		TRY_MOTORCYCLE_ADD,
 		TROUBLESHOOTING_ADD
 	} = routerPageName;
 
@@ -44,9 +46,11 @@ export function useDefaultOpenAccordion() {
 			[DRIVER_LIST]: "users",
 			[DRIVER_ADD]: "users",
 			[INCIDENT_HISTORY]: "users",
-			[TRY_MOTORCYCLE_LIST]: "trials",
-			[TRY_HISTORY]: "trials",
-			[TROUBLESHOOTING_ADD]: "trials"
+			[TRY_MOTORCYCLE_CURRENT_LIST]: "Essais",
+			[TRY_MOTORCYCLE_INCOMING_LIST]: "Essais",
+			[TRY_MOTORCYCLE_HISTORY]: "Essais",
+			[TRY_MOTORCYCLE_ADD]: "Essais",
+			[TROUBLESHOOTING_ADD]: "Essais"
 		};
 
 		return routeCategoryMap[routeName] || "";

@@ -3,5 +3,5 @@ import AdminSection from "../components/AdminSection.vue";
 </script>
 
 <template>
-	<AdminSection title="Essais moto en cours" />
+	<AdminSection title="Essais moto à venir" />
 </template>
