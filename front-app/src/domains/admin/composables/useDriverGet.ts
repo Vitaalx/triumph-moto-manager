@@ -15,6 +15,8 @@ export function useDriverGet(driverId: string) {
 		incidents: [],
 	});
 
+	const isLoading = ref(true);
+
 	function getDriver() {
 		api.get(`/driver/${driverId}`)
 			.then((response) => {
@@ -31,12 +33,16 @@ export function useDriverGet(driverId: string) {
 			})
 			.catch((error) => {
 				console.error(error);
+			})
+			.finally(() => {
+				isLoading.value = false;
 			});
 	}
 
 	getDriver();
 
 	return {
+		isLoading,
 		driver,
 		getDriver,
 	};
