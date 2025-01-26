@@ -17,7 +17,7 @@ import { GetMotorcycleQuery } from "@application/queries/definitions/get-motorcy
 import { MotorcycleNotFoundError } from "@domain/errors/motorcycle/motorcycle-not-found";
 import { MotorcycleNotFoundHttpException } from "../exceptions/motorcycle/motorcycle-not-found";
 import { DeleteMotorcycleCommand } from "@application/command/definitions/delete-motorcycle";
-import { UpdateMotorcycleCommand } from "@application/command/definitions/update-motorcycle-command";
+import { UpdateMotorcycleCommand } from "@application/command/definitions/update-motorcycle";
 import { UpdateMotorcycleDto } from "../dtos/motorcycle/update";
 import { GetMotorcyclesQuery } from "@application/queries/definitions/get-motorcycles-query";
 

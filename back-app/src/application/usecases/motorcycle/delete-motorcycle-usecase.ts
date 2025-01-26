@@ -32,14 +32,14 @@ export class DeleteMotorcycleUsecase {
 				licensePlate: motorcycle.licensePlate.value,
 				brand: motorcycle.brand,
 				model: motorcycle.model,
-				year: motorcycle.year.value,
-				price: motorcycle.price.value,
+				year: motorcycle.year,
+				price: motorcycle.price,
 				maintenanceInterval: motorcycle.maintenanceInterval,
 			},
 		};
 
 		await this.eventStoreRepository.publish(event);
 
-		await this.motorcycleRepository.delete(motorcycleLicensePlate);
+		return this.motorcycleRepository.delete(motorcycleLicensePlate);
 	}
 }

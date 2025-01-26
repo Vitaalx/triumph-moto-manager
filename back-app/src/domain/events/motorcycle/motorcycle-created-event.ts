@@ -1,11 +1,14 @@
+import { type MotorcycleLicensePlate } from "@domain/types/license-plate";
 import { type EventGeneric } from "../event-generic";
+import { type MotorcyclePrice } from "@domain/types/motorcycle-price";
+import { type MotorcycleYear } from "@domain/types/motorcycle-year";
 
 interface MotorcycleCreatedEventData {
-	readonly licensePlate: string;
+	readonly licensePlate: MotorcycleLicensePlate;
 	readonly brand: string;
 	readonly model: string;
-	readonly year: number;
-	readonly price: number;
+	readonly year: MotorcycleYear;
+	readonly price: MotorcyclePrice;
 	readonly maintenanceInterval: string;
 }
 

@@ -3,13 +3,12 @@ import { type Event } from "@domain/events/event-generic";
 
 export class EventStoreRepository implements IEventStoreRepository {
 	public async publish(event: Event): Promise<void> {
+		//TODO save in mongodb (NoSQL) instead of prisma (postgreSQL)
 		await prisma.events.create({
 			data: {
 				identifier: event.identifier,
 				type: event.type,
-				data: {
-					...event.data,
-				},
+				data: JSON.stringify(event.data),
 				version: event.version,
 			},
 		});

@@ -6,6 +6,7 @@ import { AuthModule } from "./modules/auth.module";
 import { AppInitializerModule } from "./modules/app-initializer.module";
 import { MotorcycleModule } from "./modules/motorcycle.module";
 import { DriverModule } from "./modules/driver.module";
+import { MotorcycleTryModule } from "./modules/motorcycle-try.module";
 
 @Module({
 	providers: [
@@ -18,6 +19,7 @@ import { DriverModule } from "./modules/driver.module";
 		AuthModule,
 		MotorcycleModule,
 		DriverModule,
+		MotorcycleTryModule,
 		AppInitializerModule,
 	],
 })

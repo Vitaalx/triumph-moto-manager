@@ -57,15 +57,15 @@ export class UpdateDriverUsecase {
 			type: "DRIVER_UPDATED",
 			version: 1,
 			data: {
-				email: driver.email.value,
+				email: driver.email,
 				age: driver.age.value,
-				motorcycleLicenseType: driver.motorcycleLicenseType.value,
+				motorcycleLicenseType: driver.motorcycleLicenseType,
 				drivingExperience: driver.drivingExperience,
 			},
 		};
 
 		await this.eventStore.publish(event);
 
-		await this.driverRepository.updateById(driverId, driver);
+		return this.driverRepository.updateById(driverId, driver);
 	}
 }

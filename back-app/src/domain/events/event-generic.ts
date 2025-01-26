@@ -1,4 +1,5 @@
 import { type DriverEvent } from "./driver/driver-event";
+import { type MotorcycleTryEvent } from "./motorcycle-try/motorcycle-try-event";
 import { type MotorcycleEvent } from "./motorcycle/motorcycle-event";
 
 export interface EventGeneric<Type, Version, Data> {
@@ -9,4 +10,4 @@ export interface EventGeneric<Type, Version, Data> {
 	readonly data: Data;
 }
 
-export type Event = MotorcycleEvent | DriverEvent;
+export type Event = MotorcycleEvent | DriverEvent | MotorcycleTryEvent;

@@ -43,17 +43,16 @@ export class CreateDriverUsecase {
 			type: "DRIVER_CREATED",
 			version: 1,
 			data: {
-				name: driverSheet.fullName.value,
-				firstname: driverSheet.fullName.value,
+				fullName: driverSheet.fullName,
 				age: driverSheet.age.value,
-				email: driverSheet.email.value,
-				motorcycleLicenseType: driverSheet.motorcycleLicenseType.value,
+				email: driverSheet.email,
+				motorcycleLicenseType: driverSheet.motorcycleLicenseType,
 				drivingExperience: driverSheet.drivingExperience,
 			},
 		};
 
 		await this.eventStore.publish(event);
 
-		await this.driverRepository.save(driverSheet);
+		return this.driverRepository.save(driverSheet);
 	}
 }

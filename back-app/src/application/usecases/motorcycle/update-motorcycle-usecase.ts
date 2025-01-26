@@ -58,14 +58,14 @@ export class UpdateMotorcycleUsecase {
 			data: {
 				brand: motorcycle.brand,
 				model: motorcycle.model,
-				year: motorcycle.year.value,
-				price: motorcycle.price.value,
+				year: motorcycle.year,
+				price: motorcycle.price,
 				maintenanceInterval: motorcycle.maintenanceInterval,
 			},
 		};
 
 		await this.eventStore.publish(event);
 
-		await this.motorcycleRepository.updateByLicensePlate(motorcycleLicensePlate, motorcycle);
+		return this.motorcycleRepository.updateByLicensePlate(motorcycleLicensePlate, motorcycle);
 	}
 }

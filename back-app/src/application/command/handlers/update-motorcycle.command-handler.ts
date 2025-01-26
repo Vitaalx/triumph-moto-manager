@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
-import { UpdateMotorcycleCommand } from "../definitions/update-motorcycle-command";
+import { UpdateMotorcycleCommand } from "../definitions/update-motorcycle";
 import { UpdateMotorcycleUsecase } from "@application/usecases/motorcycle/update-motorcycle-usecase";
 
 @CommandHandler(UpdateMotorcycleCommand)

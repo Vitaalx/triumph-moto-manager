@@ -43,7 +43,7 @@ export class DriverSheetWithDetailsMapper implements EntityMapper<DriverSheetWit
 		const motorcyclesTries = entity.motorcycleTries.map((motorcycleTry) => new MotorcycleTryEntity(
 			motorcycleTry.id,
 			motorcycleTry.driverId,
-			motorcycleTry.motorcycleId,
+			new MotorcycleLicensePlate(motorcycleTry.motorcycleId),
 			motorcycleTry.startDate,
 			motorcycleTry.endDate,
 		));

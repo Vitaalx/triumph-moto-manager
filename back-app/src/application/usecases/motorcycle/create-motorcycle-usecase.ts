@@ -43,17 +43,17 @@ export class CreateMotorcycleUsecase {
 			type: "MOTORCYCLE_CREATED",
 			version: 1,
 			data: {
-				licensePlate: motorcycle.licensePlate.value,
+				licensePlate: motorcycle.licensePlate,
 				brand: motorcycle.brand,
 				model: motorcycle.model,
-				year: motorcycle.year.value,
-				price: motorcycle.price.value,
+				year: motorcycle.year,
+				price: motorcycle.price,
 				maintenanceInterval: motorcycle.maintenanceInterval,
 			},
 		};
 
 		await this.eventStore.publish(event);
 
-		await this.motorcycleRepository.save(motorcycle);
+		return this.motorcycleRepository.save(motorcycle);
 	}
 }

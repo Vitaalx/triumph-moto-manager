@@ -16,7 +16,7 @@ import { DriverNotFoundError } from "@domain/errors/driver/driver-not-found";
 import { DriverNotFoundHttpException } from "../exceptions/driver/driver-not-found";
 import { GetDriversQuery } from "@application/queries/definitions/get-drivers-query";
 import { UpdateDriverDto } from "../dtos/driver/update";
-import { UpdateDriverCommand } from "@application/command/definitions/update-driver-command";
+import { UpdateDriverCommand } from "@application/command/definitions/update-driver";
 import { DeleteDriverCommand } from "@application/command/definitions/delete-driver";
 import { InvalidEmailError } from "@domain/errors/invalid-email-error";
 import { InvalidEmailHttpException } from "../exceptions/invalid-email";

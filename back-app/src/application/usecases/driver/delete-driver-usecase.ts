@@ -22,15 +22,15 @@ export class DeleteDriverUsecase {
 			type: "DRIVER_DELETED",
 			version: 1,
 			data: {
-				fullName: driver.fullName.value,
+				fullName: driver.fullName,
 				age: driver.age.value,
-				motorcycleLicenseType: driver.motorcycleLicenseType.value,
+				motorcycleLicenseType: driver.motorcycleLicenseType,
 				drivingExperience: driver.drivingExperience,
 			},
 		};
 
 		await this.eventStore.publish(event);
 
-		await this.driverRepository.delete(driver);
+		return this.driverRepository.delete(driver);
 	}
 }

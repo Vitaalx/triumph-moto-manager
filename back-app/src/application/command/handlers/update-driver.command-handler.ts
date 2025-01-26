@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
-import { UpdateDriverCommand } from "../definitions/update-driver-command";
+import { UpdateDriverCommand } from "../definitions/update-driver";
 import { UpdateDriverUsecase } from "@application/usecases/driver/update-driver-usecase";
 
 @CommandHandler(UpdateDriverCommand)
