@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { routerPageName } from "@/router/routerPageName";
 import { useMotorcycleAdd } from "../composables/useMotorcycleAdd";
 import AdminSection from "../components/AdminSection.vue";
 import {
@@ -11,11 +12,15 @@ import {
 import { TheInput } from "@/components/ui/input";
 import ButtonPrimary from "@/components/ButtonPrimary.vue";
 
+const { MOTORCYCLE_LIST } = routerPageName;
 const { onSubmit } = useMotorcycleAdd();
 </script>
 
 <template>
-	<AdminSection title="Ajouter une moto">
+	<AdminSection 
+		title="Ajouter une moto"
+		:back-to="MOTORCYCLE_LIST"
+	>
 		<form
 			@submit="onSubmit"
 			class="space-y-6"

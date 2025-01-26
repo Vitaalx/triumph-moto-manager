@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useRouteParams } from "@/composables/useRouteParams";
+import { routerPageName } from "@/router/routerPageName";
 import { z } from "zod";
 import { useDriverEdit } from "../composables/useDriverEdit";
 import AdminSection from "../components/AdminSection.vue";
@@ -18,12 +19,15 @@ import ButtonPrimary from "@/components/ButtonPrimary.vue";
 const params = useRouteParams({
 	driverId: z.string(),
 });
-
+const { DRIVER_LIST } = routerPageName;
 const { isLoaded, onSubmit } = useDriverEdit(params.value.driverId);
 </script>
 
 <template>
-	<AdminSection title="Modifier le conducteur">
+	<AdminSection
+		title="Modifier le conducteur"
+		:back-to="DRIVER_LIST"
+	>
 		<div v-if="!isLoaded">
 			Chargement des données...
 		</div>

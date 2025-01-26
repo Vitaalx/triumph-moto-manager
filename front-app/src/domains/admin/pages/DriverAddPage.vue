@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { routerPageName } from "@/router/routerPageName";
 import { useDriverAdd } from "../composables/useDriverAdd";
 import AdminSection from "../components/AdminSection.vue";
 import {
@@ -19,11 +20,15 @@ import {
 } from "@/components/ui/select";
 import ButtonPrimary from "@/components/ButtonPrimary.vue";
 
+const { DRIVER_LIST } = routerPageName;
 const { onSubmit } = useDriverAdd();
 </script>
 
 <template>
-	<AdminSection title="Ajouter un conducteur">
+	<AdminSection
+		title="Ajouter un conducteur"
+		:back-to="DRIVER_LIST"
+	>
 		<form
 			@submit="onSubmit"
 			class="space-y-6"
