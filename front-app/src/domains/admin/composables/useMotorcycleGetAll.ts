@@ -4,6 +4,7 @@ import { ref } from "vue";
 
 export function useMotorcycleGetAll() {
 	const motorcycles = ref<formattedMotorcycle[]>([]);
+	const isLoading = ref(true);
 
 	function getAllMotorcycle() {
 		api.get("/motorcycles")
@@ -21,12 +22,16 @@ export function useMotorcycleGetAll() {
 			})
 			.catch((error) => {
 				console.error(error);
+			})
+			.finally(() => {
+				isLoading.value = false;
 			});
 	}
 
 	getAllMotorcycle();
 
 	return {
+		isLoading,
 		motorcycles,
 		getAllMotorcycle,
 	};

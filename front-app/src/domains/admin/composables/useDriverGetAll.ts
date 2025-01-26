@@ -4,7 +4,7 @@ import { ref } from "vue";
 
 export function useDriverGetAll() {
 	const drivers = ref<formattedDriver[]>([]);
-
+	const isLoading = ref(true);
 
 	function getAllDriver() {
 		api.get("/drivers")
@@ -23,12 +23,16 @@ export function useDriverGetAll() {
 			})
 			.catch((error) => {
 				console.error(error);
+			})
+			.finally(() => {
+				isLoading.value = false;
 			});
 	}
 
 	getAllDriver();
 
 	return {
+		isLoading,
 		drivers,
 		getAllDriver,
 	};
