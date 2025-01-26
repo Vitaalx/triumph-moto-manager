@@ -46,11 +46,11 @@ export function useDefaultOpenAccordion() {
 			[DRIVER_LIST]: "users",
 			[DRIVER_ADD]: "users",
 			[INCIDENT_HISTORY]: "users",
-			[TRY_MOTORCYCLE_CURRENT_LIST]: "Essais",
-			[TRY_MOTORCYCLE_INCOMING_LIST]: "Essais",
-			[TRY_MOTORCYCLE_HISTORY]: "Essais",
-			[TRY_MOTORCYCLE_ADD]: "Essais",
-			[TROUBLESHOOTING_ADD]: "Essais"
+			[TRY_MOTORCYCLE_CURRENT_LIST]: "trials",
+			[TRY_MOTORCYCLE_INCOMING_LIST]: "trials",
+			[TRY_MOTORCYCLE_HISTORY]: "trials",
+			[TRY_MOTORCYCLE_ADD]: "trials",
+			[TROUBLESHOOTING_ADD]: "trials"
 		};
 
 		return routeCategoryMap[routeName] || "";

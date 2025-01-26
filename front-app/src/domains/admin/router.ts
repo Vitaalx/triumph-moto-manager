@@ -129,7 +129,7 @@ export default (): RouteRecordRaw[] => [
 			},
 			{
 				name: routerPageNameAdminPanel.TRY_MOTORCYCLE_CURRENT_LIST,
-				path: "/dashboard/try-motorcycle-list",
+				path: "/dashboard/try-motorcycle-current-list",
 				component: () => import("./pages/TryMotorcycleListPage.vue"),
 			},
 			{
