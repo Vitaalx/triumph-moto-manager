@@ -6,17 +6,6 @@ export function useMotorcycleGetAll() {
 	const motorcycles = ref<formattedMotorcycle[]>([]);
 	const isLoading = ref(true);
 
-	const fakeData = ref<formattedMotorcycle[]>([ // TODO: remove this when works whith real data
-		{
-			brand: "Yamaha",
-			model: "MT-07",
-			licensePlate: "AA-123-BB",
-			year: 2020,
-			price: 7500,
-			maintenanceInterval: "6000 km",
-		}
-	]);
-
 	function getAllMotorcycle() {
 		api.get("/motorcycles")
 			.then((response) => {
@@ -35,7 +24,6 @@ export function useMotorcycleGetAll() {
 				console.error(error);
 			})
 			.finally(() => {
-				motorcycles.value = fakeData.value; // TODO: try with real data
 				isLoading.value = false;
 			});
 	}

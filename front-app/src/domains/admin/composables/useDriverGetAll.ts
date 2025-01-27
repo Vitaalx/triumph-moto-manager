@@ -6,20 +6,6 @@ export function useDriverGetAll() {
 	const drivers = ref<formattedDriver[]>([]);
 	const isLoading = ref(true);
 
-	const fakeData = ref<formattedDriver[]>([ // TODO: remove this when works whith real data
-		{
-			id: "driver-id",
-			fullName: "Obo Bob",
-			email: "bobo@gmai.com",
-			age: 28,
-			motorcycleLicenseType: "A",
-			drivingExperience: "3 ans",
-			motorcycles: [],
-			motorcycleTries: [],
-			incidents: [],
-		}
-	]);
-
 	function getAllDriver() {
 		api.get("/drivers")
 			.then((response) => {
@@ -39,7 +25,6 @@ export function useDriverGetAll() {
 				console.error(error);
 			})
 			.finally(() => {
-				drivers.value = fakeData.value; // TODO: try with real data
 				isLoading.value = false;
 			});
 	}

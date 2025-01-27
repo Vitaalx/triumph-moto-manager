@@ -20,7 +20,7 @@ export function useMotorcycleTrialAdd() {
 	});
 
 	const onSubmit = handleSubmit((formData) => {
-		api.post("/motorcycle-try", formData)
+		api.post("/motorcycle-try", formData) // TODO: Test when implemented
 			.then(() => {
 				toast({
 					title: "Essai moto ajouté",
@@ -37,7 +37,7 @@ export function useMotorcycleTrialAdd() {
 
 				toast({
 					title: "Erreur",
-					description: `Une erreur est survenue lors de l'ajout de l'essai moto: ${errorMessage}`,
+					description: `Une erreur est survenue lors de l'ajout de l'essai : ${errorMessage}`,
 					variant: "destructive",
 				});
 			});
