@@ -1,121 +1,229 @@
 <script setup lang="ts">
-import ButtonPrimary from "@/components/ButtonPrimary.vue";
-import { TheCalendar } from "@/components/ui/calendar";
+import { routerPageName } from "@/router/routerPageName";
+import { useDriverGetAll } from "../composables/useDriverGetAll";
+import { useMotorcycleGetAll } from "../composables/useMotorcycleGetAll";
+import { useMotorcycleTrialAdd } from "../composables/useMotorcycleTrialAdd";
+import AdminSection from "../components/AdminSection.vue";
 import {
 	FormControl,
-	FormDescription,
 	FormField,
 	FormItem,
 	FormLabel,
 	FormMessage,
 } from "@/components/ui/form";
+import {
+	TheSelect,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
+import ButtonPrimary from "@/components/ButtonPrimary.vue";
+import { TheCalendar } from "@/components/ui/calendar";
 import { ThePopover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { toast } from "@/components/ui/toast";
 import { cn } from "@lib/utils";
-import { CalendarDate, DateFormatter, getLocalTimeZone, parseDate, today } from "@internationalized/date";
-import { toTypedSchema } from "@vee-validate/zod";
+import { DateFormatter, getLocalTimeZone, parseDate, today, type DateValue } from "@internationalized/date";
 import { Calendar as CalendarIcon } from "lucide-vue-next";
 import { toDate } from "radix-vue/date";
-import { useForm } from "vee-validate";
-import { computed, h, ref } from "vue";
-import { z } from "zod";
-import AdminSection from "../components/AdminSection.vue";
+import { computed, ref } from "vue";
 
-const df = new DateFormatter("en-US", {
+const { TRY_MOTORCYCLE_CURRENT_LIST } = routerPageName;
+const { drivers, isLoading: isDriversLoading } = useDriverGetAll();
+const { motorcycles, isLoading: isMotorcyclesLoading } = useMotorcycleGetAll();
+const { onSubmit, values, setFieldValue } = useMotorcycleTrialAdd();
+
+const df = new DateFormatter("fr-FR", {
 	dateStyle: "long",
 });
 
-const formSchema = toTypedSchema(z.object({
-	dob: z
-		.string()
-		.refine(v => v, { message: "A date of birth is required." }),
-}));
+const startDatePlaceholder = ref<DateValue>();
+const endDatePlaceholder = ref<DateValue>();
 
-const placeholder = ref();
-
-const { handleSubmit, setFieldValue, values } = useForm({
-	validationSchema: formSchema,
-	initialValues: {
-
-	},
-});
-
-const value = computed({
-	get: () => values.dob ? parseDate(values.dob) : undefined,
+const startDate = computed({
+	get: () => values.startDate ? parseDate(values.startDate) : undefined,
 	set: val => val,
 });
 
-const onSubmit = handleSubmit((values) => {
-	toast({
-		title: "You submitted the following values:",
-		description: h("pre",
-			{ class: "mt-2 w-[340px] rounded-md bg-slate-950 p-4" },
-			h("code", { class: "text-white" }, JSON.stringify(values, null, 2))),
-	});
+const endDate = computed({
+	get: () => values.endDate ? parseDate(values.endDate) : undefined,
+	set: val => val,
 });
 </script>
 
 <template>
-	<AdminSection title="Ajout d'un essai moto">
+	<AdminSection
+		title="Ajout d'un essai moto"
+		:back-to="TRY_MOTORCYCLE_CURRENT_LIST"
+	>
+		<div v-if="isDriversLoading || isMotorcyclesLoading">
+			Chargement des données...
+		</div>
+
 		<form
-			class="space-y-8"
+			v-else
 			@submit="onSubmit"
+			class="space-y-6"
 		>
-			<FormField name="dob">
-				<FormItem class="flex flex-col">
-					<FormLabel>Date of birth</FormLabel>
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+				<FormField
+					v-slot="{ componentField }"
+					name="driver"
+				>
+					<FormItem>
+						<FormLabel>Pilote</FormLabel>
 
-					<ThePopover>
-						<PopoverTrigger as-child>
+						<TheSelect v-bind="componentField">
 							<FormControl>
-								<ButtonPrimary
-									variant="outline"
-									:class="cn(
-										'w-[240px] ps-3 text-start font-normal',
-										!value && 'text-muted-foreground',
-									)"
-								>
-									<span>{{ value ? df.format(toDate(value)) : "Pick a date" }}</span>
-
-									<CalendarIcon class="ms-auto h-4 w-4 opacity-50" />
-								</ButtonPrimary>
-
-								<input hidden>
+								<SelectTrigger>
+									<SelectValue placeholder="Sélectionner un pilote" />
+								</SelectTrigger>
 							</FormControl>
-						</PopoverTrigger>
 
-						<PopoverContent class="w-auto p-0">
-							<TheCalendar
-								v-model:placeholder="placeholder"
-								v-model="value"
-								calendar-label="Date of birth"
-								initial-focus
-								:min-value="new CalendarDate(1900, 1, 1)"
-								:max-value="today(getLocalTimeZone())"
-								@update:model-value="(v) => {
-									if (v) {
-										setFieldValue('dob', v.toString())
-									}
-									else {
-										setFieldValue('dob', undefined)
-									}
+							<SelectContent>
+								<SelectGroup>
+									<SelectItem
+										v-for="driver in drivers"
+										:key="driver.id"
+										:value="driver.id"
+									>
+										{{ driver.fullName }}
+									</SelectItem>
+								</SelectGroup>
+							</SelectContent>
+						</TheSelect>
 
-								}"
-							/>
-						</PopoverContent>
-					</ThePopover>
+						<FormMessage />
+					</FormItem>
+				</FormField>
 
-					<FormDescription>
-						Your date of birth is used to calculate your age.
-					</FormDescription>
+				<FormField
+					v-slot="{ componentField }"
+					name="motorcycle"
+				>
+					<FormItem>
+						<FormLabel>Moto</FormLabel>
 
-					<FormMessage />
-				</FormItem>
-			</FormField>
+						<TheSelect v-bind="componentField">
+							<FormControl>
+								<SelectTrigger>
+									<SelectValue placeholder="Sélectionner une moto" />
+								</SelectTrigger>
+							</FormControl>
 
-			<ButtonPrimary type="submit">
-				Submit
-			</ButtonPrimary>
-		</Form>
+							<SelectContent>
+								<SelectGroup>
+									<SelectItem
+										v-for="motorcycle in motorcycles"
+										:key="motorcycle.licensePlate"
+										:value="motorcycle.licensePlate"
+									>
+										{{ motorcycle.brand }} - {{ motorcycle.model }}
+									</SelectItem>
+								</SelectGroup>
+							</SelectContent>
+						</TheSelect>
+
+						<FormMessage />
+					</FormItem>
+				</FormField>
+			</div>
+  
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+				<FormField name="startDate">
+					<FormItem class="flex flex-col">
+						<FormLabel>Date de début</FormLabel>
+
+						<ThePopover>
+							<PopoverTrigger as-child>
+								<FormControl>
+									<ButtonPrimary
+										variant="outline"
+										:class="cn(
+											'ps-3 text-start font-normal',
+											!startDate && 'text-muted-foreground',
+										)"
+									>
+										<span>{{ startDate ? df.format(toDate(startDate)) : "Choisir une date" }}</span>
+
+										<CalendarIcon class="ms-auto h-4 w-4 opacity-50" />
+									</ButtonPrimary>
+								</FormControl>
+							</PopoverTrigger>
+
+							<PopoverContent class="w-auto p-0">
+								<TheCalendar
+									v-model:placeholder="startDatePlaceholder"
+									v-model="startDate"
+									calendar-label="Date de début"
+									initial-focus
+									:min-value="today(getLocalTimeZone())"
+									@update:model-value="(v) => {
+										if (v) {
+											setFieldValue('startDate', v.toString())
+										}
+										else {
+											setFieldValue('startDate', undefined)
+										}
+									}"
+								/>
+							</PopoverContent>
+						</ThePopover>
+
+						<FormMessage />
+					</FormItem>
+				</FormField>
+
+				<FormField name="endDate">
+					<FormItem class="flex flex-col">
+						<FormLabel>Date de fin</FormLabel>
+
+						<ThePopover>
+							<PopoverTrigger as-child>
+								<FormControl>
+									<ButtonPrimary
+										variant="outline"
+										:class="cn(
+											'ps-3 text-start font-normal',
+											!endDate && 'text-muted-foreground',
+										)"
+									>
+										<span>{{ endDate ? df.format(toDate(endDate)) : "Choisir une date" }}</span>
+
+										<CalendarIcon class="ms-auto h-4 w-4 opacity-50" />
+									</ButtonPrimary>
+								</FormControl>
+							</PopoverTrigger>
+
+							<PopoverContent class="w-auto p-0">
+								<TheCalendar
+									v-model:placeholder="endDatePlaceholder"
+									v-model="endDate"
+									calendar-label="Date de fin"
+									initial-focus
+									:min-value="startDate || today(getLocalTimeZone())"
+									@update:model-value="(v) => {
+										if (v) {
+											setFieldValue('endDate', v.toString())
+										}
+										else {
+											setFieldValue('endDate', undefined)
+										}
+									}"
+								/>
+							</PopoverContent>
+						</ThePopover>
+
+						<FormMessage />
+					</FormItem>
+				</FormField>
+			</div>
+  
+			<div class="flex justify-end">
+				<ButtonPrimary type="submit">
+					Ajouter l'essai
+				</ButtonPrimary>
+			</div>
+		</form>
 	</AdminSection>
 </template>
