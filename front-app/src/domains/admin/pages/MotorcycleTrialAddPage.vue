@@ -28,7 +28,7 @@ import { Calendar as CalendarIcon } from "lucide-vue-next";
 import { toDate } from "radix-vue/date";
 import { computed, ref } from "vue";
 
-const { TRY_MOTORCYCLE_CURRENT_LIST } = routerPageName;
+const { MOTORCYCLE_TRIAL_CURRENT_LIST } = routerPageName;
 const { drivers, isLoading: isDriversLoading } = useDriverGetAll();
 const { motorcycles, isLoading: isMotorcyclesLoading } = useMotorcycleGetAll();
 const { onSubmit, values, setFieldValue } = useMotorcycleTrialAdd();
@@ -54,7 +54,7 @@ const endDate = computed({
 <template>
 	<AdminSection
 		title="Ajout d'un essai moto"
-		:back-to="TRY_MOTORCYCLE_CURRENT_LIST"
+		:back-to="MOTORCYCLE_TRIAL_CURRENT_LIST"
 	>
 		<div v-if="isDriversLoading || isMotorcyclesLoading">
 			Chargement des données...

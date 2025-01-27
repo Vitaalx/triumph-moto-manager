@@ -4,7 +4,7 @@ export interface MotorcycleTrial {
 	id: string,
 	driverId: string,
 	motorcycleId: { // = lisencePlate
-	value: string
+		value: string
 	},
 	startDate: string,
 	endDate: string

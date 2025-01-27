@@ -41,9 +41,9 @@ const {
 	DRIVER_LIST,
 	DRIVER_ADD,
 	INCIDENT_HISTORY,
-	TRY_MOTORCYCLE_CURRENT_LIST,
-	TRY_MOTORCYCLE_INCOMING_LIST,
-	TRY_MOTORCYCLE_HISTORY,
+	MOTORCYCLE_TRIAL_CURRENT_LIST,
+	MOTORCYCLE_TRIAL_NEXT_LIST,
+	MOTORCYCLE_TRIAL_HISTORY,
 	TRY_MOTORCYCLE_ADD,
 	TROUBLESHOOTING_ADD
 } = routerPageName;
@@ -122,13 +122,13 @@ const adminNavSections: NavSection[] = [
 		value: "trials",
 		items: [
 			{
-				name: "TRY_MOTORCYCLE_CURRENT_LIST", icon: mdiMotorbike, route: TRY_MOTORCYCLE_CURRENT_LIST, label: "Motos en essai" 
+				name: "MOTORCYCLE_TRIAL_CURRENT_LIST", icon: mdiMotorbike, route: MOTORCYCLE_TRIAL_CURRENT_LIST, label: "Motos en essai" 
 			},
 			{
-				name: "TRY_MOTORCYCLE_INCOMING_LIST", icon: mdiMotorbike, route: TRY_MOTORCYCLE_INCOMING_LIST, label: "Essais à venir" 
+				name: "MOTORCYCLE_TRIAL_NEXT_LIST", icon: mdiMotorbike, route: MOTORCYCLE_TRIAL_NEXT_LIST, label: "Essais à venir" 
 			},
 			{
-				name: "TRY_MOTORCYCLE_HISTORY", icon: mdiHistory, route: TRY_MOTORCYCLE_HISTORY, label: "Historique des essais" 
+				name: "MOTORCYCLE_TRIAL_HISTORY", icon: mdiHistory, route: MOTORCYCLE_TRIAL_HISTORY, label: "Historique des essais" 
 			},
 			{
 				name: "TRY_MOTORCYCLE_ADD", icon: mdiPlus, route: TRY_MOTORCYCLE_ADD, label: "Ajouter un essai"
