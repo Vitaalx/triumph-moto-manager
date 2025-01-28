@@ -2,6 +2,7 @@
 import { type formattedMotorcycleTrial } from "@/schemas/motorcycleTrialSchema";
 import { useMotorcycleTrialCurrentGetAll } from "../composables/useMotorcycleTrialCurrentGetAll";
 import { useMotorcycleTrialDelete } from "../composables/useMotorcycleTrialDelete";
+import { DateFormatter } from "@internationalized/date";
 import type {
 	ColumnDef,
 	Row,
@@ -16,6 +17,10 @@ import DataTable from "../components/DataTable.vue";
 
 const { motorcycleTrials, isLoading } = useMotorcycleTrialCurrentGetAll();
 const { deleteMotorcycleTrial } = useMotorcycleTrialDelete();
+
+const dateFormatter = new DateFormatter("fr-FR", {
+	dateStyle: "medium",
+});
 
 const columns: ColumnDef<formattedMotorcycleTrial>[] = [
 	{
@@ -49,7 +54,12 @@ const columns: ColumnDef<formattedMotorcycleTrial>[] = [
 				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
 			}, () => ["Début", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
 		},
-		cell: ({ row }: { row: Row<formattedMotorcycleTrial> }) => h("div", { class: "" }, row.getValue("startDate")),
+		cell: ({ row }: { row: Row<formattedMotorcycleTrial> }) => {
+			const startDate = row.getValue("startDate") as string;
+			const date = new Date(startDate);
+			
+			return h("div", { class: "" }, dateFormatter.format(date));
+		},
 	},
 	{
 		accessorKey: "endDate",
@@ -60,7 +70,12 @@ const columns: ColumnDef<formattedMotorcycleTrial>[] = [
 				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
 			}, () => ["Fin", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
 		},
-		cell: ({ row }: { row: Row<formattedMotorcycleTrial> }) => h("div", { class: "" }, row.getValue("endDate")),
+		cell: ({ row }: { row: Row<formattedMotorcycleTrial> }) => {
+			const endDate = row.getValue("endDate") as string;
+			const date = new Date(endDate);
+
+			return h("div", { class: "" }, dateFormatter.format(date));
+		},
 	},
 	{
 		id: "actions",
