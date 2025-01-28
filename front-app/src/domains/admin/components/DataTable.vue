@@ -175,7 +175,10 @@ const table = useVueTable({
 
 							<TableRow v-if="row.getIsExpanded()">
 								<TableCell :colspan="row.getAllCells().length">
-									{{ JSON.stringify(row.original) }}
+									<slot
+										name="details"
+										:row="row"
+									/>
 								</TableCell>
 							</TableRow>
 						</template>

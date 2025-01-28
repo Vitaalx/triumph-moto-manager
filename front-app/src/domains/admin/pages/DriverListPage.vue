@@ -97,6 +97,10 @@ const columns: ColumnDef<formattedDriver>[] = [
 			v-else
 			:data="drivers"
 			:columns="columns"
-		/>>
+		>
+			<template #details="{ row }">
+				{{ JSON.stringify(row.original) }}
+			</template>
+		</DataTable>
 	</AdminSection>
 </template>

@@ -118,6 +118,10 @@ const columns: ColumnDef<formattedMotorcycle>[] = [
 			v-else
 			:data="motorcycles"
 			:columns="columns"
-		/>
+		>
+			<template #details="{ row }">
+				{{ JSON.stringify(row.original) }}
+			</template>
+		</DataTable>
 	</AdminSection>
 </template>
