@@ -122,7 +122,7 @@ const adminNavSections: NavSection[] = [
 		value: "trials",
 		items: [
 			{
-				name: "MOTORCYCLE_TRIAL_CURRENT_LIST", icon: mdiMotorbike, route: MOTORCYCLE_TRIAL_CURRENT_LIST, label: "Motos en essai" 
+				name: "MOTORCYCLE_TRIAL_CURRENT_LIST", icon: mdiMotorbike, route: MOTORCYCLE_TRIAL_CURRENT_LIST, label: "Essais en cours" 
 			},
 			{
 				name: "MOTORCYCLE_TRIAL_NEXT_LIST", icon: mdiMotorbike, route: MOTORCYCLE_TRIAL_NEXT_LIST, label: "Essais à venir" 
