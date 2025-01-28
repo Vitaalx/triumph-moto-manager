@@ -130,16 +130,6 @@ const motorcycleTrialsColumns: ColumnDef<formattedMotorcycleTrial>[] = [
 		cell: ({ row }: { row: Row<formattedMotorcycleTrial> }) => h("div", { class: "" }, row.getValue("motorcycleId")),
 	},
 	{
-		accessorKey: "driverId",
-		header: ({ column }: { column: Column<formattedMotorcycleTrial, unknown> }) => {
-			return h(TheButton, {
-				variant: "ghost",
-				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
-			}, () => ["Marque", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
-		},
-		cell: ({ row }: { row: Row<formattedMotorcycleTrial> }) => h("div", { class: "" }, row.getValue("driverId")),
-	},
-	{
 		accessorKey: "startDate",
 		header: ({ column }: { column: Column<formattedMotorcycleTrial, unknown> }) => {
 			return h(TheButton, {
