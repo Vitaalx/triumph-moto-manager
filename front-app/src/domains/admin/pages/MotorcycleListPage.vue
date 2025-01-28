@@ -108,7 +108,7 @@ const columns: ColumnDef<formattedMotorcycle>[] = [
 				onDelete: (licensePlate) => {
 					deleteMotorcycle(licensePlate);
 					// Update after deletion
-					motorcycles.value = motorcycles.value.filter(motorcycle => motorcycle.licensePlate !== licensePlate);
+					window.location.reload();
 				},
 				onExpand: () => row.toggleExpanded(),
 			});

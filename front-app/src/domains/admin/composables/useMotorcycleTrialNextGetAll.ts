@@ -9,7 +9,7 @@ export function useMotorcycleTrialNextGetAll() {
 	function getAllMotorcycleTrialNext() {
 		api.get("/motorcycles-trial-comming")
 			.then((response) => {
-				const formattedMotorcycleTrials = response.data.motorcycleTry.map(
+				const formattedMotorcycleTrials = response.data.map(
 					(MotorcycleTrial: MotorcycleTrial) => {
 						return {
 							...MotorcycleTrial,

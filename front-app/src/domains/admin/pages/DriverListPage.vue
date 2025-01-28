@@ -88,7 +88,7 @@ const columns: ColumnDef<formattedDriver>[] = [
 				onDelete: (driverId) => {
 					deleteDriver(driverId);
 					// Update after deletion
-					drivers.value = drivers.value.filter(driver => driver.id !== driverId);
+					window.location.reload();
 				},
 			});
 		},

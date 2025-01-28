@@ -89,9 +89,7 @@ const columns: ColumnDef<formattedMotorcycleTrial>[] = [
 				onDelete: (motorcycleTrialId) => {
 					deleteMotorcycleTrial(motorcycleTrialId);
 					// Update after deletion
-					motorcycleTrials.value = motorcycleTrials.value.filter(
-						motorcycleTrial => motorcycleTrial.id !== motorcycleTrialId
-					);
+					window.location.reload();
 				},
 			});
 		},
