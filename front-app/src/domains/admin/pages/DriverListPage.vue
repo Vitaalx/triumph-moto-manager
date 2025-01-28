@@ -23,7 +23,6 @@ const { deleteDriver } = useDriverDelete();
 const columns: ColumnDef<formattedDriver>[] = [
 	{
 		accessorKey: "fullName",
-		id: "fullName",
 		header: ({ column }: { column: Column<formattedDriver, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
@@ -44,7 +43,6 @@ const columns: ColumnDef<formattedDriver>[] = [
 	},
 	{
 		accessorKey: "email",
-		id: "email",
 		header: ({ column }: { column: Column<formattedDriver, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
@@ -55,7 +53,6 @@ const columns: ColumnDef<formattedDriver>[] = [
 	},
 	{
 		accessorKey: "motorcycleLicenseType",
-		id: "motorcycleLicenseType",
 		header: ({ column }: { column: Column<formattedDriver, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",

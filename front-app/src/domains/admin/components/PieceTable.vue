@@ -75,7 +75,6 @@ const data: Piece[] = [ // TODO: Replace with real data
 const columns: ColumnDef<Piece>[] = [
 	{
 		accessorKey: "status",
-		// header: "Statut",
 		header: ({ column }: { column: Column<Piece, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",

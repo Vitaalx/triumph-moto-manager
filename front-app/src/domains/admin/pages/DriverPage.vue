@@ -4,7 +4,9 @@ import { z } from "zod";
 import { useRouteParams } from "@/composables/useRouteParams";
 import { routerPageName } from "@/router/routerPageName";
 import { useDriverGet } from "../composables/useDriverGet";
-import { type formattedMotorcycle, type Motorcycle } from "@/schemas/motorcycleSchema";
+import type { formattedMotorcycle, Motorcycle } from "@/schemas/motorcycleSchema";
+import type { formattedMotorcycleTrial, MotorcycleTrial } from "@/schemas/motorcycleTrialSchema";
+import { DateFormatter } from "@internationalized/date";
 import type {
 	ColumnDef,
 	Row,
@@ -20,8 +22,14 @@ import DataTable from "../components/DataTable.vue";
 const params = useRouteParams({
 	driverId: z.string(),
 });
+
 const { DRIVER_LIST } = routerPageName;
 const { driver, isLoading } = useDriverGet(params.value.driverId);
+
+const dateFormatter = new DateFormatter("fr-FR", {
+	dateStyle: "medium",
+});
+
 const formattedMotorcycles = computed(() =>
 	driver.value.motorcycles.map((motorcycle: Motorcycle) => ({
 		...motorcycle,
@@ -30,11 +38,16 @@ const formattedMotorcycles = computed(() =>
 		price: motorcycle.price.value,
 	}))
 );
+const formattedMotorcycleTrials = computed(() =>
+	driver.value.motorcycleTries.map((motorcycleTrial: MotorcycleTrial) => ({
+		...motorcycleTrial,
+		motorcycleId: motorcycleTrial.motorcycleId.value,
+	}))
+);
 
-const columns: ColumnDef<formattedMotorcycle>[] = [
+const motorcycleColumns: ColumnDef<formattedMotorcycle>[] = [
 	{
 		accessorKey: "licensePlate",
-		id: "licensePlate",
 		header: ({ column }: { column: Column<formattedMotorcycle, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
@@ -65,7 +78,6 @@ const columns: ColumnDef<formattedMotorcycle>[] = [
 	},
 	{
 		accessorKey: "year",
-		id: "year",
 		header: ({ column }: { column: Column<formattedMotorcycle, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
@@ -76,7 +88,6 @@ const columns: ColumnDef<formattedMotorcycle>[] = [
 	},
 	{
 		accessorKey: "price",
-		id: "price",
 		header: ({ column }: { column: Column<formattedMotorcycle, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
@@ -104,6 +115,59 @@ const columns: ColumnDef<formattedMotorcycle>[] = [
 			}, () => ["Int. de maintenance", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
 		},
 		cell: ({ row }: { row: Row<formattedMotorcycle> }) => h("div", { class: "" }, row.getValue("maintenanceInterval")),
+	},
+];
+
+const motorcycleTrialsColumns: ColumnDef<formattedMotorcycleTrial>[] = [
+	{
+		accessorKey: "motorcycleId",
+		header: ({ column }: { column: Column<formattedMotorcycleTrial, unknown> }) => {
+			return h(TheButton, {
+				variant: "ghost",
+				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
+			}, () => ["Plaque", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
+		},
+		cell: ({ row }: { row: Row<formattedMotorcycleTrial> }) => h("div", { class: "" }, row.getValue("motorcycleId")),
+	},
+	{
+		accessorKey: "driverId",
+		header: ({ column }: { column: Column<formattedMotorcycleTrial, unknown> }) => {
+			return h(TheButton, {
+				variant: "ghost",
+				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
+			}, () => ["Marque", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
+		},
+		cell: ({ row }: { row: Row<formattedMotorcycleTrial> }) => h("div", { class: "" }, row.getValue("driverId")),
+	},
+	{
+		accessorKey: "startDate",
+		header: ({ column }: { column: Column<formattedMotorcycleTrial, unknown> }) => {
+			return h(TheButton, {
+				variant: "ghost",
+				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
+			}, () => ["Début", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
+		},
+		cell: ({ row }: { row: Row<formattedMotorcycleTrial> }) => {
+			const startDate = row.getValue("startDate") as string;
+			const date = new Date(startDate);
+			
+			return h("div", { class: "" }, dateFormatter.format(date));
+		},
+	},
+	{
+		accessorKey: "endDate",
+		header: ({ column }: { column: Column<formattedMotorcycleTrial, unknown> }) => {
+			return h(TheButton, {
+				variant: "ghost",
+				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
+			}, () => ["Fin", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
+		},
+		cell: ({ row }: { row: Row<formattedMotorcycleTrial> }) => {
+			const endDate = row.getValue("endDate") as string;
+			const date = new Date(endDate);
+
+			return h("div", { class: "" }, dateFormatter.format(date));
+		},
 	},
 ];
 </script>
@@ -180,7 +244,26 @@ const columns: ColumnDef<formattedMotorcycle>[] = [
 			<DataTable
 				v-else
 				:data="formattedMotorcycles"
-				:columns="columns"
+				:columns="motorcycleColumns"
+			/>
+		</div>
+
+		<div class="mt-10 p-6 bg-white rounded-lg shadow-lg border border-gray-200">
+			<h3 class="text-2xl font-bold text-gray-900 mb-4">
+				Liste des essais
+			</h3>
+
+			<div
+				v-if="isLoading"
+				class="flex justify-center items-center h-40"
+			>
+				<p>Chargement des données...</p>
+			</div>
+
+			<DataTable
+				v-else
+				:data="formattedMotorcycleTrials"
+				:columns="motorcycleTrialsColumns"
 			/>
 		</div>
 	</AdminSection>

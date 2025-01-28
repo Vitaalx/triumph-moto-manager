@@ -25,7 +25,6 @@ const dateFormatter = new DateFormatter("fr-FR", {
 const columns: ColumnDef<formattedMotorcycleTrial>[] = [
 	{
 		accessorKey: "driverId",
-		id: "driverId",
 		header: ({ column }: { column: Column<formattedMotorcycleTrial, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
@@ -36,7 +35,6 @@ const columns: ColumnDef<formattedMotorcycleTrial>[] = [
 	},
 	{
 		accessorKey: "motorcycleId",
-		id: "motorcycleId",
 		header: ({ column }: { column: Column<formattedMotorcycleTrial, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
@@ -47,7 +45,6 @@ const columns: ColumnDef<formattedMotorcycleTrial>[] = [
 	},
 	{
 		accessorKey: "startDate",
-		id: "startDate",
 		header: ({ column }: { column: Column<formattedMotorcycleTrial, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
@@ -63,7 +60,6 @@ const columns: ColumnDef<formattedMotorcycleTrial>[] = [
 	},
 	{
 		accessorKey: "endDate",
-		id: "endDate",
 		header: ({ column }: { column: Column<formattedMotorcycleTrial, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",

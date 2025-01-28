@@ -23,7 +23,6 @@ const { deleteMotorcycle } = useMotorcycleDelete();
 const columns: ColumnDef<formattedMotorcycle>[] = [
 	{
 		accessorKey: "licensePlate",
-		id: "licensePlate",
 		header: ({ column }: { column: Column<formattedMotorcycle, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
@@ -54,7 +53,6 @@ const columns: ColumnDef<formattedMotorcycle>[] = [
 	},
 	{
 		accessorKey: "year",
-		id: "year",
 		header: ({ column }: { column: Column<formattedMotorcycle, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
@@ -65,7 +63,6 @@ const columns: ColumnDef<formattedMotorcycle>[] = [
 	},
 	{
 		accessorKey: "price",
-		id: "price",
 		header: ({ column }: { column: Column<formattedMotorcycle, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
