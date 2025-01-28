@@ -28,6 +28,7 @@ export default global.ENV = z
 		ORIGIN: z.string().url(),
 		APP_ADMIN_EMAIL: z.string().email().default("admin@admin.fr"),
 		APP_ADMIN_PASSWORD: z.string().default("admin"),
+		MONGO_DATABASE_URL: z.string(),
 	})
 	.readonly()
 	.parse(process.env);

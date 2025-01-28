@@ -46,6 +46,19 @@ services:
       - postgres_data:/var/lib/postgresql/data
     attach: false
 
+  mongo-viewer:
+    image: mongo-express
+    ports:
+      - 8081:8081
+    env_file: ./back-app/src/infrastructure/database/mongoose/.env
+
+  mongo:
+    image: mongo
+    env_file: ./back-app/src/infrastructure/database/mongoose/.env
+    volumes:
+      - "mongo_data:/data/db"
+    attach: false
+
   nginx:
     image: nginx
     volumes:
@@ -59,3 +72,4 @@ services:
 
 volumes:
   postgres_data:
+  mongo_data:

@@ -7,4 +7,3 @@ declare global {
 
 //@ts-expect-error var 'global' cause type error.
 export const prisma = global.prisma = new PrismaClient();
-
