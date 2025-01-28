@@ -68,7 +68,7 @@ const endDate = computed({
 			<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 				<FormField
 					v-slot="{ componentField }"
-					name="driver"
+					name="driverId"
 				>
 					<FormItem>
 						<FormLabel>Pilote</FormLabel>
@@ -99,7 +99,7 @@ const endDate = computed({
 
 				<FormField
 					v-slot="{ componentField }"
-					name="motorcycle"
+					name="motorcycleId"
 				>
 					<FormItem>
 						<FormLabel>Moto</FormLabel>

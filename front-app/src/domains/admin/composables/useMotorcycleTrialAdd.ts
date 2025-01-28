@@ -1,16 +1,9 @@
+import { motorcycleTrialFormSchema } from "@/schemas/motorcycleTrialSchema";
 import api from "@/lib/axios";
 import { toast } from "@/components/ui/toast";
 import { toTypedSchema } from "@vee-validate/zod";
 import { useForm } from "vee-validate";
 import { h } from "vue";
-import { z } from "zod";
-
-const motorcycleTrialFormSchema = z.object({
-	driver: z.string({ required_error: "Le pilote est obligatoire." }),
-	motorcycle: z.string({ required_error: "La moto est obligatoire." }),
-	startDate: z.string({ required_error: "La date de début est obligatoire." }),
-	endDate: z.string({ required_error: "La date de fin est obligatoire." }),
-});
 
 const formSchema = toTypedSchema(motorcycleTrialFormSchema);
 
@@ -20,7 +13,7 @@ export function useMotorcycleTrialAdd() {
 	});
 
 	const onSubmit = handleSubmit((formData) => {
-		api.post("/motorcycle-try", formData) // TODO: Test when implemented
+		api.post("/motorcycle-try", formData)
 			.then(() => {
 				toast({
 					title: "Essai moto ajouté",

@@ -19,8 +19,8 @@ export interface formattedMotorcycleTrial {
 }
 
 export const motorcycleTrialFormSchema = z.object({
-	driver: z.string({ message: "Le pilote est obligatoire." }),
-	motorcycle: z.string({ message: "La moto est obligatoire." }),
+	driverId: z.string({ message: "Le pilote est obligatoire." }),
+	motorcycleId: z.string({ message: "La moto est obligatoire." }),
 	startDate: z.string({ message: "La date de début est obligatoire." }),
 	endDate: z.string({ message: "La date de fin est obligatoire." }),
 });
