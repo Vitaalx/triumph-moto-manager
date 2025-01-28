@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { routerPageName } from "@/router/routerPageName";
 import { type formattedDriver } from "@/schemas/driverSchema";
+import { useDriverGetAll } from "../composables/useDriverGetAll";
+import { useDriverDelete } from "../composables/useDriverDelete";
 import type {
 	ColumnDef,
 	Row,
@@ -8,12 +11,14 @@ import type {
 import TheButton from "@/components/ui/button/TheButton.vue";
 import { ArrowUpDown } from "lucide-vue-next";
 import { h } from "vue";
-import DriverTableDropdownAction from "../components/DriverTableDropdownAction.vue";
+import DataTableDropdownAction from "../components/DataTableDropdownAction.vue";
 import AdminSection from "../components/AdminSection.vue";
 import DataTable from "../components/DataTable.vue";
-import { useDriverGetAll } from "../composables/useDriverGetAll";
+
+const { DRIVER_PAGE, DRIVER_EDIT } = routerPageName;
 
 const { drivers, isLoading } = useDriverGetAll();
+const { deleteDriver } = useDriverDelete();
 
 const columns: ColumnDef<formattedDriver>[] = [
 	{
@@ -72,13 +77,20 @@ const columns: ColumnDef<formattedDriver>[] = [
 	{
 		id: "actions",
 		enableHiding: false,
-		cell: ({ row }: { row: Row<formattedDriver> }) => {
+		cell: ({ row }) => {
 			const driver = row.original;
 
-			return h("div", { class: "relative" }, h(DriverTableDropdownAction, {
-				driverId: driver.id,
-				email: driver.email,
-			}));
+			return h(DataTableDropdownAction, {
+				copyText: "Copier l'ID",
+				item: driver.id,
+				viewPath: { name: DRIVER_PAGE, params: { driverId: driver.id } },
+				editPath: { name: DRIVER_EDIT, params: { driverId: driver.id } },
+				onDelete: (driverId) => {
+					deleteDriver(driverId);
+					// Update after deletion
+					drivers.value = drivers.value.filter(driver => driver.id !== driverId);
+				},
+			});
 		},
 	}
 ];
@@ -97,10 +109,6 @@ const columns: ColumnDef<formattedDriver>[] = [
 			v-else
 			:data="drivers"
 			:columns="columns"
-		>
-			<template #details="{ row }">
-				{{ JSON.stringify(row.original) }}
-			</template>
-		</DataTable>
+		/>
 	</AdminSection>
 </template>

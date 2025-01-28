@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { routerPageName } from "@/router/routerPageName";
 import { type formattedMotorcycle } from "@/schemas/motorcycleSchema";
+import { useMotorcycleGetAll } from "../composables/useMotorcycleGetAll";
+import { useMotorcycleDelete } from "../composables/useMotorcycleDelete";
 import type {
 	ColumnDef,
 	Row,
@@ -8,12 +11,14 @@ import type {
 import TheButton from "@/components/ui/button/TheButton.vue";
 import { ArrowUpDown } from "lucide-vue-next";
 import { h } from "vue";
-import MotorcycleTableDropdownAction from "../components/MotorcycleTableDropdownAction.vue";
+import DataTableDropdownAction from "../components/DataTableDropdownAction.vue";
 import AdminSection from "../components/AdminSection.vue";
 import DataTable from "../components/DataTable.vue";
-import { useMotorcycleGetAll } from "../composables/useMotorcycleGetAll";
+
+const { MOTORCYCLE_EDIT } = routerPageName;
 
 const { motorcycles, isLoading } = useMotorcycleGetAll();
+const { deleteMotorcycle } = useMotorcycleDelete();
 
 const columns: ColumnDef<formattedMotorcycle>[] = [
 	{
@@ -79,7 +84,6 @@ const columns: ColumnDef<formattedMotorcycle>[] = [
 			return h("div", { class: "font-medium" }, formatted);
 		},
 	},
-
 	{
 		accessorKey: "maintenanceInterval",
 		header: ({ column }: { column: Column<formattedMotorcycle, unknown> }) => {
@@ -93,13 +97,21 @@ const columns: ColumnDef<formattedMotorcycle>[] = [
 	{
 		id: "actions",
 		enableHiding: false,
-		cell: ({ row }: { row: Row<formattedMotorcycle> }) => {
+		cell: ({ row }) => {
 			const motorcycle = row.original;
 
-			return h("div", { class: "relative" }, h(MotorcycleTableDropdownAction, {
-				licensePlate: motorcycle.licensePlate,
-				onExpand: row.toggleExpanded,
-			}));
+			return h(DataTableDropdownAction, {
+				copyText: "Copier la plaque",
+				item: motorcycle.licensePlate,
+				isExpendable: true,
+				editPath: { name: MOTORCYCLE_EDIT, params: { licensePlate: motorcycle.licensePlate } },
+				onDelete: (licensePlate) => {
+					deleteMotorcycle(licensePlate);
+					// Update after deletion
+					motorcycles.value = motorcycles.value.filter(motorcycle => motorcycle.licensePlate !== licensePlate);
+				},
+				onExpand: () => row.toggleExpanded(),
+			});
 		},
 	}
 ];
