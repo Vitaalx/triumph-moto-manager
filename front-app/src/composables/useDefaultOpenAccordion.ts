@@ -19,12 +19,12 @@ export function useDefaultOpenAccordion() {
 		PERMISSION_MANAGEMENT,
 		DRIVER_LIST,
 		DRIVER_ADD,
-		INCIDENT_HISTORY,
 		MOTORCYCLE_TRIAL_CURRENT_LIST,
 		MOTORCYCLE_TRIAL_NEXT_LIST,
 		MOTORCYCLE_TRIAL_HISTORY,
-		TRY_MOTORCYCLE_ADD,
-		TROUBLESHOOTING_ADD
+		MOTORCYCLE_TRIAL_ADD,
+		INCIDENT_HISTORY,
+		INCIDENT_ADD
 	} = routerPageName;
 
 	const defaultOpenAccordion = computed(() => {
@@ -45,12 +45,12 @@ export function useDefaultOpenAccordion() {
 			[PERMISSION_MANAGEMENT]: "users",
 			[DRIVER_LIST]: "users",
 			[DRIVER_ADD]: "users",
-			[INCIDENT_HISTORY]: "users",
 			[MOTORCYCLE_TRIAL_CURRENT_LIST]: "trials",
 			[MOTORCYCLE_TRIAL_NEXT_LIST]: "trials",
 			[MOTORCYCLE_TRIAL_HISTORY]: "trials",
-			[TRY_MOTORCYCLE_ADD]: "trials",
-			[TROUBLESHOOTING_ADD]: "trials"
+			[MOTORCYCLE_TRIAL_ADD]: "trials",
+			[INCIDENT_HISTORY]: "trials",
+			[INCIDENT_ADD]: "trials"
 		};
 
 		return routeCategoryMap[routeName] || "";

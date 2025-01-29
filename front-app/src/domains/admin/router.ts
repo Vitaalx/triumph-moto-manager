@@ -19,12 +19,12 @@ export const routerPageNameAdminPanel = Object.freeze({
 	DRIVER_PAGE: "driver-page",
 	DRIVER_ADD: "driver-add",
 	DRIVER_EDIT: "driver-edit",
-	INCIDENT_HISTORY: "incident-history",
 	MOTORCYCLE_TRIAL_CURRENT_LIST: "motorcycle-trial-current-list",
 	MOTORCYCLE_TRIAL_NEXT_LIST: "motorcycle-trial-incoming-list",
 	MOTORCYCLE_TRIAL_HISTORY: "motorcycle-trial-history",
-	TRY_MOTORCYCLE_ADD: "try-motorcycle-add",
-	TROUBLESHOOTING_ADD: "troubleshooting-add",
+	MOTORCYCLE_TRIAL_ADD: "motorcycle-trial-add",
+	INCIDENT_HISTORY: "incident-history",
+	INCIDENT_ADD: "incident-add",
 });
 
 export default (): RouteRecordRaw[] => [
@@ -123,11 +123,6 @@ export default (): RouteRecordRaw[] => [
 				component: () => import("./pages/DriverEditPage.vue"),
 			},
 			{
-				name: routerPageNameAdminPanel.INCIDENT_HISTORY,
-				path: "/dashboard/incident-history",
-				component: () => import("./pages/IncidentHistoryPage.vue"),
-			},
-			{
 				name: routerPageNameAdminPanel.MOTORCYCLE_TRIAL_CURRENT_LIST,
 				path: "/dashboard/motorcycle-trial-current-list",
 				component: () => import("./pages/MotorcycleTrialCurrentListPage.vue"),
@@ -138,8 +133,8 @@ export default (): RouteRecordRaw[] => [
 				component: () => import("./pages/MotorcycleTrialNextListPage.vue"),
 			},
 			{
-				name: routerPageNameAdminPanel.TRY_MOTORCYCLE_ADD,
-				path: "/dashboard/try-motorcycle-add",
+				name: routerPageNameAdminPanel.MOTORCYCLE_TRIAL_ADD,
+				path: "/dashboard/motorcycle-trial-add",
 				component: () => import("./pages/MotorcycleTrialAddPage.vue"),
 			},
 			{
@@ -148,10 +143,15 @@ export default (): RouteRecordRaw[] => [
 				component: () => import("./pages/MotorcycleTrialHistoryPage.vue"),
 			},
 			{
-				name: routerPageNameAdminPanel.TROUBLESHOOTING_ADD,
-				path: "/dashboard/troubleshooting-add",
+				name: routerPageNameAdminPanel.INCIDENT_HISTORY,
+				path: "/dashboard/incident-history",
+				component: () => import("./pages/IncidentHistoryPage.vue"),
+			},
+			{
+				name: routerPageNameAdminPanel.INCIDENT_ADD,
+				path: "/dashboard/incident-add",
 				component: () => import("./pages/TroubleshootingAddPage.vue"),
-			}
+			},
 		],
 	},
 ];

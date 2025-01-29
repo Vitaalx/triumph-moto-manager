@@ -14,7 +14,6 @@ import {
 import { routerPageName } from "@/router/routerPageName";
 
 interface NavItem {
-    name: string;
     icon?: string;
     route: string;
     label: string;
@@ -40,12 +39,12 @@ const {
 	PERMISSION_MANAGEMENT,
 	DRIVER_LIST,
 	DRIVER_ADD,
-	INCIDENT_HISTORY,
 	MOTORCYCLE_TRIAL_CURRENT_LIST,
 	MOTORCYCLE_TRIAL_NEXT_LIST,
 	MOTORCYCLE_TRIAL_HISTORY,
-	TRY_MOTORCYCLE_ADD,
-	TROUBLESHOOTING_ADD
+	MOTORCYCLE_TRIAL_ADD,
+	INCIDENT_HISTORY,
+	INCIDENT_ADD,
 } = routerPageName;
 const adminNavSections: NavSection[] = [
 	{
@@ -53,10 +52,10 @@ const adminNavSections: NavSection[] = [
 		value: "fleet",
 		items: [
 			{
-				name: "MOTORCYCLE_LIST", icon: mdiMotorbike, route: MOTORCYCLE_LIST, label: "Liste des motos" 
+				icon: mdiMotorbike, route: MOTORCYCLE_LIST, label: "Liste des motos" 
 			},
 			{
-				name: "MOTORCYCLE_ADD", icon: mdiPlus, route: MOTORCYCLE_ADD, label: "Ajouter une moto" 
+				icon: mdiPlus, route: MOTORCYCLE_ADD, label: "Ajouter une moto" 
 			}
 		]
 	},
@@ -65,10 +64,10 @@ const adminNavSections: NavSection[] = [
 		value: "maintenance",
 		items: [
 			{
-				name: "MAINTENANCE_PLANNING", icon: mdiCalendarClock, route: MAINTENANCE_PLANNING, label: "Planification des entretiens" 
+				icon: mdiCalendarClock, route: MAINTENANCE_PLANNING, label: "Planification des entretiens" 
 			},
 			{
-				name: "MAINTENANCE_HISTORY", icon: mdiHistory, route: MAINTENANCE_HISTORY, label: "Historique des entretiens" 
+				icon: mdiHistory, route: MAINTENANCE_HISTORY, label: "Historique des entretiens" 
 			}
 		]
 	},
@@ -77,19 +76,19 @@ const adminNavSections: NavSection[] = [
 		value: "stock",
 		items: [
 			{
-				name: "PIECE_LIST", icon: mdiFormatListBulleted, route: PIECE_LIST, label: "Liste des pièces détachées" 
+				icon: mdiFormatListBulleted, route: PIECE_LIST, label: "Liste des pièces détachées" 
 			},
 			{
-				name: "PIECE_ADD", icon: mdiPlus, route: PIECE_ADD, label: "Ajouter une pièce" 
+				icon: mdiPlus, route: PIECE_ADD, label: "Ajouter une pièce" 
 			},
 			{
-				name: "PIECE_DELIVERY_HISTORY", icon: mdiHistory, route: PIECE_DELIVERY_HISTORY, label: "Historique des commandes" 
+				icon: mdiHistory, route: PIECE_DELIVERY_HISTORY, label: "Historique des commandes" 
 			},
 			{
-				name: "PIECE_SUPPLIER_LIST", icon: mdiAccountHardHat, route: PIECE_SUPPLIER_LIST, label: "Liste des fournisseurs" 
+				icon: mdiAccountHardHat, route: PIECE_SUPPLIER_LIST, label: "Liste des fournisseurs" 
 			},
 			{
-				name: "PIECE_SUPPLIER_ADD", icon: mdiPlus, route: PIECE_SUPPLIER_ADD, label: "Ajouter un fournisseur" 
+				icon: mdiPlus, route: PIECE_SUPPLIER_ADD, label: "Ajouter un fournisseur" 
 			}
 		]
 	},
@@ -98,23 +97,20 @@ const adminNavSections: NavSection[] = [
 		value: "users",	
 		items: [
 			{
-				name: "USER_LIST", icon: mdiAccountGroup, route: USER_LIST, label: "Liste des utilisateurs" 
+				icon: mdiAccountGroup, route: USER_LIST, label: "Liste des utilisateurs" 
 			},
 			{
-				name: "USER_ADD", icon: mdiAccountPlus, route: USER_ADD, label: "Ajouter un utilisateur" 
+				icon: mdiAccountPlus, route: USER_ADD, label: "Ajouter un utilisateur" 
 			},
 			{
-				name: "PERMISSION_MANAGEMENT", icon: mdiCards, route: PERMISSION_MANAGEMENT, label: "Permissions et rôles" 
+				icon: mdiCards, route: PERMISSION_MANAGEMENT, label: "Permissions et rôles" 
 			},
 			{
-				name: "DRIVER_LIST", icon: mdiCardAccountDetails, route: DRIVER_LIST, label: "Liste des conducteurs" 
+				icon: mdiCardAccountDetails, route: DRIVER_LIST, label: "Liste des conducteurs" 
 			},
 			{
-				name: "DRIVER_ADD", icon: mdiPlus, route: DRIVER_ADD, label: "Ajouter un conducteur" 
+				icon: mdiPlus, route: DRIVER_ADD, label: "Ajouter un conducteur" 
 			},
-			{
-				name: "INCIDENT_HISTORY", icon: mdiHistory, route: INCIDENT_HISTORY, label: "Historique des incidents" 
-			}
 		]
 	},
 	{
@@ -122,19 +118,22 @@ const adminNavSections: NavSection[] = [
 		value: "trials",
 		items: [
 			{
-				name: "MOTORCYCLE_TRIAL_CURRENT_LIST", icon: mdiMotorbike, route: MOTORCYCLE_TRIAL_CURRENT_LIST, label: "Essais en cours" 
+				icon: mdiMotorbike, route: MOTORCYCLE_TRIAL_CURRENT_LIST, label: "Essais en cours" 
 			},
 			{
-				name: "MOTORCYCLE_TRIAL_NEXT_LIST", icon: mdiMotorbike, route: MOTORCYCLE_TRIAL_NEXT_LIST, label: "Essais à venir" 
+				icon: mdiMotorbike, route: MOTORCYCLE_TRIAL_NEXT_LIST, label: "Essais à venir" 
 			},
 			{
-				name: "MOTORCYCLE_TRIAL_HISTORY", icon: mdiHistory, route: MOTORCYCLE_TRIAL_HISTORY, label: "Historique des essais" 
+				icon: mdiHistory, route: MOTORCYCLE_TRIAL_HISTORY, label: "Historique des essais" 
 			},
 			{
-				name: "TRY_MOTORCYCLE_ADD", icon: mdiPlus, route: TRY_MOTORCYCLE_ADD, label: "Ajouter un essai"
+				icon: mdiPlus, route: MOTORCYCLE_TRIAL_ADD, label: "Ajouter un essai"
 			},
 			{
-				name: "TROUBLESHOOTING_ADD", icon: mdiAlert, route: TROUBLESHOOTING_ADD, label: "Signaler un incident" 
+				icon: mdiHistory, route: INCIDENT_HISTORY, label: "Historique des incidents" 
+			},
+			{
+				icon: mdiAlert, route: INCIDENT_ADD, label: "Signaler un incident" 
 			}
 		]
 	}
