@@ -42,9 +42,6 @@ const formattedMotorcycleTrials = computed(() => {
 	const today = new Date();
 
 	return driver.value.motorcycleTries.map((motorcycleTrial: MotorcycleTrial) => {
-		const motorcycle = driver.value.motorcycles.find(
-			(motorcycle) => motorcycle.licensePlate.value === motorcycleTrial.motorcycleId.value
-		);
 		const startDate = new Date(motorcycleTrial.startDate);
 		const endDate = new Date(motorcycleTrial.endDate);
 		let status: string;
@@ -56,11 +53,11 @@ const formattedMotorcycleTrials = computed(() => {
 		} else {
 			status = "Passé";
 		}
+
 		return {
 			...motorcycleTrial,
-			motorcycleId: motorcycleTrial.motorcycleId.value,
-			motorcycleModel: motorcycle ? `${motorcycle.brand} ${motorcycle.model}` : "Unknown",
 			status: status,
+			motorcycleId: motorcycleTrial.motorcycleId.value,
 			startDate: motorcycleTrial.startDate,
 			endDate: motorcycleTrial.endDate
 		};
@@ -169,14 +166,14 @@ const motorcycleTrialsColumns: ColumnDef<formattedMotorcycleTrial>[] = [
 		},
 	},
 	{
-		accessorKey: "motorcycleModel",
+		accessorKey: "motorcycleId",
 		header: ({ column }: { column: Column<formattedMotorcycleTrial, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
 				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
 			}, () => ["Moto", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
 		},
-		cell: ({ row }: { row: Row<formattedMotorcycleTrial> }) => h("div", { class: "" }, row.getValue("motorcycleModel")),
+		cell: ({ row }: { row: Row<formattedMotorcycleTrial> }) => h("div", { class: "" }, row.getValue("motorcycleId")),
 	},
 	{
 		accessorKey: "startDate",
