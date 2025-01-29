@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Res, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpStatus, Param, Patch, Post, Res, UseGuards } from "@nestjs/common";
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
 import { RequiredRoles } from "../decorators/required-roles";
 import { AuthGuard } from "../guards/auth.guard";
@@ -18,6 +18,8 @@ import { GetMotorcycleIncidentsQuery } from "@application/queries/definitions/ge
 import { MotorcycleNotFoundError } from "@domain/errors/motorcycle/motorcycle-not-found";
 import { DriverNotFoundError } from "@domain/errors/driver/driver-not-found";
 import { DriverNotFoundHttpException } from "../exceptions/driver/driver-not-found";
+import { UpdateMotorcycleIncidentDto } from "../dtos/motorcycle-incident/update";
+import { UpdateMotorcycleIncidentCommand } from "@application/command/definitions/update-motorcycle-incident";
 
 @Controller()
 export class MotorcycleIncidentController {
@@ -71,6 +73,42 @@ export class MotorcycleIncidentController {
 		}
 
 		return res.status(HttpStatus.CREATED).send();
+	}
+
+	@RequiredRoles("FLEET_MANAGER")
+	@UseGuards(AuthGuard)
+	@Patch("/motorcycle-incident/:motorcycleIncidentId")
+	public async update(
+		@Res() res: Response,
+		@Param("motorcycleIncidentId") motorcycleIncidentId: string,
+		@Body() updateMotorcycleIncidentDto: UpdateMotorcycleIncidentDto,
+	) {
+		const {
+			type,
+			description,
+			incidentDate,
+			incidentTime,
+			location,
+		} = updateMotorcycleIncidentDto;
+
+		const commandResult = await this.commandBus.execute(new UpdateMotorcycleIncidentCommand(
+			motorcycleIncidentId,
+			type,
+			description,
+			incidentDate,
+			incidentTime,
+			location,
+		));
+
+		if (commandResult instanceof MotorcycleIncidentNotFoundError) {
+			throw new MotorcycleIncidentNotFoundHttpException(commandResult.message);
+		}
+
+		if (commandResult instanceof InvalidIncidentTypeError) {
+			throw new InvalidIncidentTypeHttpException(commandResult.message);
+		}
+
+		return res.status(HttpStatus.OK).send();
 	}
 
 	@RequiredRoles("FLEET_MANAGER")

@@ -8,6 +8,21 @@ import { MotorcycleIncidentMapper } from "../../mappers/motorcycle-incident";
 export class MotorcycleIncidentRepository implements IMotorcycleIncidentRepository {
 	public constructor(private readonly mapper: MotorcycleIncidentMapper) {}
 
+	public async update(id: string, motorcycleIncident: MotorcycleIncidentEntity): Promise<void> {
+		await prisma.motorcycleIncident.update({
+			where: {
+				id,
+			},
+			data: {
+				type: motorcycleIncident.type.value,
+				description: motorcycleIncident.description,
+				date: motorcycleIncident.incidentDate,
+				time: motorcycleIncident.incidentTime,
+				location: motorcycleIncident.location,
+			},
+		});
+	}
+
 	public async save(incident: MotorcycleIncidentEntity): Promise<void> {
 		await prisma.motorcycleIncident.create({
 			data: {

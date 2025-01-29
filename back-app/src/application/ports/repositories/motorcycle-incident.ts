@@ -7,4 +7,5 @@ export interface IMotorcycleIncidentRepository {
 	findById(id: string): Promise<MotorcycleIncidentEntity | null>;
 	delete(motorcycleIncident: MotorcycleIncidentEntity): Promise<void>;
 	getMotorcycleIncidents(): Promise<MotorcycleIncidentEntity[]>;
+	update(id: string, motorcycleIncident: MotorcycleIncidentEntity): Promise<void>;
 }

@@ -14,6 +14,8 @@ import { GetMotorcycleIncidentsQueryHandler } from "@application/queries/handler
 import { DeleteMotorcycleIncidentCommandHandler } from "@application/command/handlers/delete-motorcycle-incident.command-handler";
 import { MotorcycleRepository } from "../adapters/repositories/motorcycle";
 import { DriverRepository } from "../adapters/repositories/driver-sheet";
+import { UpdateMotorcycleIncidentUsecase } from "@application/usecases/motorcycle-incident/update-motorcycle-incident-usecase";
+import { UpdateMotorcycleIncidentCommandHandler } from "@application/command/handlers/update-motorcycle-incident.command-handler";
 
 const motorcycleIncidentInjectionUsecases: Provider[] = [
 	{
@@ -37,6 +39,14 @@ const motorcycleIncidentInjectionUsecases: Provider[] = [
 		],
 	},
 	{
+		provide: UpdateMotorcycleIncidentUsecase,
+		useFactory: (
+			motorcycleIncidentRepository: MotorcycleIncidentRepository,
+			eventStoreRepository: EventStoreRepository,
+		) => new UpdateMotorcycleIncidentUsecase(motorcycleIncidentRepository, eventStoreRepository),
+		inject: [MOTORCYCLE_INCIDENT_REPOSITORY_INTERFACE, EVENT_STORE_REPOSITORY_INTERFACE],
+	},
+	{
 		provide: DeleteMotorcycleIncidentUsecase,
 		useFactory: (
 			motorcycleIncidentRepository: MotorcycleIncidentRepository,
@@ -53,7 +63,11 @@ const motorcycleIncidentInjectionUsecases: Provider[] = [
 	},
 ];
 
-const commandHandlers: Provider[] = [CreateMotorcycleIncidentCommandHandler, DeleteMotorcycleIncidentCommandHandler];
+const commandHandlers: Provider[] = [
+	CreateMotorcycleIncidentCommandHandler,
+	UpdateMotorcycleIncidentCommandHandler,
+	DeleteMotorcycleIncidentCommandHandler,
+];
 
 const queryHandlers: Provider[] = [GetMotorcycleIncidentsQueryHandler];
 
