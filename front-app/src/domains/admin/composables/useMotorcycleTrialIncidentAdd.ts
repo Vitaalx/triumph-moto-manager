@@ -8,7 +8,7 @@ import { h } from "vue";
 const formSchema = toTypedSchema(motorcycleTrialIncidentFormSchema);
 
 export function useMotorcycleTrialIncidentAdd() {
-	const { handleSubmit, resetForm } = useForm({
+	const { handleSubmit, resetForm, values, setFieldValue } = useForm({
 		validationSchema: formSchema,
 	});
 
@@ -37,6 +37,8 @@ export function useMotorcycleTrialIncidentAdd() {
 	});
 
 	return {
-		onSubmit
+		onSubmit,
+		values,
+		setFieldValue
 	};
 }
