@@ -12,6 +12,7 @@ import { MotorcycleYear } from "@domain/types/motorcycle-year";
 import { MotorcycleTryEntity } from "@domain/entities/motorcycle-try";
 import { MotorcycleIncidentEntity } from "@domain/entities/motorcycle-incident";
 import { Email } from "@domain/types/email";
+import { IncidentType } from "@domain/types/incident-type";
 
 const _driverSheetWithDetails = Prisma.validator<Prisma.DriverSheetDefaultArgs>()({
 	include: {
@@ -50,9 +51,13 @@ export class DriverSheetWithDetailsMapper implements EntityMapper<DriverSheetWit
 
 		const motorcycleIncidents = entity.motorcycleIncidents.map((incident) => new MotorcycleIncidentEntity(
 			incident.id,
+			new IncidentType(incident.type),
 			incident.description,
-			incident.motorcycleId,
+			new MotorcycleLicensePlate(incident.motorcycleId),
 			incident.driverId,
+			incident.date,
+			incident.time,
+			incident.location,
 		));
 
 		return new DriverSheetEntity(

@@ -6,7 +6,7 @@ import { MotorcycleTryMapper } from "../../mappers/motorcycle-try";
 
 @Injectable()
 export class MotorcycleTryRepository implements IMotorcycleTryRepository {
-	public constructor(private readonly motorcycleTryMapper: MotorcycleTryMapper) {}
+	public constructor(private readonly mapper: MotorcycleTryMapper) {}
 
 	public async findById(id: string): Promise<MotorcycleTryEntity | null> {
 		const motorcycleTry = await prisma.motorcycleTry.findUnique({
@@ -17,7 +17,7 @@ export class MotorcycleTryRepository implements IMotorcycleTryRepository {
 		if (motorcycleTry === null) {
 			return null;
 		}
-		return this.motorcycleTryMapper.toDomainEntity(motorcycleTry);
+		return this.mapper.toDomainEntity(motorcycleTry);
 	}
 
 	public async getMotorcyclesInTrial(): Promise<MotorcycleTryEntity[]> {
@@ -31,7 +31,7 @@ export class MotorcycleTryRepository implements IMotorcycleTryRepository {
 				},
 			},
 		});
-		return motorcyclesInTrial.map((motorcycleTry) => this.motorcycleTryMapper.toDomainEntity(motorcycleTry));
+		return motorcyclesInTrial.map((motorcycleTry) => this.mapper.toDomainEntity(motorcycleTry));
 	}
 
 	public async getMotorcyclesTrialPassed(): Promise<MotorcycleTryEntity[]> {
@@ -42,7 +42,7 @@ export class MotorcycleTryRepository implements IMotorcycleTryRepository {
 				},
 			},
 		});
-		return motorcyclesTrialPassed.map((motorcycleTry) => this.motorcycleTryMapper.toDomainEntity(motorcycleTry));
+		return motorcyclesTrialPassed.map((motorcycleTry) => this.mapper.toDomainEntity(motorcycleTry));
 	}
 
 	public async getMotorcyclesTrialComming(): Promise<MotorcycleTryEntity[]> {
@@ -53,7 +53,7 @@ export class MotorcycleTryRepository implements IMotorcycleTryRepository {
 				},
 			},
 		});
-		return motorcyclesTrialComming.map((motorcycleTry) => this.motorcycleTryMapper.toDomainEntity(motorcycleTry));
+		return motorcyclesTrialComming.map((motorcycleTry) => this.mapper.toDomainEntity(motorcycleTry));
 	}
 
 	public async getMotorcycleTryByDriverIdAndMotorcycleId(
@@ -75,7 +75,7 @@ export class MotorcycleTryRepository implements IMotorcycleTryRepository {
 			return null;
 		}
 
-		return this.motorcycleTryMapper.toDomainEntity(motorcycleTry);
+		return this.mapper.toDomainEntity(motorcycleTry);
 	}
 
 	public async delete(motorcycleTry: MotorcycleTryEntity): Promise<void> {

@@ -53,11 +53,15 @@ model MotorcycleTry {
 
 model MotorcycleIncident {
     id           String      @id
+    type         String
     description  String
     motorcycle   Motorcycle  @relation(fields: [motorcycleId], references: [licensePlate])
     motorcycleId String
     driverSheet  DriverSheet @relation(fields: [driverId], references: [id])
     driverId     String
+    date         DateTime
+    time         String
+    location     String
 }
 
 model DriverSheet {

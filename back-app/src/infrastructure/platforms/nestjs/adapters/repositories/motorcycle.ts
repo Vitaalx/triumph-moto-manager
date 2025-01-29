@@ -6,7 +6,7 @@ import { MotorcycleMapper } from "../../mappers/motorcycle";
 
 @Injectable()
 export class MotorcycleRepository implements IMotorcycleRepository {
-	public constructor(private readonly motorcycleMapper: MotorcycleMapper) {}
+	public constructor(private readonly mapper: MotorcycleMapper) {}
 
 	public async delete(licensePlate: MotorcycleLicensePlate): Promise<void> {
 		await prisma.motorcycle.delete({
@@ -49,7 +49,7 @@ export class MotorcycleRepository implements IMotorcycleRepository {
 
 	public async getMotorcycles(): Promise<MotorcycleEntity[]> {
 		const motorcycles = await prisma.motorcycle.findMany();
-		return motorcycles.map((motorcycle) => this.motorcycleMapper.toDomainEntity(motorcycle));
+		return motorcycles.map((motorcycle) => this.mapper.toDomainEntity(motorcycle));
 	}
 
 	public async findByLicensePlate(licensePlate: MotorcycleLicensePlate): Promise<MotorcycleEntity | null> {
@@ -63,6 +63,6 @@ export class MotorcycleRepository implements IMotorcycleRepository {
 			return null;
 		}
 
-		return this.motorcycleMapper.toDomainEntity(motorcycle);
+		return this.mapper.toDomainEntity(motorcycle);
 	}
 }
