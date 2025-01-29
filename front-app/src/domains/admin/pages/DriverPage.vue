@@ -38,12 +38,36 @@ const formattedMotorcycles = computed(() =>
 		price: motorcycle.price.value,
 	}))
 );
-const formattedMotorcycleTrials = computed(() =>
-	driver.value.motorcycleTries.map((motorcycleTrial: MotorcycleTrial) => ({
-		...motorcycleTrial,
-		motorcycleId: motorcycleTrial.motorcycleId.value,
-	}))
-);
+const formattedMotorcycleTrials = computed(() => {
+	const today = new Date();
+
+	return driver.value.motorcycleTries.map((motorcycleTrial: MotorcycleTrial) => {
+		const motorcycle = driver.value.motorcycles.find(
+			(motorcycle) => motorcycle.licensePlate.value === motorcycleTrial.motorcycleId.value
+		);
+		const startDate = new Date(motorcycleTrial.startDate);
+		const endDate = new Date(motorcycleTrial.endDate);
+		let status: string;
+
+		if (today < startDate) {
+			status = "A venir";
+		} else if (today >= startDate && today <= endDate) {
+			status = "En cours";
+		} else {
+			status = "Passé";
+		}
+		return {
+			...motorcycleTrial,
+			motorcycleId: motorcycleTrial.motorcycleId.value,
+			motorcycleModel: motorcycle ? `${motorcycle.brand} ${motorcycle.model}` : "Unknown",
+			status: status,
+			startDate: motorcycleTrial.startDate,
+			endDate: motorcycleTrial.endDate
+		};
+	});
+});
+
+
 
 const motorcycleColumns: ColumnDef<formattedMotorcycle>[] = [
 	{
@@ -120,14 +144,39 @@ const motorcycleColumns: ColumnDef<formattedMotorcycle>[] = [
 
 const motorcycleTrialsColumns: ColumnDef<formattedMotorcycleTrial>[] = [
 	{
-		accessorKey: "motorcycleId",
+		accessorKey: "status",
 		header: ({ column }: { column: Column<formattedMotorcycleTrial, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
 				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
-			}, () => ["Plaque", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
+			}, () => ["Statut", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
 		},
-		cell: ({ row }: { row: Row<formattedMotorcycleTrial> }) => h("div", { class: "" }, row.getValue("motorcycleId")),
+		cell: ({ row }: { row: Row<formattedMotorcycleTrial> }) => {
+			const status = row.getValue("status") as string;
+			let className = "";
+			switch (status) {
+			case "A venir":
+				className = "text-blue-600";
+				break;
+			case "En cours":
+				className = "text-green-600";
+				break;
+			case "Passé":
+				className = "text-gray-600";
+				break;
+			}
+			return h("div", { class: className }, status);
+		},
+	},
+	{
+		accessorKey: "motorcycleModel",
+		header: ({ column }: { column: Column<formattedMotorcycleTrial, unknown> }) => {
+			return h(TheButton, {
+				variant: "ghost",
+				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
+			}, () => ["Moto", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
+		},
+		cell: ({ row }: { row: Row<formattedMotorcycleTrial> }) => h("div", { class: "" }, row.getValue("motorcycleModel")),
 	},
 	{
 		accessorKey: "startDate",
@@ -181,19 +230,19 @@ const motorcycleTrialsColumns: ColumnDef<formattedMotorcycleTrial>[] = [
 					</h2>
 
 					<p class="text-sm text-gray-500">
-						ID: <span class="font-mono bg-gray-100 px-2 py-1 rounded">{{ driver.id }}</span>
+						ID : <span class="font-mono bg-gray-100 px-2 py-1 rounded">{{ driver.id }}</span>
 					</p>
 				</div>
 
 				<div class="space-y-4">
 					<div class="flex items-center gap-2">
-						<span class="font-semibold text-gray-700">Âge:</span>
+						<span class="font-semibold text-gray-700">Âge :</span>
 
 						<span class="text-gray-800">{{ driver.age }} ans</span>
 					</div>
 
 					<div class="flex items-center gap-2">
-						<span class="font-semibold text-gray-700">Email:</span>
+						<span class="font-semibold text-gray-700">Email :</span>
 
 						<a 
 							:href="`mailto:${driver.email}`"
@@ -205,13 +254,13 @@ const motorcycleTrialsColumns: ColumnDef<formattedMotorcycleTrial>[] = [
 					</div>
 
 					<div class="flex items-center gap-2">
-						<span class="font-semibold text-gray-700">Type de permis moto:</span>
+						<span class="font-semibold text-gray-700">Type de permis moto :</span>
 
 						<span class="text-gray-800">{{ driver.motorcycleLicenseType }}</span>
 					</div>
 
 					<div class="flex items-center gap-2">
-						<span class="font-semibold text-gray-700">Expérience de conduite:</span>
+						<span class="font-semibold text-gray-700">Expérience de conduite :</span>
 
 						<span class="text-gray-800">{{ driver.drivingExperience }}</span>
 					</div>
