@@ -19,7 +19,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { TheInput } from "@/components/ui/input";
+import { TheTextarea } from "@/components/ui/textarea";
 import ButtonPrimary from "@/components/ButtonPrimary.vue";
 
 const { INCIDENT_HISTORY } = routerPageName;
@@ -106,27 +106,25 @@ const { onSubmit } = useMotorcycleTrialIncidentAdd();
 				</FormField>
 			</div>
   
-			<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-				<FormField
-					v-slot="{ componentField }"
-					name="description"
-				>
-					<FormItem>
-						<FormLabel>Description</FormLabel>
+			<FormField
+				v-slot="{ componentField }"
+				name="description"
+			>
+				<FormItem>
+					<FormLabel>Description</FormLabel>
 
-						<FormControl>
-							<TheInput
-								type="texterea"
-								placeholder="Description de l'incident"
-								v-bind="componentField"
-							/>
-						</FormControl>
+					<FormControl>
+						<TheTextarea
+							type="texterea"
+							placeholder="Description de l'incident"
+							v-bind="componentField"
+						/>
+					</FormControl>
 
-						<FormMessage />
-					</FormItem>
-				</FormField>
-			</div>
-  
+					<FormMessage />
+				</FormItem>
+			</FormField>
+
 			<div class="flex justify-end">
 				<ButtonPrimary type="submit">
 					Ajouter l'incident
