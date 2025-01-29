@@ -87,7 +87,7 @@ const endDate = computed({
 										:key="driver.id"
 										:value="driver.id"
 									>
-										{{ driver.fullName }}
+										{{ driver.fullName }} ({{ driver.email }})
 									</SelectItem>
 								</SelectGroup>
 							</SelectContent>
@@ -118,7 +118,7 @@ const endDate = computed({
 										:key="motorcycle.licensePlate"
 										:value="motorcycle.licensePlate"
 									>
-										{{ motorcycle.brand }} - {{ motorcycle.model }}
+										{{ motorcycle.licensePlate }} ({{ motorcycle.brand }} - {{ motorcycle.model }})
 									</SelectItem>
 								</SelectGroup>
 							</SelectContent>
