@@ -1,11 +1,11 @@
-import { incidentFormSchema } from "@/schemas/incidentSchema";
+import { incidentAddFormSchema } from "@/schemas/incidentSchema";
 import api from "@/lib/axios";
 import { toast } from "@/components/ui/toast";
 import { toTypedSchema } from "@vee-validate/zod";
 import { useForm } from "vee-validate";
 import { h } from "vue";
 
-const formSchema = toTypedSchema(incidentFormSchema);
+const formSchema = toTypedSchema(incidentAddFormSchema);
 
 export function useIncidentAdd() {
 	const { handleSubmit, resetForm, values, setFieldValue } = useForm({

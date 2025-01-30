@@ -1,8 +1,8 @@
 <script setup lang="ts">
-// import { routerPageName } from "@/router/routerPageName";
+import { routerPageName } from "@/router/routerPageName";
 import { type formattedIncident } from "@/schemas/incidentSchema";
 import { useIncidentGetAll } from "../composables/useIncidentGetAll";
-// import { useDriverDelete } from "../composables/useDriverDelete";
+import { useIncidentDelete } from "../composables/useIncidentDelete";
 import type {
 	ColumnDef,
 	Row,
@@ -15,10 +15,10 @@ import DataTableDropdownAction from "../components/DataTableDropdownAction.vue";
 import AdminSection from "../components/AdminSection.vue";
 import DataTable from "../components/DataTable.vue";
 
-// const { DRIVER_PAGE, DRIVER_EDIT } = routerPageName;
+const { INCIDENT_EDIT } = routerPageName;
 
 const { incidents, isLoading } = useIncidentGetAll();
-// const { deleteDriver } = useDriverDelete();
+const { deleteIncident } = useIncidentDelete();
 
 const columns: ColumnDef<formattedIncident>[] = [
 	{
@@ -95,18 +95,17 @@ const columns: ColumnDef<formattedIncident>[] = [
 		id: "actions",
 		enableHiding: false,
 		cell: ({ row }) => {
-			const driver = row.original;
+			const incident = row.original;
 
 			return h(DataTableDropdownAction, {
 				copyText: "Copier l'ID",
-				item: driver.id,
-				// viewPath: { name: DRIVER_PAGE, params: { driverId: driver.id } },
-				// editPath: { name: DRIVER_EDIT, params: { driverId: driver.id } },
-				// onDelete: (driverId) => {
-				// 	deleteDriver(driverId);
-				// 	// Update after deletion
-				// 	window.location.reload();
-				// },
+				item: incident.id,
+				editPath: { name: INCIDENT_EDIT, params: { incidentId: incident.id } },
+				onDelete: (incidentId) => {
+					deleteIncident(incidentId);
+					// Update after deletion
+					window.location.reload();
+				},
 			});
 		},
 	}
@@ -114,7 +113,7 @@ const columns: ColumnDef<formattedIncident>[] = [
 </script>
 
 <template>
-	<AdminSection title="Liste des conducteurs">
+	<AdminSection title="Liste des incidents">
 		<div
 			v-if="isLoading"
 			class="flex justify-center items-center h-40"

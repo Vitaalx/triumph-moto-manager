@@ -23,7 +23,7 @@ export function useDefaultOpenAccordion() {
 		TRIAL_NEXT_LIST,
 		TRIAL_HISTORY,
 		TRIAL_ADD,
-		INCIDENT_HISTORY,
+		INCIDENT_LIST,
 		INCIDENT_ADD
 	} = routerPageName;
 
@@ -49,7 +49,7 @@ export function useDefaultOpenAccordion() {
 			[TRIAL_NEXT_LIST]: "trials",
 			[TRIAL_HISTORY]: "trials",
 			[TRIAL_ADD]: "trials",
-			[INCIDENT_HISTORY]: "trials",
+			[INCIDENT_LIST]: "trials",
 			[INCIDENT_ADD]: "trials"
 		};
 

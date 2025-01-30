@@ -23,8 +23,9 @@ export const routerPageNameAdminPanel = Object.freeze({
 	TRIAL_NEXT_LIST: "trial-incoming-list",
 	TRIAL_HISTORY: "trial-history",
 	TRIAL_ADD: "trial-add",
-	INCIDENT_HISTORY: "incident-history",
+	INCIDENT_LIST: "incident-list",
 	INCIDENT_ADD: "incident-add",
+	INCIDENT_EDIT: "incident-edit",
 });
 
 export default (): RouteRecordRaw[] => [
@@ -143,14 +144,19 @@ export default (): RouteRecordRaw[] => [
 				component: () => import("./pages/TrialHistoryPage.vue"),
 			},
 			{
-				name: routerPageNameAdminPanel.INCIDENT_HISTORY,
-				path: "/dashboard/incident-history",
+				name: routerPageNameAdminPanel.INCIDENT_LIST,
+				path: "/dashboard/incident-list",
 				component: () => import("./pages/IncidentListPage.vue"),
 			},
 			{
 				name: routerPageNameAdminPanel.INCIDENT_ADD,
 				path: "/dashboard/incident-add",
 				component: () => import("./pages/IncidentAddPage.vue"),
+			},
+			{
+				name: routerPageNameAdminPanel.INCIDENT_EDIT,
+				path: "/dashboard/incident-add/:incidentId",
+				component: () => import("./pages/IncidentEditPage.vue"),
 			},
 		],
 	},

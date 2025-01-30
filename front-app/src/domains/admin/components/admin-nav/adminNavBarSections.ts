@@ -43,7 +43,7 @@ const {
 	TRIAL_NEXT_LIST,
 	TRIAL_HISTORY,
 	TRIAL_ADD,
-	INCIDENT_HISTORY,
+	INCIDENT_LIST,
 	INCIDENT_ADD,
 } = routerPageName;
 const adminNavSections: NavSection[] = [
@@ -130,7 +130,7 @@ const adminNavSections: NavSection[] = [
 				icon: mdiPlus, route: TRIAL_ADD, label: "Ajouter un essai"
 			},
 			{
-				icon: mdiHistory, route: INCIDENT_HISTORY, label: "Historique des incidents" 
+				icon: mdiFormatListBulleted, route: INCIDENT_LIST, label: "Liste des incidents" 
 			},
 			{
 				icon: mdiAlert, route: INCIDENT_ADD, label: "Signaler un incident" 

@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import { useRouteParams } from "@/composables/useRouteParams";
 import { routerPageName } from "@/router/routerPageName";
-import { useDriverGetAll } from "../composables/useDriverGetAll";
-import { useMotorcycleGetAll } from "../composables/useMotorcycleGetAll";
-import { useIncidentAdd } from "../composables/useIncidentAdd";
+import { z } from "zod";
+import { useIncidentEdit } from "../composables/useIncidentEdit";
 import AdminSection from "../components/AdminSection.vue";
 import {
 	FormControl,
@@ -30,17 +30,17 @@ import { Calendar as CalendarIcon } from "lucide-vue-next";
 import { toDate } from "radix-vue/date";
 import { computed, ref } from "vue";
 
+const params = useRouteParams({
+	incidentId: z.string(),
+});
 const { INCIDENT_LIST } = routerPageName;
-const { drivers, isLoading: isDriversLoading } = useDriverGetAll();
-const { motorcycles, isLoading: isMotorcyclesLoading } = useMotorcycleGetAll();
-const { onSubmit, values, setFieldValue } = useIncidentAdd();
+
+const { isLoaded, onSubmit, values, setFieldValue } = useIncidentEdit(params.value.incidentId);
 
 const df = new DateFormatter("fr-FR", {
 	dateStyle: "long",
 });
-
 const incidentDatePlaceholder = ref<DateValue>();
-
 const incidentDate = computed({
 	get: () => values.incidentDate ? parseDate(values.incidentDate) : undefined,
 	set: val => val,
@@ -49,10 +49,10 @@ const incidentDate = computed({
 
 <template>
 	<AdminSection
-		title="Signaler un incident"
+		title="Modifier un incident"
 		:back-to="INCIDENT_LIST"
 	>
-		<div v-if="isDriversLoading || isMotorcyclesLoading">
+		<div v-if="!isLoaded">
 			Chargement des données...
 		</div>
 
@@ -92,70 +92,6 @@ const incidentDate = computed({
 				</FormItem>
 			</FormField>
 
-			<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-				<FormField
-					v-slot="{ componentField }"
-					name="driverId"
-				>
-					<FormItem>
-						<FormLabel>Pilote</FormLabel>
-
-						<TheSelect v-bind="componentField">
-							<FormControl>
-								<SelectTrigger>
-									<SelectValue placeholder="Sélectionner un pilote" />
-								</SelectTrigger>
-							</FormControl>
-
-							<SelectContent>
-								<SelectGroup>
-									<SelectItem
-										v-for="driver in drivers"
-										:key="driver.id"
-										:value="driver.id"
-									>
-										{{ driver.fullName }} ({{ driver.email }})
-									</SelectItem>
-								</SelectGroup>
-							</SelectContent>
-						</TheSelect>
-
-						<FormMessage />
-					</FormItem>
-				</FormField>
-
-				<FormField
-					v-slot="{ componentField }"
-					name="motorcycleId"
-				>
-					<FormItem>
-						<FormLabel>Moto</FormLabel>
-
-						<TheSelect v-bind="componentField">
-							<FormControl>
-								<SelectTrigger>
-									<SelectValue placeholder="Sélectionner une moto" />
-								</SelectTrigger>
-							</FormControl>
-
-							<SelectContent>
-								<SelectGroup>
-									<SelectItem
-										v-for="motorcycle in motorcycles"
-										:key="motorcycle.licensePlate"
-										:value="motorcycle.licensePlate"
-									>
-										{{ motorcycle.licensePlate }} ({{ motorcycle.brand }} - {{ motorcycle.model }})
-									</SelectItem>
-								</SelectGroup>
-							</SelectContent>
-						</TheSelect>
-
-						<FormMessage />
-					</FormItem>
-				</FormField>
-			</div>
-  
 			<FormField
 				v-slot="{ componentField }"
 				name="description"
