@@ -39,10 +39,10 @@ const {
 	PERMISSION_MANAGEMENT,
 	DRIVER_LIST,
 	DRIVER_ADD,
-	MOTORCYCLE_TRIAL_CURRENT_LIST,
-	MOTORCYCLE_TRIAL_NEXT_LIST,
-	MOTORCYCLE_TRIAL_HISTORY,
-	MOTORCYCLE_TRIAL_ADD,
+	TRIAL_CURRENT_LIST,
+	TRIAL_NEXT_LIST,
+	TRIAL_HISTORY,
+	TRIAL_ADD,
 	INCIDENT_HISTORY,
 	INCIDENT_ADD,
 } = routerPageName;
@@ -118,16 +118,16 @@ const adminNavSections: NavSection[] = [
 		value: "trials",
 		items: [
 			{
-				icon: mdiMotorbike, route: MOTORCYCLE_TRIAL_CURRENT_LIST, label: "Essais en cours" 
+				icon: mdiMotorbike, route: TRIAL_CURRENT_LIST, label: "Essais en cours" 
 			},
 			{
-				icon: mdiMotorbike, route: MOTORCYCLE_TRIAL_NEXT_LIST, label: "Essais à venir" 
+				icon: mdiMotorbike, route: TRIAL_NEXT_LIST, label: "Essais à venir" 
 			},
 			{
-				icon: mdiHistory, route: MOTORCYCLE_TRIAL_HISTORY, label: "Historique des essais" 
+				icon: mdiHistory, route: TRIAL_HISTORY, label: "Historique des essais" 
 			},
 			{
-				icon: mdiPlus, route: MOTORCYCLE_TRIAL_ADD, label: "Ajouter un essai"
+				icon: mdiPlus, route: TRIAL_ADD, label: "Ajouter un essai"
 			},
 			{
 				icon: mdiHistory, route: INCIDENT_HISTORY, label: "Historique des incidents" 

@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export interface MotorcycleTrial {
+export interface Trial {
 	id: string,
 	driverId: string,
 	motorcycleId: { // = lisencePlate
@@ -10,7 +10,7 @@ export interface MotorcycleTrial {
 	endDate: string
 	}
 
-export interface formattedMotorcycleTrial {
+export interface formattedTrial {
 	id: string,
 	driverId: string,
 	motorcycleId: string,
@@ -18,7 +18,7 @@ export interface formattedMotorcycleTrial {
 	endDate: string
 }
 
-export const motorcycleTrialFormSchema = z.object({
+export const trialFormSchema = z.object({
 	driverId: z.string({ message: "Le pilote est obligatoire." }),
 	motorcycleId: z.string({ message: "La moto est obligatoire." }),
 	startDate: z.string({ message: "La date de début est obligatoire." }),

@@ -5,7 +5,7 @@ import { useRouteParams } from "@/composables/useRouteParams";
 import { routerPageName } from "@/router/routerPageName";
 import { useDriverGet } from "../composables/useDriverGet";
 import type { formattedMotorcycle, Motorcycle } from "@/schemas/motorcycleSchema";
-import type { formattedMotorcycleTrial, MotorcycleTrial } from "@/schemas/motorcycleTrialSchema";
+import type { formattedTrial, Trial } from "@/schemas/trialSchema";
 import { DateFormatter } from "@internationalized/date";
 import type {
 	ColumnDef,
@@ -41,7 +41,7 @@ const formattedMotorcycles = computed(() =>
 const formattedMotorcycleTrials = computed(() => {
 	const today = new Date();
 
-	return driver.value.motorcycleTries.map((motorcycleTrial: MotorcycleTrial) => {
+	return driver.value.motorcycleTries.map((motorcycleTrial: Trial) => {
 		const startDate = new Date(motorcycleTrial.startDate);
 		const endDate = new Date(motorcycleTrial.endDate);
 		let status: string;
@@ -139,16 +139,16 @@ const motorcycleColumns: ColumnDef<formattedMotorcycle>[] = [
 	},
 ];
 
-const motorcycleTrialsColumns: ColumnDef<formattedMotorcycleTrial>[] = [
+const motorcycleTrialsColumns: ColumnDef<formattedTrial>[] = [
 	{
 		accessorKey: "status",
-		header: ({ column }: { column: Column<formattedMotorcycleTrial, unknown> }) => {
+		header: ({ column }: { column: Column<formattedTrial, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
 				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
 			}, () => ["Statut", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
 		},
-		cell: ({ row }: { row: Row<formattedMotorcycleTrial> }) => {
+		cell: ({ row }: { row: Row<formattedTrial> }) => {
 			const status = row.getValue("status") as string;
 			let className = "";
 			switch (status) {
@@ -167,23 +167,23 @@ const motorcycleTrialsColumns: ColumnDef<formattedMotorcycleTrial>[] = [
 	},
 	{
 		accessorKey: "motorcycleId",
-		header: ({ column }: { column: Column<formattedMotorcycleTrial, unknown> }) => {
+		header: ({ column }: { column: Column<formattedTrial, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
 				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
 			}, () => ["Moto", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
 		},
-		cell: ({ row }: { row: Row<formattedMotorcycleTrial> }) => h("div", { class: "" }, row.getValue("motorcycleId")),
+		cell: ({ row }: { row: Row<formattedTrial> }) => h("div", { class: "" }, row.getValue("motorcycleId")),
 	},
 	{
 		accessorKey: "startDate",
-		header: ({ column }: { column: Column<formattedMotorcycleTrial, unknown> }) => {
+		header: ({ column }: { column: Column<formattedTrial, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
 				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
 			}, () => ["Début", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
 		},
-		cell: ({ row }: { row: Row<formattedMotorcycleTrial> }) => {
+		cell: ({ row }: { row: Row<formattedTrial> }) => {
 			const startDate = row.getValue("startDate") as string;
 			const date = new Date(startDate);
 			
@@ -192,13 +192,13 @@ const motorcycleTrialsColumns: ColumnDef<formattedMotorcycleTrial>[] = [
 	},
 	{
 		accessorKey: "endDate",
-		header: ({ column }: { column: Column<formattedMotorcycleTrial, unknown> }) => {
+		header: ({ column }: { column: Column<formattedTrial, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
 				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
 			}, () => ["Fin", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
 		},
-		cell: ({ row }: { row: Row<formattedMotorcycleTrial> }) => {
+		cell: ({ row }: { row: Row<formattedTrial> }) => {
 			const endDate = row.getValue("endDate") as string;
 			const date = new Date(endDate);
 

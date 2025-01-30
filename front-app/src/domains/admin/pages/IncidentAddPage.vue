@@ -2,7 +2,7 @@
 import { routerPageName } from "@/router/routerPageName";
 import { useDriverGetAll } from "../composables/useDriverGetAll";
 import { useMotorcycleGetAll } from "../composables/useMotorcycleGetAll";
-import { useMotorcycleTrialIncidentAdd } from "../composables/useMotorcycleTrialIncidentAdd";
+import { useIncidentAdd } from "../composables/useIncidentAdd";
 import AdminSection from "../components/AdminSection.vue";
 import {
 	FormControl,
@@ -33,7 +33,7 @@ import { computed, ref } from "vue";
 const { INCIDENT_HISTORY } = routerPageName;
 const { drivers, isLoading: isDriversLoading } = useDriverGetAll();
 const { motorcycles, isLoading: isMotorcyclesLoading } = useMotorcycleGetAll();
-const { onSubmit, values, setFieldValue } = useMotorcycleTrialIncidentAdd();
+const { onSubmit, values, setFieldValue } = useIncidentAdd();
 
 const df = new DateFormatter("fr-FR", {
 	dateStyle: "long",

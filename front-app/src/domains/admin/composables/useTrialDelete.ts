@@ -1,8 +1,8 @@
 import api from "@/lib/axios";
 import { toast } from "@/components/ui/toast";
 
-export function useMotorcycleTrialDelete() {
-	function deleteMotorcycleTrial(motorcycleTrialId: string) {
+export function useTrialDelete() {
+	function deleteTrial(motorcycleTrialId: string) {
 		api.delete(`/motorcycle-try/${motorcycleTrialId}`)
 			.then(() => {
 				toast({
@@ -17,6 +17,6 @@ export function useMotorcycleTrialDelete() {
 	}
 
 	return {
-		deleteMotorcycleTrial,
+		deleteTrial,
 	};
 }

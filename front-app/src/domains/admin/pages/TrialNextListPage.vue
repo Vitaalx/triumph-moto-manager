@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { type formattedMotorcycleTrial } from "@/schemas/motorcycleTrialSchema";
-import { useMotorcycleTrialHistoryGetAll } from "../composables/useMotorcycleTrialHistoryGetAll";
-import { useMotorcycleTrialDelete } from "../composables/useMotorcycleTrialDelete";
+import { type formattedTrial } from "@/schemas/trialSchema";
+import { useTrialNextGetAll } from "../composables/useTrialNextGetAll";
+import { useTrialDelete } from "../composables/useTrialDelete";
 import { DateFormatter } from "@internationalized/date";
 import type {
 	ColumnDef,
@@ -15,43 +15,43 @@ import DataTableDropdownAction from "../components/DataTableDropdownAction.vue";
 import AdminSection from "../components/AdminSection.vue";
 import DataTable from "../components/DataTable.vue";
 
-const { motorcycleTrials, isLoading } = useMotorcycleTrialHistoryGetAll();
-const { deleteMotorcycleTrial } = useMotorcycleTrialDelete();
+const { trials, isLoading } = useTrialNextGetAll();
+const { deleteTrial } = useTrialDelete();
 
 const dateFormatter = new DateFormatter("fr-FR", {
 	dateStyle: "medium",
 });
 
-const columns: ColumnDef<formattedMotorcycleTrial>[] = [
+const columns: ColumnDef<formattedTrial>[] = [
 	{
 		accessorKey: "driverId",
-		header: ({ column }: { column: Column<formattedMotorcycleTrial, unknown> }) => {
+		header: ({ column }: { column: Column<formattedTrial, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
 				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
 			}, () => ["ID conducteur", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
 		},
-		cell: ({ row }: { row: Row<formattedMotorcycleTrial> }) => h("div", { class: "" }, row.getValue("driverId")),
+		cell: ({ row }: { row: Row<formattedTrial> }) => h("div", { class: "" }, row.getValue("driverId")),
 	},
 	{
 		accessorKey: "motorcycleId",
-		header: ({ column }: { column: Column<formattedMotorcycleTrial, unknown> }) => {
+		header: ({ column }: { column: Column<formattedTrial, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
 				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
 			}, () => ["Plaque", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
 		},
-		cell: ({ row }: { row: Row<formattedMotorcycleTrial> }) => h("div", { class: "" }, row.getValue("motorcycleId")),
+		cell: ({ row }: { row: Row<formattedTrial> }) => h("div", { class: "" }, row.getValue("motorcycleId")),
 	},
 	{
 		accessorKey: "startDate",
-		header: ({ column }: { column: Column<formattedMotorcycleTrial, unknown> }) => {
+		header: ({ column }: { column: Column<formattedTrial, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
 				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
 			}, () => ["Début", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
 		},
-		cell: ({ row }: { row: Row<formattedMotorcycleTrial> }) => {
+		cell: ({ row }: { row: Row<formattedTrial> }) => {
 			const startDate = row.getValue("startDate") as string;
 			const date = new Date(startDate);
 			
@@ -60,13 +60,13 @@ const columns: ColumnDef<formattedMotorcycleTrial>[] = [
 	},
 	{
 		accessorKey: "endDate",
-		header: ({ column }: { column: Column<formattedMotorcycleTrial, unknown> }) => {
+		header: ({ column }: { column: Column<formattedTrial, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
 				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
 			}, () => ["Fin", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
 		},
-		cell: ({ row }: { row: Row<formattedMotorcycleTrial> }) => {
+		cell: ({ row }: { row: Row<formattedTrial> }) => {
 			const endDate = row.getValue("endDate") as string;
 			const date = new Date(endDate);
 
@@ -83,7 +83,7 @@ const columns: ColumnDef<formattedMotorcycleTrial>[] = [
 				copyText: "Copier l'ID",
 				item: motorcycleTrial.id,
 				onDelete: (motorcycleTrialId) => {
-					deleteMotorcycleTrial(motorcycleTrialId);
+					deleteTrial(motorcycleTrialId);
 					// Update after deletion
 					window.location.reload();
 				},
@@ -94,7 +94,7 @@ const columns: ColumnDef<formattedMotorcycleTrial>[] = [
 </script>
 
 <template>
-	<AdminSection title="Historique des essais">
+	<AdminSection title="Essais moto à venir">
 		<div
 			v-if="isLoading"
 			class="flex justify-center items-center h-40"
@@ -105,7 +105,7 @@ const columns: ColumnDef<formattedMotorcycleTrial>[] = [
 		<DataTable
 			v-else 
 			:columns="columns"
-			:data="motorcycleTrials"
+			:data="trials"
 		/>
 	</AdminSection>
 </template>

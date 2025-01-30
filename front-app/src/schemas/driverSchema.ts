@@ -1,6 +1,6 @@
 import { z } from "zod";
 import type { Motorcycle } from "./motorcycleSchema";
-import type { MotorcycleTrial } from "./motorcycleTrialSchema";
+import type { Trial } from "./trialSchema";
 
 export interface Driver {
 	fullName: {
@@ -17,7 +17,7 @@ export interface Driver {
 	}
 	drivingExperience: string;
 	motorcycles: Motorcycle[];
-	motorcycleTries: MotorcycleTrial[];
+	motorcycleTries: Trial[];
 	incidents: [];
 }
 
@@ -29,7 +29,7 @@ export interface formattedDriver {
 	motorcycleLicenseType: string;
 	drivingExperience: string;
 	motorcycles: Motorcycle[];
-	motorcycleTries: MotorcycleTrial[];
+	motorcycleTries: Trial[];
 	incidents: [];
 }
 

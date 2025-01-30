@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export interface MotorcycleTrialIncident {
+export interface Incident {
 	id: string,
 	type: string,
 	description: string,
@@ -13,7 +13,7 @@ export interface MotorcycleTrialIncident {
 	location: string,
 }
 
-export interface formattedMotorcycleTrialIncident {
+export interface formattedIncident {
 	id: string,
 	type: string,
 	description: string,
@@ -24,7 +24,7 @@ export interface formattedMotorcycleTrialIncident {
 	location: string,
 }
 
-export const motorcycleTrialIncidentFormSchema = z.object({
+export const incidentFormSchema = z.object({
 	type: z.string({ message: "Le type est obligatoire." })
 		.regex(/^(ACCIDENT|INFRACTION)$/, { message: "Le type doit être ACCIDENT ou INFRACTION." }),
 	description: z

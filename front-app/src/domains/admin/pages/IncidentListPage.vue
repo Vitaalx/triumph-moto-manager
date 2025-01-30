@@ -1,7 +1,7 @@
 <script setup lang="ts">
 // import { routerPageName } from "@/router/routerPageName";
-import { type formattedMotorcycleTrialIncident } from "@/schemas/motorcycleTrialIncidentSchema";
-import { useMotorcycleTrialIncidentGetAll } from "../composables/useMotorcycleTrialIncidentGetAll";
+import { type formattedIncident } from "@/schemas/incidentSchema";
+import { useIncidentGetAll } from "../composables/useIncidentGetAll";
 // import { useDriverDelete } from "../composables/useDriverDelete";
 import type {
 	ColumnDef,
@@ -17,79 +17,79 @@ import DataTable from "../components/DataTable.vue";
 
 // const { DRIVER_PAGE, DRIVER_EDIT } = routerPageName;
 
-const { motorcycleTrialIncident, isLoading } = useMotorcycleTrialIncidentGetAll();
+const { incidents, isLoading } = useIncidentGetAll();
 // const { deleteDriver } = useDriverDelete();
 
-const columns: ColumnDef<formattedMotorcycleTrialIncident>[] = [
+const columns: ColumnDef<formattedIncident>[] = [
 	{
 		accessorKey: "type",
-		header: ({ column }: { column: Column<formattedMotorcycleTrialIncident, unknown> }) => {
+		header: ({ column }: { column: Column<formattedIncident, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
 				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
 			}, () => ["Type", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
 		},
-		cell: ({ row }: { row: Row<formattedMotorcycleTrialIncident> }) => h("div", { class: "" }, row.getValue("type")),
+		cell: ({ row }: { row: Row<formattedIncident> }) => h("div", { class: "" }, row.getValue("type")),
 	},
 	{
 		accessorKey: "description",
-		header: ({ column }: { column: Column<formattedMotorcycleTrialIncident, unknown> }) => {
+		header: ({ column }: { column: Column<formattedIncident, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
 				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
 			}, () => ["Description", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
 		},
-		cell: ({ row }: { row: Row<formattedMotorcycleTrialIncident> }) => h("div", { class: "" }, row.getValue("description")),
+		cell: ({ row }: { row: Row<formattedIncident> }) => h("div", { class: "" }, row.getValue("description")),
 	},
 	{
 		accessorKey: "motorcycleId",
-		header: ({ column }: { column: Column<formattedMotorcycleTrialIncident, unknown> }) => {
+		header: ({ column }: { column: Column<formattedIncident, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
 				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
 			}, () => ["Moto", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
 		},
-		cell: ({ row }: { row: Row<formattedMotorcycleTrialIncident> }) => h("div", { class: "" }, row.getValue("motorcycleId")),
+		cell: ({ row }: { row: Row<formattedIncident> }) => h("div", { class: "" }, row.getValue("motorcycleId")),
 	},
 	{
 		accessorKey: "driverId",
-		header: ({ column }: { column: Column<formattedMotorcycleTrialIncident, unknown> }) => {
+		header: ({ column }: { column: Column<formattedIncident, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
 				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
 			}, () => ["ID conducteur", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
 		},
-		cell: ({ row }: { row: Row<formattedMotorcycleTrialIncident> }) => h("div", { class: "" }, row.getValue("driverId")),
+		cell: ({ row }: { row: Row<formattedIncident> }) => h("div", { class: "" }, row.getValue("driverId")),
 	},
 	{
 		accessorKey: "incidentDate",
-		header: ({ column }: { column: Column<formattedMotorcycleTrialIncident, unknown> }) => {
+		header: ({ column }: { column: Column<formattedIncident, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
 				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
 			}, () => ["Date", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
 		},
-		cell: ({ row }: { row: Row<formattedMotorcycleTrialIncident> }) => h("div", { class: "" }, row.getValue("incidentDate")),
+		cell: ({ row }: { row: Row<formattedIncident> }) => h("div", { class: "" }, row.getValue("incidentDate")),
 	},
 	{
 		accessorKey: "incidentTime",
-		header: ({ column }: { column: Column<formattedMotorcycleTrialIncident, unknown> }) => {
+		header: ({ column }: { column: Column<formattedIncident, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
 				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
 			}, () => ["Heure", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
 		},
-		cell: ({ row }: { row: Row<formattedMotorcycleTrialIncident> }) => h("div", { class: "" }, row.getValue("incidentTime")),
+		cell: ({ row }: { row: Row<formattedIncident> }) => h("div", { class: "" }, row.getValue("incidentTime")),
 	},
 	{
 		accessorKey: "location",
-		header: ({ column }: { column: Column<formattedMotorcycleTrialIncident, unknown> }) => {
+		header: ({ column }: { column: Column<formattedIncident, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
 				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
 			}, () => ["Lieu", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
 		},
-		cell: ({ row }: { row: Row<formattedMotorcycleTrialIncident> }) => h("div", { class: "" }, row.getValue("location")),
+		cell: ({ row }: { row: Row<formattedIncident> }) => h("div", { class: "" }, row.getValue("location")),
 	},
 	{
 		id: "actions",
@@ -124,7 +124,7 @@ const columns: ColumnDef<formattedMotorcycleTrialIncident>[] = [
 
 		<DataTable
 			v-else
-			:data="motorcycleTrialIncident"
+			:data="incidents"
 			:columns="columns"
 		/>
 	</AdminSection>

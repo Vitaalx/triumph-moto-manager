@@ -2,7 +2,7 @@
 import { routerPageName } from "@/router/routerPageName";
 import { useDriverGetAll } from "../composables/useDriverGetAll";
 import { useMotorcycleGetAll } from "../composables/useMotorcycleGetAll";
-import { useMotorcycleTrialAdd } from "../composables/useMotorcycleTrialAdd";
+import { useTrialAdd } from "../composables/useTrialAdd";
 import AdminSection from "../components/AdminSection.vue";
 import {
 	FormControl,
@@ -28,10 +28,10 @@ import { Calendar as CalendarIcon } from "lucide-vue-next";
 import { toDate } from "radix-vue/date";
 import { computed, ref } from "vue";
 
-const { MOTORCYCLE_TRIAL_CURRENT_LIST } = routerPageName;
+const { TRIAL_CURRENT_LIST } = routerPageName;
 const { drivers, isLoading: isDriversLoading } = useDriverGetAll();
 const { motorcycles, isLoading: isMotorcyclesLoading } = useMotorcycleGetAll();
-const { onSubmit, values, setFieldValue } = useMotorcycleTrialAdd();
+const { onSubmit, values, setFieldValue } = useTrialAdd();
 
 const df = new DateFormatter("fr-FR", {
 	dateStyle: "long",
@@ -54,7 +54,7 @@ const endDate = computed({
 <template>
 	<AdminSection
 		title="Ajout d'un essai moto"
-		:back-to="MOTORCYCLE_TRIAL_CURRENT_LIST"
+		:back-to="TRIAL_CURRENT_LIST"
 	>
 		<div v-if="isDriversLoading || isMotorcyclesLoading">
 			Chargement des données...
