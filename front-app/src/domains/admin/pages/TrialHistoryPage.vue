@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { routerPageName } from "@/router/routerPageName";
 import { type formattedTrial } from "@/schemas/trialSchema";
 import { useTrialHistoryGetAll } from "../composables/useTrialHistoryGetAll";
 import { useTrialDelete } from "../composables/useTrialDelete";
@@ -8,12 +9,15 @@ import type {
 	Row,
 	Column,
 } from "@tanstack/vue-table";
+import { RouterLink } from "vue-router";
 import TheButton from "@/components/ui/button/TheButton.vue";
 import { ArrowUpDown } from "lucide-vue-next";
 import { h } from "vue";
 import DataTableDropdownAction from "../components/DataTableDropdownAction.vue";
 import AdminSection from "../components/AdminSection.vue";
 import DataTable from "../components/DataTable.vue";
+
+const { DRIVER_PAGE } = routerPageName;
 
 const { trials, isLoading } = useTrialHistoryGetAll();
 const { deleteTrial } = useTrialDelete();
@@ -31,7 +35,10 @@ const columns: ColumnDef<formattedTrial>[] = [
 				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
 			}, () => ["ID conducteur", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
 		},
-		cell: ({ row }: { row: Row<formattedTrial> }) => h("div", { class: "" }, row.getValue("driverId")),
+		cell: ({ row }: { row: Row<formattedTrial> }) => h(RouterLink, {
+			to: { name: DRIVER_PAGE, params: { driverId: row.getValue("driverId") } },
+			class: "text-blue-500",
+		}, row.getValue("driverId")),
 	},
 	{
 		accessorKey: "motorcycleId",
