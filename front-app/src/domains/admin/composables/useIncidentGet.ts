@@ -20,8 +20,9 @@ export function useIncidentGet(incidentId: string) {
 		api.get(`/motorcycle-incident/${incidentId}`)
 			.then((response) => {
 				const formattedIncident = {
-					...response.data.motorcycleIncident,
-					motorcycleId: response.data.motorcycleIncident.motorcycleId.value,
+					...response.data,
+					type: response.data.type.value,
+					motorcycleId: response.data.motorcycleId.value,
 				};
 
 				incident.value = formattedIncident;

@@ -42,7 +42,7 @@ const df = new DateFormatter("fr-FR", {
 });
 const incidentDatePlaceholder = ref<DateValue>();
 const incidentDate = computed({
-	get: () => values.incidentDate ? parseDate(values.incidentDate) : undefined,
+	get: () => values.incidentDate ? parseDate(values.incidentDate.split("T")[0]) : undefined,
 	set: val => val,
 });
 </script>

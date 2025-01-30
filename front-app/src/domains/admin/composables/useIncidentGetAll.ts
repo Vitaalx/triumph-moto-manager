@@ -9,7 +9,7 @@ export function useIncidentGetAll() {
 	function getAllIncident() {
 		api.get("/motorcycle-incidents")
 			.then((response) => {
-				const formattedIncident = response.data.motorcycleIncidents.map(
+				const formattedIncident = response.data.map(
 					(motorcycleIncident: Incident) => {
 						return {
 							...motorcycleIncident,

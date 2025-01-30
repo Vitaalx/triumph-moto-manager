@@ -3,6 +3,7 @@ import { routerPageName } from "@/router/routerPageName";
 import { type formattedIncident } from "@/schemas/incidentSchema";
 import { useIncidentGetAll } from "../composables/useIncidentGetAll";
 import { useIncidentDelete } from "../composables/useIncidentDelete";
+import { DateFormatter } from "@internationalized/date";
 import type {
 	ColumnDef,
 	Row,
@@ -19,6 +20,10 @@ const { INCIDENT_EDIT } = routerPageName;
 
 const { incidents, isLoading } = useIncidentGetAll();
 const { deleteIncident } = useIncidentDelete();
+
+const dateFormatter = new DateFormatter("fr-FR", {
+	dateStyle: "medium",
+});
 
 const columns: ColumnDef<formattedIncident>[] = [
 	{
@@ -67,9 +72,14 @@ const columns: ColumnDef<formattedIncident>[] = [
 			return h(TheButton, {
 				variant: "ghost",
 				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
-			}, () => ["Date", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
+			}, () => ["Fin", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
 		},
-		cell: ({ row }: { row: Row<formattedIncident> }) => h("div", { class: "" }, row.getValue("incidentDate")),
+		cell: ({ row }: { row: Row<formattedIncident> }) => {
+			const incidentDate = row.getValue("incidentDate") as string;
+			const date = new Date(incidentDate);
+
+			return h("div", { class: "" }, dateFormatter.format(date));
+		},
 	},
 	{
 		accessorKey: "incidentTime",
