@@ -145,7 +145,7 @@ export default (): RouteRecordRaw[] => [
 			{
 				name: routerPageNameAdminPanel.INCIDENT_HISTORY,
 				path: "/dashboard/incident-history",
-				component: () => import("./pages/IncidentHistoryPage.vue"),
+				component: () => import("./pages/MotorcycleTrialIncidentListPage.vue"),
 			},
 			{
 				name: routerPageNameAdminPanel.INCIDENT_ADD,
