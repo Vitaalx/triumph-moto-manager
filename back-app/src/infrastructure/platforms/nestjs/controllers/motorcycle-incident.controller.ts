@@ -20,6 +20,7 @@ import { DriverNotFoundError } from "@domain/errors/driver/driver-not-found";
 import { DriverNotFoundHttpException } from "../exceptions/driver/driver-not-found";
 import { UpdateMotorcycleIncidentDto } from "../dtos/motorcycle-incident/update";
 import { UpdateMotorcycleIncidentCommand } from "@application/command/definitions/update-motorcycle-incident";
+import { GetMotorcycleIncidentQuery } from "@application/queries/definitions/get-motorcycle-incident";
 
 @Controller()
 export class MotorcycleIncidentController {
@@ -129,6 +130,19 @@ export class MotorcycleIncidentController {
 	@Get("/motorcycle-incidents")
 	public async getMotorcycleIncidents(@Res() res: Response) {
 		const queryResult = await this.queryBus.execute(new GetMotorcycleIncidentsQuery());
+
+		return res.status(HttpStatus.OK).send(queryResult);
+	}
+
+	@RequiredRoles("FLEET_MANAGER")
+	@UseGuards(AuthGuard)
+	@Get("/motorcycle-incident/:motorcycleIncidentId")
+	public async getMotorcycleIncident(@Res() res: Response, @Param("motorcycleIncidentId") motorcycleIncidentId: string) {
+		const queryResult = await this.queryBus.execute(new GetMotorcycleIncidentQuery(motorcycleIncidentId));
+
+		if (queryResult instanceof MotorcycleIncidentNotFoundError) {
+			throw new MotorcycleIncidentNotFoundHttpException(queryResult.message);
+		}
 
 		return res.status(HttpStatus.OK).send(queryResult);
 	}

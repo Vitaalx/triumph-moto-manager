@@ -16,6 +16,8 @@ import { MotorcycleRepository } from "../adapters/repositories/motorcycle";
 import { DriverRepository } from "../adapters/repositories/driver-sheet";
 import { UpdateMotorcycleIncidentUsecase } from "@application/usecases/motorcycle-incident/update-motorcycle-incident-usecase";
 import { UpdateMotorcycleIncidentCommandHandler } from "@application/command/handlers/update-motorcycle-incident.command-handler";
+import { GetMotorcycleIncidentQueryHandler } from "@application/queries/handlers/get-motorcycle-incident.command-handler";
+import { GetMotorcycleIncidentUsecase } from "@application/usecases/motorcycle-incident/get-motorcycle-incident-usecase";
 
 const motorcycleIncidentInjectionUsecases: Provider[] = [
 	{
@@ -61,6 +63,13 @@ const motorcycleIncidentInjectionUsecases: Provider[] = [
 		) => new GetMotorcycleIncidentsUsecase(motorcycleIncidentRepository),
 		inject: [MOTORCYCLE_INCIDENT_REPOSITORY_INTERFACE],
 	},
+	{
+		provide: GetMotorcycleIncidentUsecase,
+		useFactory: (
+			motorcycleIncidentRepository: MotorcycleIncidentRepository,
+		) => new GetMotorcycleIncidentUsecase(motorcycleIncidentRepository),
+		inject: [MOTORCYCLE_INCIDENT_REPOSITORY_INTERFACE],
+	},
 ];
 
 const commandHandlers: Provider[] = [
@@ -69,7 +78,10 @@ const commandHandlers: Provider[] = [
 	DeleteMotorcycleIncidentCommandHandler,
 ];
 
-const queryHandlers: Provider[] = [GetMotorcycleIncidentsQueryHandler];
+const queryHandlers: Provider[] = [
+	GetMotorcycleIncidentsQueryHandler,
+	GetMotorcycleIncidentQueryHandler,
+];
 
 @Module({
 	imports: [
