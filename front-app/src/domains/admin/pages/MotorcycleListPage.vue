@@ -15,7 +15,7 @@ import DataTableDropdownAction from "../components/DataTableDropdownAction.vue";
 import AdminSection from "../components/AdminSection.vue";
 import DataTable from "../components/DataTable.vue";
 
-const { MOTORCYCLE_EDIT } = routerPageName;
+const { MOTORCYCLE_PAGE, MOTORCYCLE_EDIT } = routerPageName;
 
 const { motorcycles, isLoading } = useMotorcycleGetAll();
 const { deleteMotorcycle } = useMotorcycleDelete();
@@ -100,14 +100,13 @@ const columns: ColumnDef<formattedMotorcycle>[] = [
 			return h(DataTableDropdownAction, {
 				copyText: "Copier la plaque",
 				item: motorcycle.licensePlate,
-				isExpendable: true,
+				viewPath: { name: MOTORCYCLE_PAGE, params: { licensePlate: motorcycle.licensePlate } },
 				editPath: { name: MOTORCYCLE_EDIT, params: { licensePlate: motorcycle.licensePlate } },
 				onDelete: (licensePlate) => {
 					deleteMotorcycle(licensePlate);
 					// Update after deletion
 					window.location.reload();
 				},
-				onExpand: () => row.toggleExpanded(),
 			});
 		},
 	}

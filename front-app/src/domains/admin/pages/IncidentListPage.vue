@@ -9,7 +9,7 @@ import type {
 	Row,
 	Column,
 } from "@tanstack/vue-table";
-import { RouterLink } from "vue-router";
+import { RouterLink, type RouterLinkProps } from "vue-router";
 import TheButton from "@/components/ui/button/TheButton.vue";
 import { ArrowUpDown } from "lucide-vue-next";
 import { h } from "vue";
@@ -17,7 +17,7 @@ import DataTableDropdownAction from "../components/DataTableDropdownAction.vue";
 import AdminSection from "../components/AdminSection.vue";
 import DataTable from "../components/DataTable.vue";
 
-const { DRIVER_PAGE, INCIDENT_EDIT } = routerPageName;
+const { DRIVER_PAGE, MOTORCYCLE_PAGE, INCIDENT_EDIT } = routerPageName;
 
 const { incidents, isLoading } = useIncidentGetAll();
 const { deleteIncident } = useIncidentDelete();
@@ -48,27 +48,30 @@ const columns: ColumnDef<formattedIncident>[] = [
 		cell: ({ row }: { row: Row<formattedIncident> }) => h("div", { class: "" }, row.getValue("description")),
 	},
 	{
-		accessorKey: "motorcycleId",
-		header: ({ column }: { column: Column<formattedIncident, unknown> }) => {
-			return h(TheButton, {
-				variant: "ghost",
-				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
-			}, () => ["Moto", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
-		},
-		cell: ({ row }: { row: Row<formattedIncident> }) => h("div", { class: "" }, row.getValue("motorcycleId")),
-	},
-	{
 		accessorKey: "driverId",
-		header: ({ column }: { column: Column<formattedTrial, unknown> }) => {
+		header: ({ column }: { column: Column<formattedIncident, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
 				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
 			}, () => ["ID conducteur", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
 		},
-		cell: ({ row }: { row: Row<formattedTrial> }) => h(RouterLink, {
+		cell: ({ row }: { row: Row<formattedIncident> }) => h(RouterLink, {
 			to: { name: DRIVER_PAGE, params: { driverId: row.getValue("driverId") } },
 			class: "text-blue-500",
-		}, row.getValue("driverId")),
+		} as RouterLinkProps, row.getValue("driverId")),
+	},
+	{
+		accessorKey: "motorcycleId",
+		header: ({ column }: { column: Column<formattedIncident, unknown> }) => {
+			return h(TheButton, {
+				variant: "ghost",
+				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
+			}, () => ["Plaque", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
+		},
+		cell: ({ row }: { row: Row<formattedIncident> }) => h(RouterLink, {
+			to: { name: MOTORCYCLE_PAGE, params: { licensePlate: row.getValue("motorcycleId") } },
+			class: "text-blue-500",
+		} as RouterLinkProps, row.getValue("motorcycleId")),
 	},
 	{
 		accessorKey: "incidentDate",

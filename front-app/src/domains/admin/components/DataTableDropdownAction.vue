@@ -71,7 +71,7 @@ function handleDelete() {
 			</DropdownMenuItem>
 
 			<DropdownMenuItem
-				v-if="onExpand"
+				v-if="onExpand !== undefined"
 				@click="handleExpand"
 				class="cursor-pointer"
 			>

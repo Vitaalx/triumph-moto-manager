@@ -3,6 +3,7 @@ import type { RouteRecordRaw } from "vue-router";
 export const routerPageNameAdminPanel = Object.freeze({
 	DASHBOARD: "dashboard",
 	MOTORCYCLE_LIST: "motorcycle-list",
+	MOTORCYCLE_PAGE: "motorcycle-page",
 	MOTORCYCLE_ADD: "motorcycle-add",
 	MOTORCYCLE_EDIT: "motorcycle-edit",
 	MAINTENANCE_PLANNING: "maintenance-planning",
@@ -42,6 +43,11 @@ export default (): RouteRecordRaw[] => [
 				name: routerPageNameAdminPanel.MOTORCYCLE_LIST,
 				path: "/dashboard/motorcycle-list",
 				component: () => import("./pages/MotorcycleListPage.vue"),
+			},
+			{
+				name: routerPageNameAdminPanel.MOTORCYCLE_PAGE,
+				path: "/dashboard/motorcycle-page/:licensePlate",
+				component: () => import("./pages/MotorcyclePage.vue"),
 			},
 			{
 				name: routerPageNameAdminPanel.MOTORCYCLE_ADD,

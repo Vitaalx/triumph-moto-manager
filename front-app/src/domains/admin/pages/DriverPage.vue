@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { computed, h } from "vue";
-import { z } from "zod";
 import { useRouteParams } from "@/composables/useRouteParams";
+import { z } from "zod";
 import { routerPageName } from "@/router/routerPageName";
 import { useDriverGet } from "../composables/useDriverGet";
 import type { formattedMotorcycle, Motorcycle } from "@/schemas/motorcycleSchema";
 import type { formattedTrial, Trial } from "@/schemas/trialSchema";
 import { DateFormatter } from "@internationalized/date";
+import { computed, h } from "vue";
 import type {
 	ColumnDef,
 	Row,
@@ -22,7 +22,6 @@ import DataTable from "../components/DataTable.vue";
 const params = useRouteParams({
 	driverId: z.string(),
 });
-
 const { DRIVER_LIST } = routerPageName;
 const { driver, isLoading } = useDriverGet(params.value.driverId);
 
@@ -63,8 +62,6 @@ const formattedMotorcycleTrials = computed(() => {
 		};
 	});
 });
-
-
 
 const motorcycleColumns: ColumnDef<formattedMotorcycle>[] = [
 	{
