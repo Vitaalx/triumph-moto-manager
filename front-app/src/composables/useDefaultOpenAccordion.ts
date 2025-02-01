@@ -7,7 +7,7 @@ export function useDefaultOpenAccordion() {
 	const {
 		MOTORCYCLE_LIST,
 		MOTORCYCLE_ADD,
-		MAINTENANCE_LIST,
+		MAINTENANCE_CURRENT_LIST,
 		MAINTENANCE_ADD,
 		PIECE_LIST,
 		PIECE_ADD,
@@ -33,7 +33,7 @@ export function useDefaultOpenAccordion() {
 		const routeCategoryMap: Record<string, string> = {
 			[MOTORCYCLE_LIST]: "fleet",
 			[MOTORCYCLE_ADD]: "fleet",
-			[MAINTENANCE_LIST]: "maintenance",
+			[MAINTENANCE_CURRENT_LIST]: "maintenance",
 			[MAINTENANCE_ADD]: "maintenance",
 			[PIECE_LIST]: "stock",
 			[PIECE_ADD]: "stock",

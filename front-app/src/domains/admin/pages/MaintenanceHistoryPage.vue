@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { routerPageName } from "@/router/routerPageName";
 import { type formattedMaintenance } from "@/schemas/maintenanceSchema";
-import { useMaintenanceGetAll } from "../composables/useMaintenanceGetAll";
+import { useMaintenanceHistoryGetAll } from "../composables/useMaintenanceHistoryGetAll";
 import { DateFormatter } from "@internationalized/date";
 import type {
 	ColumnDef,
@@ -18,7 +18,7 @@ import DataTable from "../components/DataTable.vue";
 
 const { DRIVER_PAGE, MOTORCYCLE_PAGE } = routerPageName;
 
-const { maintenances, isLoading } = useMaintenanceGetAll();
+const { maintenances, isLoading } = useMaintenanceHistoryGetAll();
 
 const dateFormatter = new DateFormatter("fr-FR", {
 	dateStyle: "medium",
@@ -160,7 +160,7 @@ const columns: ColumnDef<formattedMaintenance>[] = [
 </script>
 
 <template>
-	<AdminSection title="Liste des entretiens">
+	<AdminSection title="Historique des entretiens">
 		<div
 			v-if="isLoading"
 			class="flex justify-center items-center h-40"

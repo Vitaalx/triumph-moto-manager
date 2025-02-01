@@ -6,7 +6,8 @@ export const routerPageNameAdminPanel = Object.freeze({
 	MOTORCYCLE_PAGE: "motorcycle-page",
 	MOTORCYCLE_ADD: "motorcycle-add",
 	MOTORCYCLE_EDIT: "motorcycle-edit",
-	MAINTENANCE_LIST: "maintenance-list",
+	MAINTENANCE_CURRENT_LIST: "maintenance-current-list",
+	MAINTENANCE_HISTORY: "maintenance-history",
 	MAINTENANCE_ADD: "maintenance-add",
 	PIECE_LIST: "piece-list",
 	PIECE_ADD: "piece-add",
@@ -60,9 +61,14 @@ export default (): RouteRecordRaw[] => [
 				component: () => import("./pages/MotorcycleEditPage.vue"),
 			},
 			{
-				name: routerPageNameAdminPanel.MAINTENANCE_LIST,
-				path: "/dashboard/maintenance-list",
-				component: () => import("./pages/MaintenanceListPage.vue"),
+				name: routerPageNameAdminPanel.MAINTENANCE_CURRENT_LIST,
+				path: "/dashboard/maintenance-current-list",
+				component: () => import("./pages/MaintenanceCurrentListPage.vue"),
+			},
+			{
+				name: routerPageNameAdminPanel.MAINTENANCE_HISTORY,
+				path: "/dashboard/maintenance-history",
+				component: () => import("./pages/MaintenanceHistoryPage.vue"),
 			},
 			{
 				name: routerPageNameAdminPanel.MAINTENANCE_ADD,
