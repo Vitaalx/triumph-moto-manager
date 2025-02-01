@@ -27,8 +27,8 @@ interface NavSection {
 const {
 	MOTORCYCLE_LIST,
 	MOTORCYCLE_ADD,
-	MAINTENANCE_PLANNING,
-	MAINTENANCE_HISTORY,
+	MAINTENANCE_LIST,
+	MAINTENANCE_ADD,
 	PIECE_LIST,
 	PIECE_ADD,
 	PIECE_DELIVERY_HISTORY,
@@ -64,10 +64,10 @@ const adminNavSections: NavSection[] = [
 		value: "maintenance",
 		items: [
 			{
-				icon: mdiCalendarClock, route: MAINTENANCE_PLANNING, label: "Planification des entretiens" 
+				icon: mdiCalendarClock, route: MAINTENANCE_LIST, label: "Liste des entretiens" 
 			},
 			{
-				icon: mdiHistory, route: MAINTENANCE_HISTORY, label: "Historique des entretiens" 
+				icon: mdiPlus, route: MAINTENANCE_ADD, label: "Ajouter un entretien" 
 			}
 		]
 	},

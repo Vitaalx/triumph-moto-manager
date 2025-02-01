@@ -3,5 +3,5 @@ import AdminSection from "../components/AdminSection.vue";
 </script>
 
 <template>
-	<AdminSection title="Historique des entretiens" />
+	<AdminSection title="Liste des entretiens" />
 </template>
