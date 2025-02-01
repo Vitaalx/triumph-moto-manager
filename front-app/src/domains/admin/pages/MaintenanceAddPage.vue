@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/select";
 import ButtonPrimary from "@/components/ButtonPrimary.vue";
 
-const { MAINTENANCE_LIST } = routerPageName;
+const { MAINTENANCE_CURRENT_LIST } = routerPageName;
 
 const { drivers, isLoading: isDriversLoading } = useDriverGetAll();
 const { motorcycles, isLoading: isMotorcyclesLoading } = useMotorcycleGetAll();
@@ -31,7 +31,7 @@ const { onSubmit } = useMaintenanceAdd();
 <template>
 	<AdminSection 
 		title="Ajouter un entretien"
-		:back-to="MAINTENANCE_LIST"
+		:back-to="MAINTENANCE_CURRENT_LIST"
 	>
 		<div v-if="isDriversLoading || isMotorcyclesLoading">
 			Chargement des données...
