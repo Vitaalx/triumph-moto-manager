@@ -20,7 +20,7 @@ export interface formattedMaintenance {
 	driverId: string,
 	motorcycleId: string,
 	technicalRecommendations: string,
-	usedSpareParts: [],
+	usedSpareParts: object[],
 	totalSparePartsCost: number,
 	totalCost: number,
 	date: string
