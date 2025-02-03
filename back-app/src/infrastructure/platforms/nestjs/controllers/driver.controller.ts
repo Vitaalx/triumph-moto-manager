@@ -20,6 +20,10 @@ import { UpdateDriverCommand } from "@application/command/definitions/update-dri
 import { DeleteDriverCommand } from "@application/command/definitions/delete-driver";
 import { InvalidEmailError } from "@domain/errors/invalid-email-error";
 import { InvalidEmailHttpException } from "../exceptions/invalid-email";
+import { FirstNameTooShortError } from "@domain/errors/driver/first-name-too-short";
+import { LastNameTooShortError } from "@domain/errors/driver/last-name-too-short";
+import { FirstNameTooShortHttpException } from "../exceptions/driver/first-name-too-short";
+import { LastNameTooShortHttpException } from "../exceptions/driver/last-name-too-short";
 
 @Controller()
 export class DriverController {
@@ -53,6 +57,18 @@ export class DriverController {
 
 		if (commandResult instanceof DriverAlreadyExistError) {
 			throw new DriverAlreadyExistHttpException(commandResult.message);
+		}
+
+		if (commandResult instanceof InvalidEmailError) {
+			throw new InvalidEmailHttpException(commandResult.message);
+		}
+
+		if (commandResult instanceof FirstNameTooShortError) {
+			throw new FirstNameTooShortHttpException(commandResult.message);
+		}
+
+		if (commandResult instanceof LastNameTooShortError) {
+			throw new LastNameTooShortHttpException(commandResult.message);
 		}
 
 		return res.status(HttpStatus.CREATED).send();

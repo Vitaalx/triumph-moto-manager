@@ -31,7 +31,11 @@ export class DriverSheetEntity {
 		motorcycleLicenseType: string,
 		drivingExperience: string,
 	) {
-		const driverFullName = DriverFullName.from(name, firstname);
+		const driverFullName = DriverFullName.from(firstname, name);
+
+		if (driverFullName instanceof Error) {
+			return driverFullName;
+		}
 
 		const driverMotorcycleLicenseType = DriverMotorcycleLicenseType.from(motorcycleLicenseType);
 

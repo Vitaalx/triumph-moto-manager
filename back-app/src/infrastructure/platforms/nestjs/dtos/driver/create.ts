@@ -3,11 +3,11 @@ import { z } from "zod";
 
 export class CreateDriverDto extends createZodDto(
 	z.object({
-		name: z.string().nonempty(),
-		firstname: z.string().nonempty(),
-		email: z.string().nonempty(),
+		name: z.string(),
+		firstname: z.string(),
+		email: z.string(),
 		age: z.number(),
-		motorcycleLicenseType: z.string().nonempty(),
-		drivingExperience: z.string().nonempty(),
+		motorcycleLicenseType: z.string(),
+		drivingExperience: z.string(),
 	}),
 ) {}
