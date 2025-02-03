@@ -4,8 +4,8 @@ import { z } from "zod";
 export class UpdateDriverDto extends createZodDto(
 	z.object({
 		age: z.number(),
-		email: z.string(),
-		motorcycleLicenseType: z.string(),
-		drivingExperience: z.string(),
+		email: z.string().nonempty(),
+		motorcycleLicenseType: z.string().nonempty(),
+		drivingExperience: z.string().nonempty(),
 	}),
 ) {}

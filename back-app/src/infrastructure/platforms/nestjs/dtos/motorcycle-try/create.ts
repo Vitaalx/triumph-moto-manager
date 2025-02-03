@@ -3,8 +3,8 @@ import { z } from "zod";
 
 export class CreateMotorcycleTryDto extends createZodDto(
 	z.object({
-		driverId: z.string(),
-		motorcycleId: z.string(),
+		driverId: z.string().nonempty(),
+		motorcycleId: z.string().nonempty(),
 		startDate: z.coerce.date(),
 		endDate: z.coerce.date(),
 	}),
