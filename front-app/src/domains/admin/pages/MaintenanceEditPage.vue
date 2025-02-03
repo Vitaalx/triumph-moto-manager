@@ -38,7 +38,7 @@ const params = useRouteParams({
 const { MAINTENANCE_CURRENT_LIST } = routerPageName;
 
 const { sparePartes, isLoading: isSparePartes } = useSparePartGetAll();
-const { isLoaded, status, onSubmit, values, setFieldValue } = useMaintenanceEdit(params.value.maintenanceId);
+const { isLoaded, onSubmit, values, setFieldValue } = useMaintenanceEdit(params.value.maintenanceId);
 
 const df = new DateFormatter("fr-FR", {
 	dateStyle: "long",
@@ -49,7 +49,6 @@ const date = computed({
 	set: val => val,
 });
 
-// Merge usedSpareParts with availablePieces to get the full details
 const usedSparePartsWithDetails = computed(() => {
 	if (!values.usedSpareParts) return [];
 
@@ -60,8 +59,6 @@ const usedSparePartsWithDetails = computed(() => {
 		})
 		.filter((part): part is Piece & { quantity: number } => part !== undefined);
 });
-
-// Compute the total cost of the spare parts
 const totalSparePartsCost = computed(() => {
 	if (!values.usedSpareParts) return 0;
 
@@ -71,6 +68,11 @@ const totalSparePartsCost = computed(() => {
 		return piece ? total + piece.price * part.quantity : total;
 	}, 0);
 });
+const totalCost = computed(() => {
+	const laborPrice = values.laborPrice || 0;
+	return totalSparePartsCost.value + laborPrice;
+});
+
 
 function addSparePart(pieceId: string) {
 	if (!values.usedSpareParts) return;
@@ -102,13 +104,10 @@ function removeSparePart(id: string) {
 }
 
 watch(
-	[totalSparePartsCost, () => values.totalCost],
-	([newTotalSparePartsCost, newTotalCost]) => {
-		setFieldValue("totalSparePartsCost", newTotalSparePartsCost);
-
-		if (newTotalCost && newTotalCost < newTotalSparePartsCost) {
-			setFieldValue("totalCost", newTotalSparePartsCost);
-		}
+	[totalSparePartsCost, () => values.laborPrice],
+	([newTotalSparePartsCost, newLaborPrice]) => {
+		const newTotal = newTotalSparePartsCost + (newLaborPrice || 0);
+		setFieldValue("totalCost", newTotal);
 	}
 );
 </script>
@@ -126,19 +125,6 @@ watch(
 			v-else
 			class="space-y-6"
 		>
-			<ButtonPrimary
-				v-if="status !== 'closed'"
-				variant="destructive"
-			>
-				Cloturer l'entretien
-			</ButtonPrimary>
-
-			<ButtonPrimary
-				v-else
-			>
-				Envoyer par mail
-			</ButtonPrimary>
-
 			<form
 				@submit="onSubmit"
 				class="space-y-6"
@@ -224,7 +210,7 @@ watch(
 						name="totalSparePartsCost"
 					>
 						<FormItem>
-							<FormLabel>Coût total des pièces</FormLabel>
+							<FormLabel>Coût des pièces</FormLabel>
 
 							<FormControl>
 								<TheInput
@@ -242,15 +228,15 @@ watch(
 
 					<FormField
 						v-slot="{ componentField }"
-						name="totalCost"
+						name="laborPrice"
 					>
 						<FormItem>
-							<FormLabel>Coût total de l'entretien</FormLabel>
+							<FormLabel>Coût de la main d'œvre</FormLabel>
 
 							<FormControl>
 								<TheInput
 									type="number"
-									:min="totalSparePartsCost"
+									min="0"
 									v-bind="componentField"
 								/>
 							</FormControl>
@@ -260,48 +246,68 @@ watch(
 					</FormField>
 				</div>
 
-				<FormField name="date">
-					<FormItem class="flex flex-col justify-around">
-						<FormLabel>Date de l'entretien</FormLabel>
+				<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+					<FormField name="totalCost">
+						<FormItem>
+							<FormLabel>Coût total de l'entretien</FormLabel>
 
-						<ThePopover>
-							<PopoverTrigger as-child>
-								<FormControl>
-									<ButtonPrimary
-										variant="outline"
-										:class="cn(
-											'ps-3 text-start font-normal',
-											!date && 'text-muted-foreground',
-										)"
-									>
-										<span>{{ date ? df.format(toDate(date)) : "Choisir une date" }}</span>
-
-										<CalendarIcon class="ms-auto h-4 w-4 opacity-50" />
-									</ButtonPrimary>
-								</FormControl>
-							</PopoverTrigger>
-
-							<PopoverContent class="w-auto p-0">
-								<TheCalendar
-									v-model:placeholder="datePlaceholder"
-									v-model="date"
-									calendar-label="Date de début"
-									initial-focus
-									@update:model-value="(v) => {
-										if (v) {
-											setFieldValue('date', v.toString())
-										}
-										else {
-											setFieldValue('date', undefined)
-										}
-									}"
+							<FormControl>
+								<TheInput
+									type="number"
+									:readonly="true"
+									:value="totalCost"
+									class="bg-gray-100 cursor-not-allowed"
 								/>
-							</PopoverContent>
-						</ThePopover>
+							</FormControl>
 
-						<FormMessage />
-					</FormItem>
-				</FormField>
+							<FormMessage />
+						</FormItem>
+					</FormField>
+
+
+					<FormField name="date">
+						<FormItem class="flex flex-col justify-around">
+							<FormLabel>Date de l'entretien</FormLabel>
+
+							<ThePopover>
+								<PopoverTrigger as-child>
+									<FormControl>
+										<ButtonPrimary
+											variant="outline"
+											:class="cn(
+												'ps-3 text-start font-normal',
+												!date && 'text-muted-foreground',
+											)"
+										>
+											<span>{{ date ? df.format(toDate(date)) : "Choisir une date" }}</span>
+
+											<CalendarIcon class="ms-auto h-4 w-4 opacity-50" />
+										</ButtonPrimary>
+									</FormControl>
+								</PopoverTrigger>
+
+								<PopoverContent class="w-auto p-0">
+									<TheCalendar
+										v-model:placeholder="datePlaceholder"
+										v-model="date"
+										calendar-label="Date de début"
+										initial-focus
+										@update:model-value="(v) => {
+											if (v) {
+												setFieldValue('date', v.toString())
+											}
+											else {
+												setFieldValue('date', undefined)
+											}
+										}"
+									/>
+								</PopoverContent>
+							</ThePopover>
+
+							<FormMessage />
+						</FormItem>
+					</FormField>
+				</div>
   
 				<div class="flex justify-end">
 					<ButtonPrimary type="submit">

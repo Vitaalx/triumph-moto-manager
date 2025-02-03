@@ -149,7 +149,7 @@ const columns: ColumnDef<formattedMaintenance>[] = [
 </script>
 
 <template>
-	<AdminSection title="Entretiens en cours">
+	<AdminSection title="Liste des entretiens">
 		<div
 			v-if="isLoading"
 			class="flex justify-center items-center h-40"

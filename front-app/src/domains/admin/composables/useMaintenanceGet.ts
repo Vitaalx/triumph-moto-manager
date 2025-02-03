@@ -11,6 +11,7 @@ export function useMaintenanceGet(maintenanceId: string) {
 		technicalRecommendations: "",
 		usedSpareParts: [],
 		totalSparePartsCost: 0,
+		laborPrice: 0,
 		totalCost: 0,
 		date: "",
 	});
@@ -33,22 +34,6 @@ export function useMaintenanceGet(maintenanceId: string) {
 			})
 			.finally(() => {
 				isLoading.value = false;
-				maintenance.value = { // Fake data
-					id: "maintenance-2",
-					driverId: "driver-1",
-					motorcycleId: "motorcycle-1",
-					technicalRecommendations: "Besoin de changer les pneus.",
-					usedSpareParts: [
-						{
-							id: "bhqecj4p",
-							quantity: 2,
-						},
-					],
-					totalSparePartsCost: 120,
-					totalCost: 160,
-					status: "En cours",
-					date: "2025-02-10T00:00:00.000Z",
-				};
 			});
 	}
 

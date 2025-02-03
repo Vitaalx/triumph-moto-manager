@@ -10,6 +10,7 @@ export interface Maintenance {
 	technicalRecommendations: string,
 	usedSpareParts: [],
 	totalSparePartsCost: number,
+	laborPrice: number,
 	totalCost: number,
 	date: string
 	}
@@ -28,6 +29,7 @@ export interface formattedMaintenance {
 	technicalRecommendations: string,
 	usedSpareParts: SparePart[],
 	totalSparePartsCost: number,
+	laborPrice: number,
 	totalCost: number,
 	date: string
 }
@@ -49,6 +51,7 @@ export const maintenanceUpdateFormSchema = z.object({
 		}),
 	).optional(),
 	totalSparePartsCost: z.number({ message: "Le coût total des pièces est obligatoire." }),
+	laborPrice: z.number({ message: "Le prix de la main d'oeuvre est obligatoire." }),
 	totalCost: z.number({ message: "Le coût total est obligatoire." }),
 	date: z.string({ message: "La date est obligatoire." }),
 });
