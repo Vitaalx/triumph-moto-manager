@@ -112,7 +112,6 @@ export class MotorcycleMaintenanceController {
 		return res.status(HttpStatus.OK).send();
 	}
 
-	//TODO problème quand je close à voir !!!
 	@RequiredRoles("FLEET_MANAGER")
 	@UseGuards(AuthGuard)
 	@Patch("/motorcycle-maintenance/:maintenanceId/close")
@@ -129,6 +128,14 @@ export class MotorcycleMaintenanceController {
 
 		if (commandResult instanceof MissingLaborPriceError) {
 			throw new MissingLaborPriceHttpException(commandResult.message);
+		}
+
+		if (commandResult instanceof SparePartNotFoundError) {
+			throw new SparePartNotFoundHttpException(commandResult.message);
+		}
+
+		if (commandResult instanceof InsufficientSparePartStockError) {
+			throw new InsufficientSparePartStockHttpException(commandResult.message);
 		}
 
 		return res.status(HttpStatus.OK).send();

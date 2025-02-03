@@ -50,15 +50,18 @@ export class UpdateMotorcycleMaintenanceUsecase {
 							throw new InsufficientSparePartStockError(sparePart.id);
 						}
 
-						//TODO a refacto
-						if (motorcycleMaintenance.usedSpareParts.some(
-							(sp) => sp.sparePartId === usedSparePart.sparePartId,
-						)) {
+						if (
+							motorcycleMaintenance.usedSpareParts.some(
+								(sp) => sp.sparePartId === usedSparePart.sparePartId,
+							)
+						) {
 							const sparePartIndex = motorcycleMaintenance.usedSpareParts.findIndex(
 								(sp) => sp.sparePartId === usedSparePart.sparePartId,
 							);
+
 							const maintenaneSparePart = motorcycleMaintenance.usedSpareParts[sparePartIndex];
 							maintenaneSparePart.quantity = usedSparePart.quantity;
+
 							await this.maintenanceSparePartRepository.update(
 								maintenaneSparePart.id,
 								maintenaneSparePart,
@@ -69,6 +72,7 @@ export class UpdateMotorcycleMaintenanceUsecase {
 								maintenanceId,
 								usedSparePart.quantity,
 							);
+
 							await this.maintenanceSparePartRepository.save(maintenanceSparePart);
 						}
 					},
