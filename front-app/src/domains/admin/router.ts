@@ -9,6 +9,7 @@ export const routerPageNameAdminPanel = Object.freeze({
 	MAINTENANCE_CURRENT_LIST: "maintenance-current-list",
 	MAINTENANCE_HISTORY: "maintenance-history",
 	MAINTENANCE_ADD: "maintenance-add",
+	MAINTENANCE_EDIT: "maintenance-edit",
 	PIECE_LIST: "piece-list",
 	PIECE_ADD: "piece-add",
 	PIECE_DELIVERY_HISTORY: "piece-delivery-history",
@@ -74,6 +75,11 @@ export default (): RouteRecordRaw[] => [
 				name: routerPageNameAdminPanel.MAINTENANCE_ADD,
 				path: "/dashboard/maintenance-add",
 				component: () => import("./pages/MaintenanceAddPage.vue"),
+			},
+			{
+				name: routerPageNameAdminPanel.MAINTENANCE_EDIT,
+				path: "/dashboard/maintenance-edit/:maintenanceId",
+				component: () => import("./pages/MaintenanceEditPage.vue"),
 			},
 			{
 				name: routerPageNameAdminPanel.PIECE_LIST,
