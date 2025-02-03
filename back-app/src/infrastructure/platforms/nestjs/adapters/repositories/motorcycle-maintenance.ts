@@ -37,12 +37,6 @@ export class MotorcycleMaintenanceRepository implements IMotorcycleMaintenanceRe
 				driverId: motorcycleMaintenance.driverId,
 				motorcycleId: motorcycleMaintenance.motorcycleId.value,
 				technicalRecommendations: motorcycleMaintenance.technicalRecommendations,
-				usedSpareParts: {
-					create: motorcycleMaintenance.usedSpareParts.map((sparePart) => ({
-						sparePartId: sparePart.sparePartId,
-						quantity: sparePart.quantity,
-					})),
-				},
 				totalSparePartsPrice: motorcycleMaintenance.totalSparePartsPrice,
 				totalMaintenancePrice: motorcycleMaintenance.totalMaintenancePrice,
 				laborPrice: motorcycleMaintenance.laborPrice,
