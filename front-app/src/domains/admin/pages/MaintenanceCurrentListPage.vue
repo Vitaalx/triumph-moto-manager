@@ -16,7 +16,7 @@ import DataTableDropdownAction from "../components/DataTableDropdownAction.vue";
 import AdminSection from "../components/AdminSection.vue";
 import DataTable from "../components/DataTable.vue";
 
-const { DRIVER_PAGE, MOTORCYCLE_PAGE, MAINTENANCE_EDIT } = routerPageName;
+const { DRIVER_PAGE, MOTORCYCLE_PAGE, MAINTENANCE_PAGE, MAINTENANCE_EDIT } = routerPageName;
 
 const { maintenances, isLoading } = useMaintenanceCurrentGetAll();
 
@@ -136,6 +136,7 @@ const columns: ColumnDef<formattedMaintenance>[] = [
 			return h(DataTableDropdownAction, {
 				copyText: "Copier l'ID",
 				item: maintenance.id,
+				viewPath: { name: MAINTENANCE_PAGE, params: { maintenanceId: maintenance.id } },
 				editPath: { name: MAINTENANCE_EDIT, params: { maintenanceId: maintenance.id } },
 				// onDelete: (maintenanceId) => {
 				// 	deleteMaintenance(maintenanceId);
