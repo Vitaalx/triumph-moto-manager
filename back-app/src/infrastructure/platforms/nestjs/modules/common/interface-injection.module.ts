@@ -42,7 +42,12 @@ const interfaceInjectionMap: Provider[] = [
 const mongooseProvider: Provider = {
 	provide: "MONGOOSE_CONNECTION",
 	useFactory: async() => {
-		const mongooseConnection = await mongoose.connect(ENV.MONGO_DATABASE_URL);
+		const mongooseConnection = await mongoose.connect(
+			ENV.MONGO_DATABASE_URL,
+			{
+				dbName: "mongo",
+			},
+		);
 		//@ts-expect-error var 'global' cause type error.
 		global.mongoose = mongooseConnection;
 		return mongooseConnection;
