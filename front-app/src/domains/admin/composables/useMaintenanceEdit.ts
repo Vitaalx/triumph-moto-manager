@@ -11,7 +11,6 @@ const formSchema = toTypedSchema(maintenanceUpdateFormSchema);
 export function useMaintenanceEdit(maintenanceId: string) {
 	const { maintenance } = useMaintenanceGet(maintenanceId);
 	const isLoaded = ref(false);
-	const status = ref("");
 
 	const { handleSubmit, resetForm, values, setFieldValue } = useForm({
 		validationSchema: formSchema,
@@ -25,7 +24,6 @@ export function useMaintenanceEdit(maintenanceId: string) {
 			if (Object.keys(newValue).length > 0) {
 				resetForm({ values: newValue });
 				isLoaded.value = true;
-				status.value = newValue.status;
 			}
 		},
 		{ immediate: true }
@@ -45,7 +43,6 @@ export function useMaintenanceEdit(maintenanceId: string) {
 	return {
 		onSubmit,
 		isLoaded,
-		status,
 		values,
 		setFieldValue,
 	};

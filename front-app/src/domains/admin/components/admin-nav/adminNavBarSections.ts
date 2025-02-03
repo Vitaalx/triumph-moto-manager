@@ -65,7 +65,7 @@ const adminNavSections: NavSection[] = [
 		value: "maintenance",
 		items: [
 			{
-				icon: mdiCalendarClock, route: MAINTENANCE_CURRENT_LIST, label: "Entretiens en cours" 
+				icon: mdiCalendarClock, route: MAINTENANCE_CURRENT_LIST, label: "Liste des entretiens" 
 			},
 			{
 				icon: mdiHistory, route: MAINTENANCE_HISTORY, label: "Historique des entretiens" 

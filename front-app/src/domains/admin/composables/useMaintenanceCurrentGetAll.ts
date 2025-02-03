@@ -24,24 +24,6 @@ export function useMaintenanceCurrentGetAll() {
 			})
 			.finally(() => {
 				isLoading.value = false;
-				maintenances.value = [ // Fake data
-					{
-						id: "maintenance-1",
-						driverId: "driver-1",
-						motorcycleId: "motorcycle-1",
-						technicalRecommendations: "Besoin de changer les pneus.",
-						usedSpareParts: [
-						  	{
-								id: "spare-part-1",
-								quantity: 2,
-						  	}	
-						],
-						totalSparePartsCost: 120,
-						totalCost: 160,
-						status: "En cours",
-						date: "2025-02-10",
-					  }
-				];
 			});
 	}
 
