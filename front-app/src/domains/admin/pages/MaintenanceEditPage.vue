@@ -231,7 +231,7 @@ watch(
 						name="laborPrice"
 					>
 						<FormItem>
-							<FormLabel>Coût de la main d'œvre</FormLabel>
+							<FormLabel>Coût de la main d'œuvre</FormLabel>
 
 							<FormControl>
 								<TheInput
