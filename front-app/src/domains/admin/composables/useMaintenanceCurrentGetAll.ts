@@ -29,13 +29,11 @@ export function useMaintenanceCurrentGetAll() {
 						id: "maintenance-1",
 						driverId: "driver-1",
 						motorcycleId: "motorcycle-1",
-						technicalRecommendations: "Besoin de changer les pneus",
+						technicalRecommendations: "Besoin de changer les pneus.",
 						usedSpareParts: [
 						  	{
 								id: "spare-part-1",
-								name: "Pneu",
 								quantity: 2,
-								unitCost: 60,
 						  	}	
 						],
 						totalSparePartsCost: 120,
