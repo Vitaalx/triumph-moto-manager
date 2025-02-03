@@ -1,6 +1,6 @@
 import { Module, Provider } from "@nestjs/common";
 
-import { DRIVER_REPOSITORY_INTERFACE, EVENT_STORE_REPOSITORY_INTERFACE, MOTORCYCLE_INCIDENT_REPOSITORY_INTERFACE, MOTORCYCLE_REPOSITORY_INTERFACE, MOTORCYCLE_TRY_REPOSITORY_INTERFACE } from "@application/ports/symbols";
+import { DRIVER_REPOSITORY_INTERFACE, EVENT_STORE_REPOSITORY_INTERFACE, MAINTENANCE_SPARE_PART_REPOSITORY_INTERFACE, MOTORCYCLE_INCIDENT_REPOSITORY_INTERFACE, MOTORCYCLE_MAINTENANCE_REPOSITORY_INTERFACE, MOTORCYCLE_REPOSITORY_INTERFACE, MOTORCYCLE_TRY_REPOSITORY_INTERFACE, SPARE_PART_REPOSITORY_INTERFACE } from "@application/ports/symbols";
 import { MotorcycleRepository } from "@nestjs@repositories/motorcycle";
 import { MotorcycleMapper } from "../../mappers/motorcycle";
 import { EventStoreRepository } from "../../adapters/repositories/event-store";
@@ -12,6 +12,11 @@ import { MotorcycleTryMapper } from "../../mappers/motorcycle-try";
 import mongoose from "mongoose";
 import { MotorcycleIncidentRepository } from "../../adapters/repositories/motorcycle-incident";
 import { MotorcycleIncidentMapper } from "../../mappers/motorcycle-incident";
+import { SparePartRepository } from "../../adapters/repositories/spare-part";
+import { MotorcycleMaintenanceRepository } from "../../adapters/repositories/motorcycle-maintenance";
+import { MotorcycleMaintenanceMapper } from "../../mappers/motorcycle-maintenance";
+import { SparePartMapper } from "../../mappers/spare-part";
+import { MaintenanceSparePartRepository } from "../../adapters/repositories/maintenance-spare-part";
 
 /**
  * Map permettant de lier les interfaces des services et des repositories avec leurs réelles implémentations.
@@ -37,6 +42,18 @@ const interfaceInjectionMap: Provider[] = [
 		provide: MOTORCYCLE_INCIDENT_REPOSITORY_INTERFACE,
 		useClass: MotorcycleIncidentRepository,
 	},
+	{
+		provide: SPARE_PART_REPOSITORY_INTERFACE,
+		useClass: SparePartRepository,
+	},
+	{
+		provide: MOTORCYCLE_MAINTENANCE_REPOSITORY_INTERFACE,
+		useClass: MotorcycleMaintenanceRepository,
+	},
+	{
+		provide: MAINTENANCE_SPARE_PART_REPOSITORY_INTERFACE,
+		useClass: MaintenanceSparePartRepository,
+	},
 ];
 
 const mongooseProvider: Provider = {
@@ -60,7 +77,8 @@ const entityMappers = [
 	DriverSheetWithDetailsMapper,
 	MotorcycleTryMapper,
 	MotorcycleIncidentMapper,
-
+	MotorcycleMaintenanceMapper,
+	SparePartMapper,
 ];
 
 @Module({

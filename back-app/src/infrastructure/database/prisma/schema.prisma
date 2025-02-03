@@ -29,16 +29,17 @@ enum Role {
 }
 
 model Motorcycle {
-    licensePlate        String               @unique
-    brand               String
-    model               String
-    year                Int
-    price               Float
-    maintenanceInterval String
-    DriverSheet         DriverSheet?         @relation(fields: [driverId], references: [id])
-    driverId            String?
-    MotorcycleTry       MotorcycleTry[]
-    MotorcycleIncident  MotorcycleIncident[]
+    licensePlate          String                  @unique
+    brand                 String
+    model                 String
+    year                  Int
+    price                 Float
+    maintenanceInterval   String
+    DriverSheet           DriverSheet?            @relation(fields: [driverId], references: [id])
+    driverId              String?
+    MotorcycleTry         MotorcycleTry[]
+    MotorcycleIncident    MotorcycleIncident[]
+    MotorcycleMaintenance MotorcycleMaintenance[]
 }
 
 model MotorcycleTry {
@@ -65,15 +66,56 @@ model MotorcycleIncident {
 }
 
 model DriverSheet {
-    id                    String               @unique
+    id                    String                  @unique
     fullName              String
     age                   Int
-    email                 String               @unique
+    email                 String                  @unique
     motorcycleLicenseType String
     drivingExperience     String
     motorcycles           Motorcycle[]
     motorcycleTries       MotorcycleTry[]
     motorcycleIncidents   MotorcycleIncident[]
+    MotorcycleMaintenance MotorcycleMaintenance[]
+}
+
+model MotorcycleMaintenance {
+    id                       String                 @id
+    driverSheet              DriverSheet            @relation(fields: [driverId], references: [id])
+    driverId                 String
+    motorcycle               Motorcycle             @relation(fields: [motorcycleId], references: [licensePlate])
+    motorcycleId             String
+    technicalRecommendations String
+    usedSpareParts           MaintenanceSparePart[]
+    totalSparePartsPrice     Float
+    totalMaintenancePrice    Float
+    laborPrice               Float
+    status                   MaintenanceStatus
+    date                     DateTime
+}
+
+model SparePart {
+    id                   String                 @id
+    name                 String
+    brand                String
+    price                Float
+    stock                Int
+    MaintenanceSparePart MaintenanceSparePart[]
+}
+
+model MaintenanceSparePart {
+    id            String                @id
+    sparePart     SparePart             @relation(fields: [sparePartId], references: [id])
+    sparePartId   String
+    quantity      Int
+    maintenance   MotorcycleMaintenance @relation(fields: [maintenanceId], references: [id])
+    maintenanceId String
+
+    @@unique([sparePartId, maintenanceId])
+}
+
+enum MaintenanceStatus {
+    IN_PROGRESS
+    CLOSED
 }
 
 model Events {

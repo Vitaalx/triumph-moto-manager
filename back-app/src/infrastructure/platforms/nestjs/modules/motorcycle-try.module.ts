@@ -7,15 +7,15 @@ import { DeleteMotorcycleTryUsecase } from "@application/usecases/motorcycle-try
 import { GetMotorcyclesInTrialUsecase } from "@application/usecases/motorcycle-try/get-motorcycles-in-trial-usecase";
 import { CreateMotorcycleTryCommandHandler } from "@application/command/handlers/create-motorcycle-try.command-handler";
 import { DeleteMotorcycleTryCommandHandler } from "@application/command/handlers/delete-motorcycle-try.command-handler";
-import { GetMotorcyclesInTrialQueryHandler } from "@application/queries/handlers/get-motorcycles-in-trial.command-handler";
-import { GetMotorcyclesTrialPassedQueryHandler } from "@application/queries/handlers/get-motorcycles-trial-passed.command-handler";
+import { GetMotorcyclesInTrialQueryHandler } from "@application/queries/handlers/get-motorcycles-in-trial.query-handler";
+import { GetMotorcyclesTrialPassedQueryHandler } from "@application/queries/handlers/get-motorcycles-trial-passed.query-handler";
 import { MotorcycleTryController } from "../controllers/motorcycle-try.controller";
 import { CqrsModule } from "@nestjs/cqrs";
 import { AuthModule } from "./auth.module";
 import { InterfaceInjectionModule } from "./common/interface-injection.module";
 import { GetMotorcyclesTrialPassedUsecase } from "@application/usecases/motorcycle-try/get-motorcycles-trial-passed-usecase";
 import { GetMotorcyclesTrialCommingUsecase } from "@application/usecases/motorcycle-try/get-motorcycles-trial-comming-usecase";
-import { GetMotorcyclesTrialCommingQueryHandler } from "@application/queries/handlers/get-motorcycles-trial-comming.command-handler";
+import { GetMotorcyclesTrialCommingQueryHandler } from "@application/queries/handlers/get-motorcycles-trial-comming.query-handler";
 import { MotorcycleRepository } from "../adapters/repositories/motorcycle";
 import { DriverRepository } from "../adapters/repositories/driver-sheet";
 
