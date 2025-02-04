@@ -25,9 +25,7 @@ export function useMaintenanceGet(maintenanceId: string) {
 					...response.data,
 					motorcycleId: response.data.motorcycleId.value,
 				};
-
-				console.log(response.data);
-
+				
 				maintenance.value = formattedMaintenance;
 			})
 			.catch((error) => {

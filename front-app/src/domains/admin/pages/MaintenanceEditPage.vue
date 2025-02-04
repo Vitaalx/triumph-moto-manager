@@ -42,25 +42,33 @@ const usedSparePartsWithDetails = computed(() => {
 			const piece = sparePartes.value.find(p => p.id === part.sparePartId);
 			return piece ? { ...piece, quantity: part.quantity } : undefined;
 		})
-		.filter((part): part is Piece & { quantity: number } => part !== undefined);
+		.filter((part): part is Piece & { quantity: number } => part !== undefined && part.quantity > 0);
 });
 
 function addSparePart(pieceId: string) {
 	if (!values.usedSpareParts) return;
 
-	const pieceExists = values.usedSpareParts.find(part => part.sparePartId  === pieceId);
+	const updatedParts = values.usedSpareParts.map(part => {
+		if (part.sparePartId === pieceId) {
+			return { ...part, quantity: part.quantity + 1 }; // Augmente la quantité
+		}
+		return part;
+	});
+
+	const pieceExists = values.usedSpareParts.some(part => part.sparePartId === pieceId);
 
 	if (!pieceExists) {
-		const newPart = { sparePartId: pieceId, quantity: 1 };
-		setFieldValue("usedSpareParts", [...values.usedSpareParts, newPart]);
+		updatedParts.push({ sparePartId: pieceId, quantity: 1 });
 	}
+
+	setFieldValue("usedSpareParts", updatedParts);
 }
 
 function updateSparePartQuantity(id: string, quantity: number) {
 	if (!values.usedSpareParts) return;
 
-	const updatedParts = values.usedSpareParts.map(part => 
-		part.sparePartId  === id ? { ...part, quantity } : part
+	const updatedParts = values.usedSpareParts.map(part =>
+		part.sparePartId === id ? { ...part, quantity: quantity } : part
 	);
 
 	setFieldValue("usedSpareParts", updatedParts);
@@ -69,7 +77,9 @@ function updateSparePartQuantity(id: string, quantity: number) {
 function removeSparePart(id: string) {
 	if (!values.usedSpareParts) return;
 
-	const updatedParts = values.usedSpareParts.filter(part => part.sparePartId !== id);
+	const updatedParts = values.usedSpareParts.map(part =>
+		part.sparePartId === id ? { ...part, quantity: 0 } : part
+	);
 
 	setFieldValue("usedSpareParts", updatedParts);
 }
@@ -158,7 +168,7 @@ function removeSparePart(id: string) {
 										v-model.number="part.quantity"
 										@input="updateSparePartQuantity(part.id, part.quantity)"
 										class="w-20 border rounded-md px-2 py-1"
-										min="1"
+										:min="1"
 										:max="part.stock"
 									/>
 
