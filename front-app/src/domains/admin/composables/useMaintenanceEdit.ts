@@ -1,18 +1,23 @@
-import { maintenanceUpdateFormSchema } from "@/schemas/maintenanceSchema";
 import { toTypedSchema } from "@vee-validate/zod";
+import { maintenanceUpdateFormSchema } from "@/schemas/maintenanceSchema";
+import { useRouter } from "vue-router";
+import { routerPageName } from "@/router/routerPageName";
 import { useMaintenanceGet } from "./useMaintenanceGet";
-import { useForm } from "vee-validate";
 import { ref, watch } from "vue";
+import { useForm } from "vee-validate";
 import api from "@/lib/axios";
 import { toast } from "@/components/ui/toast";
+
+const { MAINTENANCE_CURRENT_LIST } = routerPageName;
 
 const formSchema = toTypedSchema(maintenanceUpdateFormSchema);
 
 export function useMaintenanceEdit(maintenanceId: string) {
+	const router = useRouter();
 	const { maintenance } = useMaintenanceGet(maintenanceId);
 	const isLoaded = ref(false);
 
-	const { handleSubmit, resetForm, values, setFieldValue } = useForm({
+	const { resetForm, values, setFieldValue, handleSubmit, } = useForm({
 		validationSchema: formSchema,
 		initialValues: {},
 	});
@@ -40,10 +45,24 @@ export function useMaintenanceEdit(maintenanceId: string) {
 			});
 	});
 
+	function closeMaintenance() {
+		api.patch(`/motorcycle-maintenance/${maintenanceId}/close`)
+			.then(() => {
+				toast({
+					title: "Maintenance clôturée",
+					description: "La maintenance a bien été clôturée.",
+					variant: "success",
+				});
+
+				router.push({ name: MAINTENANCE_CURRENT_LIST });
+			});
+	}
+
 	return {
-		onSubmit,
 		isLoaded,
 		values,
 		setFieldValue,
+		onSubmit,
+		closeMaintenance,
 	};
 }

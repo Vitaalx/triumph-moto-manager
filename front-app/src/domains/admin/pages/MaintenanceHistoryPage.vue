@@ -12,11 +12,11 @@ import { RouterLink, type RouterLinkProps } from "vue-router";
 import TheButton from "@/components/ui/button/TheButton.vue";
 import { ArrowUpDown } from "lucide-vue-next";
 import { h } from "vue";
-// import DataTableDropdownAction from "../components/DataTableDropdownAction.vue";
+import DataTableDropdownAction from "../components/DataTableDropdownAction.vue";
 import AdminSection from "../components/AdminSection.vue";
 import DataTable from "../components/DataTable.vue";
 
-const { DRIVER_PAGE, MOTORCYCLE_PAGE } = routerPageName;
+const { DRIVER_PAGE, MOTORCYCLE_PAGE, MAINTENANCE_PAGE } = routerPageName;
 
 const { maintenances, isLoading } = useMaintenanceHistoryGetAll();
 
@@ -25,16 +25,6 @@ const dateFormatter = new DateFormatter("fr-FR", {
 });
 
 const columns: ColumnDef<formattedMaintenance>[] = [
-	{
-		accessorKey: "status",
-		header: ({ column }: { column: Column<formattedMaintenance, unknown> }) => {
-			return h(TheButton, {
-				variant: "ghost",
-				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
-			}, () => ["Statut", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
-		},
-		cell: ({ row }: { row: Row<formattedMaintenance> }) => h("div", { class: "" }, row.getValue("status")),
-	},
 	{
 		accessorKey: "driverId",
 		header: ({ column }: { column: Column<formattedMaintenance, unknown> }) => {
@@ -73,37 +63,6 @@ const columns: ColumnDef<formattedMaintenance>[] = [
 			h("div", { class: "" }, row.getValue("technicalRecommendations")),
 	},
 	{
-		accessorKey: "usedSpareParts",
-		header: ({ column }: { column: Column<formattedMaintenance, unknown> }) => {
-			return h(TheButton, {
-				variant: "ghost",
-				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
-			}, () => ["Nombre de pièces", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
-		},
-		cell: ({ row }: { row: Row<formattedMaintenance> }) =>
-			h("div", { class: "" }, (row.getValue("usedSpareParts") as object[]).length),
-	},
-	{
-		accessorKey: "totalSparePartsPrice",
-		header: ({ column }: { column: Column<formattedMaintenance, unknown> }) => {
-			return h(TheButton, {
-				variant: "ghost",
-				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
-			}, () => ["Prix", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
-		},
-		cell: ({ row }: { row: Row<formattedMaintenance> }) => {
-			const totalSparePartsPrice = Number.parseFloat(row.getValue("totalSparePartsPrice"));
-
-			// Format the price as a euro price
-			const formatted = new Intl.NumberFormat("fr-FR", {
-				style: "currency",
-				currency: "EUR",
-			}).format(totalSparePartsPrice);
-
-			return h("div", { class: "font-medium" }, formatted);
-		},
-	},
-	{
 		accessorKey: "totalMaintenancePrice",
 		header: ({ column }: { column: Column<formattedMaintenance, unknown> }) => {
 			return h(TheButton, {
@@ -138,24 +97,19 @@ const columns: ColumnDef<formattedMaintenance>[] = [
 			return h("div", { class: "" }, dateFormatter.format(formattedDate));
 		},
 	},
-	// {
-	// 	id: "actions",
-	// 	enableHiding: false,
-	// 	cell: ({ row }) => {
-	// 		const maintenance = row.original;
+	{
+		id: "actions",
+		enableHiding: false,
+		cell: ({ row }) => {
+			const maintenance = row.original;
 
-	// 		return h(DataTableDropdownAction, {
-	// 			copyText: "Copier l'ID",
-	// 			item: maintenance.id,
-	// 			editPath: { name: MAINTENANCE_EDIT, params: { maintenanceId: maintenance.id } },
-	// 			onDelete: (maintenanceId) => {
-	// 				deleteMaintenance(maintenanceId);
-	// 				// Update after deletion
-	// 				window.location.reload();
-	// 			},
-	// 		});
-	// 	},
-	// }
+			return h(DataTableDropdownAction, {
+				copyText: "Copier l'ID",
+				item: maintenance.id,
+				viewPath: { name: MAINTENANCE_PAGE, params: { maintenanceId: maintenance.id } },
+			});
+		},
+	}
 ];
 </script>
 
