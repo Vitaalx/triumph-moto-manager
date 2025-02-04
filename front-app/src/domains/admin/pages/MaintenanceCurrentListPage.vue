@@ -73,7 +73,7 @@ const columns: ColumnDef<formattedMaintenance>[] = [
 			h("div", { class: "" }, row.getValue("technicalRecommendations")),
 	},
 	{
-		accessorKey: "totalSparePartsCost",
+		accessorKey: "totalSparePartsPrice",
 		header: ({ column }: { column: Column<formattedMaintenance, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
@@ -81,19 +81,19 @@ const columns: ColumnDef<formattedMaintenance>[] = [
 			}, () => ["Prix des pièces", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
 		},
 		cell: ({ row }: { row: Row<formattedMaintenance> }) => {
-			const totalSparePartsCost = Number.parseFloat(row.getValue("totalSparePartsCost"));
+			const totalSparePartsPrice = Number.parseFloat(row.getValue("totalSparePartsPrice"));
 
 			// Format the price as a euro price
 			const formatted = new Intl.NumberFormat("fr-FR", {
 				style: "currency",
 				currency: "EUR",
-			}).format(totalSparePartsCost);
+			}).format(totalSparePartsPrice);
 
 			return h("div", { class: "font-medium" }, formatted);
 		},
 	},
 	{
-		accessorKey: "totalCost",
+		accessorKey: "totalMaintenancePrice",
 		header: ({ column }: { column: Column<formattedMaintenance, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
@@ -101,13 +101,13 @@ const columns: ColumnDef<formattedMaintenance>[] = [
 			}, () => ["Prix total", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
 		},
 		cell: ({ row }: { row: Row<formattedMaintenance> }) => {
-			const totalCost = Number.parseFloat(row.getValue("totalCost"));
+			const totalMaintenancePrice = Number.parseFloat(row.getValue("totalMaintenancePrice"));
 
 			// Format the price as a euro price
 			const formatted = new Intl.NumberFormat("fr-FR", {
 				style: "currency",
 				currency: "EUR",
-			}).format(totalCost);
+			}).format(totalMaintenancePrice);
 
 			return h("div", { class: "font-medium" }, formatted);
 		},

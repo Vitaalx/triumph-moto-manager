@@ -59,7 +59,7 @@ const usedSparePartsWithDetails = computed(() => {
 		})
 		.filter((part): part is Piece & { quantity: number } => part !== undefined);
 });
-const totalSparePartsCost = computed(() => {
+const totalSparePartsPrice = computed(() => {
 	if (!values.usedSpareParts) return 0;
 
 	return values.usedSpareParts.reduce((total, part) => {
@@ -68,9 +68,9 @@ const totalSparePartsCost = computed(() => {
 		return piece ? total + piece.price * part.quantity : total;
 	}, 0);
 });
-const totalCost = computed(() => {
+const totalMaintenancePrice = computed(() => {
 	const laborPrice = values.laborPrice || 0;
-	return totalSparePartsCost.value + laborPrice;
+	return totalSparePartsPrice.value + laborPrice;
 });
 
 
@@ -104,10 +104,10 @@ function removeSparePart(id: string) {
 }
 
 watch(
-	[totalSparePartsCost, () => values.laborPrice],
-	([newTotalSparePartsCost, newLaborPrice]) => {
-		const newTotal = newTotalSparePartsCost + (newLaborPrice || 0);
-		setFieldValue("totalCost", newTotal);
+	[totalSparePartsPrice, () => values.laborPrice],
+	([newtotalSparePartsPrice, newLaborPrice]) => {
+		const newTotal = newtotalSparePartsPrice + (newLaborPrice || 0);
+		setFieldValue("totalMaintenancePrice", newTotal);
 	}
 );
 </script>
@@ -207,7 +207,7 @@ watch(
 
 				<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 					<FormField
-						name="totalSparePartsCost"
+						name="totalSparePartsPrice"
 					>
 						<FormItem>
 							<FormLabel>Coût des pièces</FormLabel>
@@ -216,7 +216,7 @@ watch(
 								<TheInput
 									type="number"
 									:readonly="true"
-									:value="totalSparePartsCost"
+									:value="totalSparePartsPrice"
 									class="bg-gray-100 cursor-not-allowed"
 								/>
 							</FormControl>
@@ -247,7 +247,7 @@ watch(
 				</div>
 
 				<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-					<FormField name="totalCost">
+					<FormField name="totalMaintenancePrice">
 						<FormItem>
 							<FormLabel>Coût total de l'entretien</FormLabel>
 
@@ -255,7 +255,7 @@ watch(
 								<TheInput
 									type="number"
 									:readonly="true"
-									:value="totalCost"
+									:value="totalMaintenancePrice"
 									class="bg-gray-100 cursor-not-allowed"
 								/>
 							</FormControl>
