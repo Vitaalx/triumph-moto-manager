@@ -30,11 +30,11 @@ const {
 	MAINTENANCE_CURRENT_LIST,
 	MAINTENANCE_HISTORY,
 	MAINTENANCE_ADD,
-	PIECE_LIST,
-	PIECE_ADD,
-	PIECE_DELIVERY_HISTORY,
-	PIECE_SUPPLIER_LIST,
-	PIECE_SUPPLIER_ADD,
+	SPARE_PART_LIST,
+	SPARE_PART_ADD,
+	SPARE_PART_DELIVERY_HISTORY,
+	SPARE_PART_SUPPLIER_LIST,
+	SPARE_PART_SUPPLIER_ADD,
 	USER_LIST,
 	USER_ADD,
 	PERMISSION_MANAGEMENT,
@@ -80,19 +80,19 @@ const adminNavSections: NavSection[] = [
 		value: "stock",
 		items: [
 			{
-				icon: mdiFormatListBulleted, route: PIECE_LIST, label: "Liste des pièces détachées" 
+				icon: mdiFormatListBulleted, route: SPARE_PART_LIST, label: "Liste des pièces détachées" 
 			},
 			{
-				icon: mdiPlus, route: PIECE_ADD, label: "Ajouter une pièce" 
+				icon: mdiPlus, route: SPARE_PART_ADD, label: "Ajouter une pièce" 
 			},
 			{
-				icon: mdiHistory, route: PIECE_DELIVERY_HISTORY, label: "Historique des commandes" 
+				icon: mdiHistory, route: SPARE_PART_DELIVERY_HISTORY, label: "Historique des commandes" 
 			},
 			{
-				icon: mdiAccountHardHat, route: PIECE_SUPPLIER_LIST, label: "Liste des fournisseurs" 
+				icon: mdiAccountHardHat, route: SPARE_PART_SUPPLIER_LIST, label: "Liste des fournisseurs" 
 			},
 			{
-				icon: mdiPlus, route: PIECE_SUPPLIER_ADD, label: "Ajouter un fournisseur" 
+				icon: mdiPlus, route: SPARE_PART_SUPPLIER_ADD, label: "Ajouter un fournisseur" 
 			}
 		]
 	},
