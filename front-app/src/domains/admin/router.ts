@@ -90,12 +90,12 @@ export default (): RouteRecordRaw[] => [
 			{
 				name: routerPageNameAdminPanel.SPARE_PART_LIST,
 				path: "/dashboard/spare-part-list",
-				component: () => import("./pages/PieceListPage.vue"),
+				component: () => import("./pages/SparePartListPage.vue"),
 			},
 			{
 				name: routerPageNameAdminPanel.SPARE_PART_ADD,
 				path: "/dashboard/spare-part-add",
-				component: () => import("./pages/PieceAddPage.vue"),
+				component: () => import("./pages/SparePartAddPage.vue"),
 			},
 			{
 				name: routerPageNameAdminPanel.SPARE_PART_DELIVERY_HISTORY,
