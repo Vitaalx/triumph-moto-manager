@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// import { routerPageName } from "@/router/routerPageName";
+import { routerPageName } from "@/router/routerPageName";
 import { type SparePart } from "@/schemas/sparePartSchema";
 import { useSparePartGetAll } from "../composables/useSparePartGetAll";
 // import { useSparePartDelete } from "../composables/useSparePartDelete";
@@ -15,7 +15,7 @@ import DataTableDropdownAction from "../components/DataTableDropdownAction.vue";
 import AdminSection from "../components/AdminSection.vue";
 import DataTable from "../components/DataTable.vue";
 
-// const { SPARE_PART_EDIT } = routerPageName;
+const { SPARE_PART_EDIT } = routerPageName;
 
 const { spareParts, isLoading } = useSparePartGetAll();
 // const { deleteSparePart } = useSparePartDelete();
@@ -90,7 +90,7 @@ const columns: ColumnDef<SparePart>[] = [
 			return h(DataTableDropdownAction, {
 				copyText: "Copier l'ID",
 				item: sparePart.id,
-				// editPath: { name: SPARE_PART_EDIT, params: { sparePartId: sparePart.id } },
+				editPath: { name: SPARE_PART_EDIT, params: { sparePartId: sparePart.id } },
 				// onDelete: (sparePartId) => {
 				// 	deleteSparePart(sparePartId);
 				// 	// Update after deletion

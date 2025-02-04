@@ -13,6 +13,7 @@ export const routerPageNameAdminPanel = Object.freeze({
 	MAINTENANCE_EDIT: "maintenance-edit",
 	SPARE_PART_LIST: "spare-part-list",
 	SPARE_PART_ADD: "spare-part-add",
+	SPARE_PART_EDIT: "spare-part-edit",
 	SPARE_PART_DELIVERY_HISTORY: "spare-part-delivery-history",
 	SPARE_PART_SUPPLIER_LIST: "spare-part-supplier-list",
 	SPARE_PART_SUPPLIER_ADD: "spare-part-supplier-add",
@@ -96,6 +97,11 @@ export default (): RouteRecordRaw[] => [
 				name: routerPageNameAdminPanel.SPARE_PART_ADD,
 				path: "/dashboard/spare-part-add",
 				component: () => import("./pages/SparePartAddPage.vue"),
+			},
+			{
+				name: routerPageNameAdminPanel.SPARE_PART_EDIT,
+				path: "/dashboard/spare-part-edit/:sparePartId",
+				component: () => import("./pages/SparePartEditPage.vue"),
 			},
 			{
 				name: routerPageNameAdminPanel.SPARE_PART_DELIVERY_HISTORY,

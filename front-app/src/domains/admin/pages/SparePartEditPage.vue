@@ -1,27 +1,31 @@
 <script setup lang="ts">
+import { useRouteParams } from "@/composables/useRouteParams";
 import { routerPageName } from "@/router/routerPageName";
-import { useSparePartAdd } from "../composables/useSparePartAdd";
+import { z } from "zod";
+import { useSparePartEdit } from "../composables/useSparePartEdit";
 import AdminSection from "../components/AdminSection.vue";
-import {
-	FormControl,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage,
-} from "@/components/ui/form";
-import { TheInput } from "@/components/ui/input";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import TheInput from "@/components/ui/input/TheInput.vue";
 import ButtonPrimary from "@/components/ButtonPrimary.vue";
 
+const params = useRouteParams({
+	sparePartId: z.string(),
+});
 const { SPARE_PART_LIST } = routerPageName;
-const { onSubmit } = useSparePartAdd();
+const { isLoaded, onSubmit } = useSparePartEdit(params.value.sparePartId);
 </script>
 
 <template>
-	<AdminSection 
-		title="Ajouter une pièce"
+	<AdminSection
+		:title="`Modifier la pièce ${params.sparePartId}`"
 		:back-to="SPARE_PART_LIST"
 	>
+		<div v-if="!isLoaded">
+			Chargement des données...
+		</div>
+
 		<form
+			v-else
 			@submit="onSubmit"
 			class="space-y-6"
 		>
@@ -37,6 +41,7 @@ const { onSubmit } = useSparePartAdd();
 							type="text"
 							placeholder="123456"
 							v-bind="componentField"
+							disabled
 						/>
 					</FormControl>
 
@@ -90,12 +95,12 @@ const { onSubmit } = useSparePartAdd();
 					name="price"
 				>
 					<FormItem>
-						<FormLabel>Prix (à l'unité)</FormLabel>
+						<FormLabel>Prix</FormLabel>
 
 						<FormControl>
 							<TheInput
 								type="number"
-								placeholder="100"
+								placeholder="7500"
 								v-bind="componentField"
 							/>
 						</FormControl>
@@ -103,7 +108,7 @@ const { onSubmit } = useSparePartAdd();
 						<FormMessage />
 					</FormItem>
 				</FormField>
-  
+
 				<FormField
 					v-slot="{ componentField }"
 					name="stock"
@@ -121,12 +126,12 @@ const { onSubmit } = useSparePartAdd();
 
 						<FormMessage />
 					</FormItem>
-				</FormField>
+				</formfield>
 			</div>
   
 			<div class="flex justify-end">
 				<ButtonPrimary type="submit">
-					Ajouter
+					Modifier
 				</ButtonPrimary>
 			</div>
 		</form>
