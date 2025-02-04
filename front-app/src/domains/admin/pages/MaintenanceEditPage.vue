@@ -5,7 +5,7 @@ import { routerPageName } from "@/router/routerPageName";
 import { useSparePartGetAll } from "../composables/useSparePartGetAll";
 import { useMaintenanceEdit } from "../composables/useMaintenanceEdit";
 import { computed } from "vue";
-import type { Piece } from "@/schemas/pieceSchema";
+import type { SparePart } from "@/schemas/sparePartSchema";
 import AdminSection from "../components/AdminSection.vue";
 import {
 	FormControl,
@@ -39,26 +39,26 @@ const usedSparePartsWithDetails = computed(() => {
 
 	return values.usedSpareParts
 		.map((part) => {
-			const piece = sparePartes.value.find(p => p.id === part.sparePartId);
-			return piece ? { ...piece, quantity: part.quantity } : undefined;
+			const sparePart = sparePartes.value.find(p => p.id === part.sparePartId);
+			return sparePart ? { ...sparePart, quantity: part.quantity } : undefined;
 		})
-		.filter((part): part is Piece & { quantity: number } => part !== undefined && part.quantity > 0);
+		.filter((part): part is SparePart & { quantity: number } => part !== undefined && part.quantity > 0);
 });
 
-function addSparePart(pieceId: string) {
+function addSparePart(sparePartId: string) {
 	if (!values.usedSpareParts) return;
 
 	const updatedParts = values.usedSpareParts.map(part => {
-		if (part.sparePartId === pieceId) {
+		if (part.sparePartId === sparePartId) {
 			return { ...part, quantity: part.quantity + 1 }; // Augmente la quantité
 		}
 		return part;
 	});
 
-	const pieceExists = values.usedSpareParts.some(part => part.sparePartId === pieceId);
+	const sparePartExists = values.usedSpareParts.some(part => part.sparePartId === sparePartId);
 
-	if (!pieceExists) {
-		updatedParts.push({ sparePartId: pieceId, quantity: 1 });
+	if (!sparePartExists) {
+		updatedParts.push({ sparePartId: sparePartId, quantity: 1 });
 	}
 
 	setFieldValue("usedSpareParts", updatedParts);
