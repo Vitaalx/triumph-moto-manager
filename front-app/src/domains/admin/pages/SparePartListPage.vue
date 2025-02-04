@@ -2,7 +2,7 @@
 import { routerPageName } from "@/router/routerPageName";
 import { type SparePart } from "@/schemas/sparePartSchema";
 import { useSparePartGetAll } from "../composables/useSparePartGetAll";
-// import { useSparePartDelete } from "../composables/useSparePartDelete";
+import { useSparePartDelete } from "../composables/useSparePartDelete";
 import type {
 	ColumnDef,
 	Row,
@@ -18,7 +18,7 @@ import DataTable from "../components/DataTable.vue";
 const { SPARE_PART_EDIT } = routerPageName;
 
 const { spareParts, isLoading } = useSparePartGetAll();
-// const { deleteSparePart } = useSparePartDelete();
+const { deleteSparePart } = useSparePartDelete();
 
 const columns: ColumnDef<SparePart>[] = [
 	{
@@ -91,11 +91,11 @@ const columns: ColumnDef<SparePart>[] = [
 				copyText: "Copier l'ID",
 				item: sparePart.id,
 				editPath: { name: SPARE_PART_EDIT, params: { sparePartId: sparePart.id } },
-				// onDelete: (sparePartId) => {
-				// 	deleteSparePart(sparePartId);
-				// 	// Update after deletion
-				// 	window.location.reload();
-				// },
+				onDelete: (sparePartId) => {
+					deleteSparePart(sparePartId);
+					// Update after deletion
+					window.location.reload();
+				},
 			});
 		},
 	}
