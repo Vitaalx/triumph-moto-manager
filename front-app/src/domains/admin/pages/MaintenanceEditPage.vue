@@ -31,7 +31,7 @@ const params = useRouteParams({
 });
 const { MAINTENANCE_CURRENT_LIST } = routerPageName;
 
-const { isLoading: isSparePartes, sparePartes } = useSparePartGetAll();
+const { isLoading: isSparePartes, spareParts } = useSparePartGetAll();
 const { isLoaded, onSubmit, values, setFieldValue, closeMaintenance } = useMaintenanceEdit(params.value.maintenanceId);
 
 const usedSparePartsWithDetails = computed(() => {
@@ -39,7 +39,7 @@ const usedSparePartsWithDetails = computed(() => {
 
 	return values.usedSpareParts
 		.map((part) => {
-			const sparePart = sparePartes.value.find(p => p.id === part.sparePartId);
+			const sparePart = spareParts.value.find(p => p.id === part.sparePartId);
 			return sparePart ? { ...sparePart, quantity: part.quantity } : undefined;
 		})
 		.filter((part): part is SparePart & { quantity: number } => part !== undefined && part.quantity > 0);
@@ -141,7 +141,7 @@ function removeSparePart(id: string) {
 								<SelectContent>
 									<SelectGroup>
 										<SelectItem
-											v-for="availablePiece in sparePartes"
+											v-for="availablePiece in spareParts"
 											:key="availablePiece.id"
 											:value="availablePiece.id"
 										>
