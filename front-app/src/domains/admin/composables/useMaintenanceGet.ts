@@ -23,9 +23,10 @@ export function useMaintenanceGet(maintenanceId: string) {
 			.then((response) => {
 				const formattedMaintenance = {
 					...response.data,
-					type: response.data.type.value,
 					motorcycleId: response.data.motorcycleId.value,
 				};
+
+				console.log(response.data);
 
 				maintenance.value = formattedMaintenance;
 			})

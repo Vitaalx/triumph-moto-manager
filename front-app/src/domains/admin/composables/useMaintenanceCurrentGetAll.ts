@@ -7,7 +7,7 @@ export function useMaintenanceCurrentGetAll() {
 	const isLoading = ref(true);
 
 	function getAllMaintenanceCurrent() {
-		api.get("/motorcycles-in-maintenance")
+		api.get("/motorcycle-maintenances-in-progress")
 			.then((response) => {
 				const formattedMaintenance = response.data.map(
 					(motorcycleMaintenance: Maintenance) => {

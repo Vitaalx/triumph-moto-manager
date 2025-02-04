@@ -7,7 +7,7 @@ export function useMaintenanceHistoryGetAll() {
 	const isLoading = ref(true);
 
 	function getAllMaintenanceHistory() {
-		api.get("/motorcycles-maintenance-passed")
+		api.get("/motorcycle-maintenances-closed")
 			.then((response) => {
 				const formattedMaintenance = response.data.map(
 					(motorcycleMaintenance: Maintenance) => {

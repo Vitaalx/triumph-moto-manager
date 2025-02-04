@@ -23,11 +23,23 @@ const formattedDate = computed(() =>
 	maintenance.value.date ? dateFormatter.format(new Date(maintenance.value.date)) : undefined
 );
 
+const formattedStatus = computed(() => {
+	if (maintenance.value.status === "IN_PROGRESS") {
+		return "En cours";
+	}
+
+	if (maintenance.value.status === "CLOSED") {
+		return "Cloturé";
+	}
+
+	return maintenance.value.status;
+});
+
 const formattedPartsCost = computed(() =>
 	new Intl.NumberFormat("fr-FR", {
 		style: "currency",
 		currency: "EUR",
-	}).format(maintenance.value.totalSparePartsCost)
+	}).format(maintenance.value.totalSparePartsPrice)
 );
 
 const formattedLaborPrice = computed(() =>
@@ -37,11 +49,11 @@ const formattedLaborPrice = computed(() =>
 	}).format(maintenance.value.laborPrice)
 );
 
-const formattedTotalCost = computed(() =>
+const formattedtotalMaintenancePrice = computed(() =>
 	new Intl.NumberFormat("fr-FR", {
 		style: "currency",
 		currency: "EUR",
-	}).format(maintenance.value.totalCost)
+	}).format(maintenance.value.totalMaintenancePrice)
 );
 </script>
 
@@ -100,12 +112,11 @@ const formattedTotalCost = computed(() =>
 						<span
 							class="px-3 py-1 rounded-full text-white"
 							:class="{
-								'bg-blue-500': maintenance.status === 'À venir',
-								'bg-yellow-500': maintenance.status === 'En cours',
-								'bg-red-500': maintenance.status === 'Cloturé',
+								'bg-yellow-500': maintenance.status === 'IN_PROGRESS',
+								'bg-red-500': maintenance.status === 'CLOSED',
 							}"
 						>
-							{{ maintenance.status }}
+							{{ formattedStatus }}
 						</span>
 					</div>
 				</div>
@@ -207,7 +218,7 @@ const formattedTotalCost = computed(() =>
 					<div class="flex justify-between items-center text-gray-700">
 						<strong>Coût total :</strong>
 
-						<span class="text-lg font-bold text-gray-900">{{ formattedTotalCost }}</span>
+						<span class="text-lg font-bold text-gray-900">{{ formattedtotalMaintenancePrice }}</span>
 					</div>
 				</div>
 			</div>
