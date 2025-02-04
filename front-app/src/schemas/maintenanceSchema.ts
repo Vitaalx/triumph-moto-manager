@@ -17,7 +17,7 @@ export interface Maintenance {
 
 
 interface SparePart {
-	id: string,
+	sparePartId : string,
 	quantity: number,
 }
 
@@ -46,12 +46,9 @@ export const maintenanceUpdateFormSchema = z.object({
 		.max(500, { message: "Les recommandations techniques doivent faire au plus 500 caractères." }),
 	usedSpareParts: z.array(
 		z.object({
-			id: z.string(),
+			sparePartId: z.string(),
 			quantity: z.number(),
 		}),
 	).optional(),
-	totalSparePartsPrice: z.number({ message: "Le coût total des pièces est obligatoire." }),
 	laborPrice: z.number({ message: "Le prix de la main d'oeuvre est obligatoire." }),
-	totalMaintenancePrice: z.number({ message: "Le coût total est obligatoire." }),
-	date: z.string({ message: "La date est obligatoire." }),
 });

@@ -12,7 +12,7 @@ const params = useRouteParams({
 	maintenanceId: z.string(),
 });
 
-const { MAINTENANCE_CURRENT_LIST } = routerPageName;
+const { MAINTENANCE_HISTORY } = routerPageName;
 const { maintenance, isLoading } = useMaintenanceGet(params.value.maintenanceId);
 
 const dateFormatter = new DateFormatter("fr-FR", {
@@ -55,12 +55,16 @@ const formattedtotalMaintenancePrice = computed(() =>
 		currency: "EUR",
 	}).format(maintenance.value.totalMaintenancePrice)
 );
+
+function sendMail() {
+	console.log("Sending mail...");
+}
 </script>
 
 <template>
 	<AdminSection
 		title="Devis d'entretien"
-		:back-to="MAINTENANCE_CURRENT_LIST"
+		:back-to="MAINTENANCE_HISTORY"
 	>
 		<div
 			v-if="isLoading"
@@ -73,18 +77,9 @@ const formattedtotalMaintenancePrice = computed(() =>
 			v-else
 			class="space-y-6"
 		>
-			<div class="space-x-4">
-				<ButtonPrimary>
-					Envoyer par mail
-				</ButtonPrimary>
-
-				<ButtonPrimary
-					v-if="maintenance.status !== 'closed'"
-					variant="destructive"
-				>
-					Cloturer l'entretien
-				</ButtonPrimary>
-			</div>
+			<ButtonPrimary @click="sendMail">
+				Envoyer par mail
+			</ButtonPrimary>
 
 			<div
 				class="bg-white p-8 rounded-lg shadow-lg border border-gray-200"
@@ -175,11 +170,11 @@ const formattedtotalMaintenancePrice = computed(() =>
 							<tbody>
 								<tr
 									v-for="part in maintenance.usedSpareParts"
-									:key="part.id"
+									:key="part.sparePartId"
 									class="border-b border-gray-300"
 								>
 									<td class="border border-gray-300 px-4 py-2 font-mono">
-										{{ part.id }}
+										{{ part.sparePartId }}
 									</td>
 
 									<td class="border border-gray-300 px-4 py-2">

@@ -10,9 +10,9 @@ export function useMaintenanceGet(maintenanceId: string) {
 		motorcycleId: "",
 		technicalRecommendations: "",
 		usedSpareParts: [],
-		totalSparePartsCost: 0,
+		totalSparePartsPrice: 0,
 		laborPrice: 0,
-		totalCost: 0,
+		totalMaintenancePrice: 0,
 		date: "",
 	});
 
