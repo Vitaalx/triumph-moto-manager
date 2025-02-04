@@ -47,7 +47,7 @@ export class CloseMotorcycleMaintenanceUsecase {
 					}
 
 					sparePartEntity.stock -= maintenanceSparePart.quantity;
-					calculatedTotalSparePartsPrice += sparePartEntity.price * maintenanceSparePart.quantity;
+					calculatedTotalSparePartsPrice += sparePartEntity.price.value * maintenanceSparePart.quantity;
 
 					await this.sparePartRepository.update(maintenanceSparePart.sparePartId, sparePartEntity);
 				},

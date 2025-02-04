@@ -40,6 +40,7 @@ model Motorcycle {
     MotorcycleTry         MotorcycleTry[]
     MotorcycleIncident    MotorcycleIncident[]
     MotorcycleMaintenance MotorcycleMaintenance[]
+    createDate            DateTime                @default(now())
 }
 
 model MotorcycleTry {
@@ -97,9 +98,11 @@ model SparePart {
     id                   String                 @id
     name                 String
     brand                String
+    refNumber            String                 @unique
     price                Float
     stock                Int
     MaintenanceSparePart MaintenanceSparePart[]
+    createDate           DateTime               @default(now())
 }
 
 model MaintenanceSparePart {

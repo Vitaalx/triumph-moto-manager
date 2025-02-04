@@ -9,6 +9,7 @@ import { DriverModule } from "./modules/driver.module";
 import { MotorcycleTryModule } from "./modules/motorcycle-try.module";
 import { MotorcycleIncidentModule } from "./modules/motorcycle-incident.module";
 import { MotorcycleMaintenanceModule } from "./modules/motorcycle-maintenance.module";
+import { SparePartModule } from "./modules/spare-part.module";
 
 @Module({
 	providers: [
@@ -25,6 +26,7 @@ import { MotorcycleMaintenanceModule } from "./modules/motorcycle-maintenance.mo
 		MotorcycleIncidentModule,
 		AppInitializerModule,
 		MotorcycleMaintenanceModule,
+		SparePartModule,
 	],
 })
 export class AppModule {}

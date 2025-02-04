@@ -3,6 +3,7 @@ import { type MotorcycleIncidentEvent } from "./motorcycle-incident/motorcycle-i
 import { type MotorcycleMaintenanceEvent } from "./motorcycle-maintenance/motorcycle-maintenance-event";
 import { type MotorcycleTryEvent } from "./motorcycle-try/motorcycle-try-event";
 import { type MotorcycleEvent } from "./motorcycle/motorcycle-event";
+import { type SparePartEvent } from "./spare-part/spare-part-event";
 
 export interface EventGeneric<Type, Version, Data> {
 	readonly identifier: string;
@@ -17,4 +18,5 @@ export type Event =
   | DriverEvent
   | MotorcycleTryEvent
   | MotorcycleIncidentEvent
-  | MotorcycleMaintenanceEvent;
+  | MotorcycleMaintenanceEvent
+  | SparePartEvent;

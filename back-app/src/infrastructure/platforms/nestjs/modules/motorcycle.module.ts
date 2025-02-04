@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { Module, Provider } from "@nestjs/common";
 import { MotorcycleController } from "../controllers/motorcycle.controller";
 import { CqrsModule } from "@nestjs/cqrs";
 import { CreateMotorcycleCommandHandler } from "@application/command/handlers/create-motorcycle.command-handler";
@@ -17,7 +17,7 @@ import { GetMotorcyclesUsecase } from "@application/usecases/motorcycle/get-moto
 import { GetMotorcyclesQueryHandler } from "@application/queries/handlers/get-motorcycles.query-handler";
 import { UpdateMotorcycleCommandHandler } from "@application/command/handlers/update-motorcycle.command-handler";
 
-const motorcycleInjectionUsecases = [
+const motorcycleInjectionUsecases: Provider[] = [
 	{
 		provide: CreateMotorcycleUsecase,
 		useFactory: (
@@ -54,13 +54,13 @@ const motorcycleInjectionUsecases = [
 	},
 ];
 
-const commandHandlers = [
+const commandHandlers: Provider[] = [
 	CreateMotorcycleCommandHandler,
 	UpdateMotorcycleCommandHandler,
 	DeleteMotorcycleCommandHandler,
 ];
 
-const queryHandlers = [
+const queryHandlers: Provider[] = [
 	GetMotorcycleQueryHandler,
 	GetMotorcyclesQueryHandler,
 ];

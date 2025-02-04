@@ -48,7 +48,13 @@ export class MotorcycleRepository implements IMotorcycleRepository {
 	}
 
 	public async getMotorcycles(): Promise<MotorcycleEntity[]> {
-		const motorcycles = await prisma.motorcycle.findMany();
+		const motorcycles = await prisma.motorcycle.findMany(
+			{
+				orderBy: {
+					createDate: "desc",
+				},
+			},
+		);
 		return motorcycles.map((motorcycle) => this.mapper.toDomainEntity(motorcycle));
 	}
 
