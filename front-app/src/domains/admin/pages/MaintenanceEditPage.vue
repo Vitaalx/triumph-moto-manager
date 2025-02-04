@@ -5,7 +5,7 @@ import { routerPageName } from "@/router/routerPageName";
 import { useSparePartGetAll } from "../composables/useSparePartGetAll";
 import { useMaintenanceEdit } from "../composables/useMaintenanceEdit";
 import { computed } from "vue";
-import type { SparePart } from "@/schemas/sparePartSchema";
+import type { formattedSparePart } from "@/schemas/sparePartSchema";
 import AdminSection from "../components/AdminSection.vue";
 import {
 	FormControl,
@@ -42,7 +42,7 @@ const usedSparePartsWithDetails = computed(() => {
 			const sparePart = spareParts.value.find(p => p.id === part.sparePartId);
 			return sparePart ? { ...sparePart, quantity: part.quantity } : undefined;
 		})
-		.filter((part): part is SparePart & { quantity: number } => part !== undefined && part.quantity > 0);
+		.filter((part): part is formattedSparePart & { quantity: number } => part !== undefined && part.quantity > 0);
 });
 
 function addSparePart(sparePartId: string) {
@@ -50,7 +50,7 @@ function addSparePart(sparePartId: string) {
 
 	const updatedParts = values.usedSpareParts.map(part => {
 		if (part.sparePartId === sparePartId) {
-			return { ...part, quantity: part.quantity + 1 }; // Augmente la quantité
+			return { ...part, quantity: part.quantity + 1 };
 		}
 		return part;
 	});

@@ -2,6 +2,23 @@ import { z } from "zod";
 
 export interface SparePart {
 	id: string;
+	refNumber: {
+		value: string;
+	};
+	brand: {
+		value: string;
+	};
+	name: {
+		value: string;
+	};
+	price: {
+		value: number;
+	};
+	stock: number;
+}
+
+export interface formattedSparePart {
+	id: string;
 	refNumber: string;
 	brand: string;
 	name: string;

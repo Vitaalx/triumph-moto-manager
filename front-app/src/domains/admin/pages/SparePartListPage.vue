@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { routerPageName } from "@/router/routerPageName";
-import { type SparePart } from "@/schemas/sparePartSchema";
+import { type formattedSparePart } from "@/schemas/sparePartSchema";
 import { useSparePartGetAll } from "../composables/useSparePartGetAll";
 import { useSparePartDelete } from "../composables/useSparePartDelete";
 import type {
@@ -20,46 +20,46 @@ const { SPARE_PART_EDIT } = routerPageName;
 const { spareParts, isLoading } = useSparePartGetAll();
 const { deleteSparePart } = useSparePartDelete();
 
-const columns: ColumnDef<SparePart>[] = [
+const columns: ColumnDef<formattedSparePart>[] = [
 	{
 		accessorKey: "refNumber",
-		header: ({ column }: { column: Column<SparePart, unknown> }) => {
+		header: ({ column }: { column: Column<formattedSparePart, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
 				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
 			}, () => ["Ref", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
 		},
-		cell: ({ row }: { row: Row<SparePart> }) => h("div", { class: "" }, row.getValue("refNumber")),
+		cell: ({ row }: { row: Row<formattedSparePart> }) => h("div", { class: "" }, row.getValue("refNumber")),
 	},
 	{
 		accessorKey: "brand",
-		header: ({ column }: { column: Column<SparePart, unknown> }) => {
+		header: ({ column }: { column: Column<formattedSparePart, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
 				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
 			}, () => ["Marque", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
 		},
-		cell: ({ row }: { row: Row<SparePart> }) => h("div", { class: "" }, row.getValue("brand")),
+		cell: ({ row }: { row: Row<formattedSparePart> }) => h("div", { class: "" }, row.getValue("brand")),
 	},
 	{
 		accessorKey: "name",
-		header: ({ column }: { column: Column<SparePart, unknown> }) => {
+		header: ({ column }: { column: Column<formattedSparePart, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
 				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
 			}, () => ["Nom", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
 		},
-		cell: ({ row }: { row: Row<SparePart> }) => h("div", { class: "" }, row.getValue("name")),
+		cell: ({ row }: { row: Row<formattedSparePart> }) => h("div", { class: "" }, row.getValue("name")),
 	},
 	{
 		accessorKey: "price",
-		header: ({ column }: { column: Column<SparePart, unknown> }) => {
+		header: ({ column }: { column: Column<formattedSparePart, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
 				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
 			}, () => ["Prix", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
 		},
-		cell: ({ row }: { row: Row<SparePart> }) => {
+		cell: ({ row }: { row: Row<formattedSparePart> }) => {
 			const price = Number.parseFloat(row.getValue("price"));
 
 			// Format the price as a euro price
@@ -73,13 +73,13 @@ const columns: ColumnDef<SparePart>[] = [
 	},
 	{
 		accessorKey: "stock",
-		header: ({ column }: { column: Column<SparePart, unknown> }) => {
+		header: ({ column }: { column: Column<formattedSparePart, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
 				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
 			}, () => ["Stock", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
 		},
-		cell: ({ row }: { row: Row<SparePart> }) => h("div", { class: "" }, row.getValue("stock")),
+		cell: ({ row }: { row: Row<formattedSparePart> }) => h("div", { class: "" }, row.getValue("stock")),
 	},
 	{
 		id: "actions",
