@@ -2,6 +2,7 @@
 import { routerPageName } from "@/router/routerPageName";
 import { type Order } from "@/schemas/orderSchema";
 import { useOrderCurrentGetAll } from "../composables/useOrderCurrentGetAll";
+import { useOrderDelete } from "../composables/useOrderDelete";
 import type {
 	ColumnDef,
 	Row,
@@ -14,8 +15,10 @@ import DataTableDropdownAction from "../components/DataTableDropdownAction.vue";
 import AdminSection from "../components/AdminSection.vue";
 import DataTable from "../components/DataTable.vue";
 
-const { orders, isLoading } = useOrderCurrentGetAll();
 const { ORDER_PAGE, ORDER_EDIT } = routerPageName;
+
+const { orders, isLoading } = useOrderCurrentGetAll();
+const { deleteOrder } = useOrderDelete();
 
 const columns: ColumnDef<Order>[] = [
 	{
@@ -49,11 +52,11 @@ const columns: ColumnDef<Order>[] = [
 				item: order.id,
 				viewPath: { name: ORDER_PAGE, params: { orderId: order.id } },
 				editPath: { name: ORDER_EDIT, params: { orderId: order.id } },
-				// onDelete: (orderId) => {
-				// 	deleteDriver(orderId);
-				// 	// Update after deletion
-				// 	window.location.reload();
-				// },
+				onDelete: (orderId) => {
+					deleteOrder(orderId);
+					// Update after deletion
+					window.location.reload();
+				},
 			});
 		},
 	}
