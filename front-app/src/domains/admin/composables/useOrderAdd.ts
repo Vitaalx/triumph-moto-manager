@@ -13,7 +13,6 @@ export function useOrderAdd() {
 	});
 
 	const onSubmit = handleSubmit((formData) => {
-		console.log(formData);
 		api.post("/spare-part-order", formData)
 			.then(() => {
 				toast({

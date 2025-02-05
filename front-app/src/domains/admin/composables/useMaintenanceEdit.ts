@@ -38,7 +38,7 @@ export function useMaintenanceEdit(maintenanceId: string) {
 		api.patch(`/motorcycle-maintenance/${maintenanceId}`, formData)
 			.then(() => {
 				toast({
-					title: "Maintenance modifié",
+					title: "Maintenance modifiée",
 					description: "La maintenance a bien été modifiée.",
 					variant: "success",
 				});
