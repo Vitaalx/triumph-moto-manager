@@ -31,7 +31,7 @@ const params = useRouteParams({
 });
 const { MAINTENANCE_CURRENT_LIST } = routerPageName;
 
-const { isLoading: isSparePartes, spareParts } = useSparePartGetAll();
+const { isLoading: isSparePartsLoading, spareParts } = useSparePartGetAll();
 const { isLoaded, onSubmit, values, setFieldValue, closeMaintenance } = useMaintenanceEdit(params.value.maintenanceId);
 
 const usedSparePartsWithDetails = computed(() => {
@@ -90,7 +90,7 @@ function removeSparePart(id: string) {
 		title="Modifier l'entretien"
 		:back-to="MAINTENANCE_CURRENT_LIST"
 	>
-		<div v-if="!isLoaded && isSparePartes">
+		<div v-if="!isLoaded && isSparePartsLoading">
 			Chargement des données...
 		</div>
 

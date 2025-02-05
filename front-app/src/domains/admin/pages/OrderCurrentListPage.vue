@@ -15,7 +15,7 @@ import AdminSection from "../components/AdminSection.vue";
 import DataTable from "../components/DataTable.vue";
 
 const { orders, isLoading } = useOrderCurrentGetAll();
-const { /* ORDER_PAGE, */ ORDER_EDIT } = routerPageName;
+const { ORDER_PAGE, ORDER_EDIT } = routerPageName;
 
 const columns: ColumnDef<Order>[] = [
 	{
@@ -47,7 +47,7 @@ const columns: ColumnDef<Order>[] = [
 			return h(DataTableDropdownAction, {
 				copyText: "Copier l'ID",
 				item: order.id,
-				// viewPath: { name: DRIVER_PAGE, params: { orderId: driver.id } },
+				viewPath: { name: ORDER_PAGE, params: { orderId: order.id } },
 				editPath: { name: ORDER_EDIT, params: { orderId: order.id } },
 				// onDelete: (orderId) => {
 				// 	deleteDriver(orderId);
