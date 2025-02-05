@@ -32,7 +32,9 @@ const {
 	MAINTENANCE_ADD,
 	SPARE_PART_LIST,
 	SPARE_PART_ADD,
-	SPARE_PART_DELIVERY_HISTORY,
+	ORDER_CURRENT_LIST,
+	ORDER_HISTORY,
+	ORDER_ADD,
 	SPARE_PART_SUPPLIER_LIST,
 	SPARE_PART_SUPPLIER_ADD,
 	USER_LIST,
@@ -86,7 +88,13 @@ const adminNavSections: NavSection[] = [
 				icon: mdiPlus, route: SPARE_PART_ADD, label: "Ajouter une pièce" 
 			},
 			{
-				icon: mdiHistory, route: SPARE_PART_DELIVERY_HISTORY, label: "Historique des commandes" 
+				icon: mdiCalendarClock, route: ORDER_CURRENT_LIST, label: "Commandes en cours"
+			},
+			{
+				icon: mdiHistory, route: ORDER_HISTORY, label: "Historique des commandes" 
+			},
+			{
+				icon: mdiPlus, route: ORDER_ADD, label: "Ajouter une commande" 
 			},
 			{
 				icon: mdiAccountHardHat, route: SPARE_PART_SUPPLIER_LIST, label: "Liste des fournisseurs" 

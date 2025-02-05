@@ -8,10 +8,13 @@ export function useDefaultOpenAccordion() {
 		MOTORCYCLE_LIST,
 		MOTORCYCLE_ADD,
 		MAINTENANCE_CURRENT_LIST,
+		MAINTENANCE_HISTORY,
 		MAINTENANCE_ADD,
 		SPARE_PART_LIST,
 		SPARE_PART_ADD,
-		SPARE_PART_DELIVERY_HISTORY,
+		ORDER_CURRENT_LIST,
+		ORDER_HISTORY,
+		ORDER_ADD,
 		SPARE_PART_SUPPLIER_LIST,
 		SPARE_PART_SUPPLIER_ADD,
 		USER_LIST,
@@ -24,7 +27,7 @@ export function useDefaultOpenAccordion() {
 		TRIAL_HISTORY,
 		TRIAL_ADD,
 		INCIDENT_LIST,
-		INCIDENT_ADD
+		INCIDENT_ADD,
 	} = routerPageName;
 
 	const defaultOpenAccordion = computed(() => {
@@ -34,10 +37,13 @@ export function useDefaultOpenAccordion() {
 			[MOTORCYCLE_LIST]: "fleet",
 			[MOTORCYCLE_ADD]: "fleet",
 			[MAINTENANCE_CURRENT_LIST]: "maintenance",
+			[MAINTENANCE_HISTORY]: "maintenance",
 			[MAINTENANCE_ADD]: "maintenance",
 			[SPARE_PART_LIST]: "stock",
 			[SPARE_PART_ADD]: "stock",
-			[SPARE_PART_DELIVERY_HISTORY]: "stock",
+			[ORDER_CURRENT_LIST]: "stock",
+			[ORDER_HISTORY]: "stock",
+			[ORDER_ADD]: "stock",
 			[SPARE_PART_SUPPLIER_LIST]: "stock",
 			[SPARE_PART_SUPPLIER_ADD]: "stock",
 			[USER_LIST]: "users",
