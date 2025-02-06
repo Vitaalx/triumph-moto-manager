@@ -39,11 +39,42 @@ export function useDriverEdit(driverId: string) {
 					description: "Le conducteur a bien été modifié.",
 					variant: "success",
 				});
+			})
+			.catch((error) => {
+				const errorMessage = error.response?.data?.message || "Une erreur est survenue";
+
+				toast({
+					title: "Erreur",
+					description: `Une erreur est survenue lors de la modification du conducteur : ${errorMessage}`,
+					variant: "destructive",
+				});
 			});
 	});
 
+	function addMotorcycle(licensePlate: string) {
+		api.post(`/driver/${driverId}/motorcycle/${licensePlate}`)
+			.then(() => {
+				toast({
+					title: "Moto ajoutée",
+					description: "La moto a bien été ajoutée au conducteur.",
+					variant: "success",
+				});
+			})
+			.catch((error) => {
+				const errorMessage = error.response?.data?.message || "Une erreur est survenue";
+
+				toast({
+					title: "Erreur",
+					description: `Une erreur est survenue lors de l'ajout de la moto : ${errorMessage}`,
+					variant: "destructive",
+				});
+			});
+	}
+
 	return {
-		onSubmit,
 		isLoaded,
+		driver,
+		onSubmit,
+		addMotorcycle
 	};
 }

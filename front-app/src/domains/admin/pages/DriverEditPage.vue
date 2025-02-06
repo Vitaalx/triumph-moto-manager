@@ -2,7 +2,9 @@
 import { useRouteParams } from "@/composables/useRouteParams";
 import { routerPageName } from "@/router/routerPageName";
 import { z } from "zod";
+import { useMotorcycleGetAll } from "../composables/useMotorcycleGetAll";
 import { useDriverEdit } from "../composables/useDriverEdit";
+import { computed, ref } from "vue";
 import AdminSection from "../components/AdminSection.vue";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import TheInput from "@/components/ui/input/TheInput.vue";
@@ -20,7 +22,25 @@ const params = useRouteParams({
 	driverId: z.string(),
 });
 const { DRIVER_LIST } = routerPageName;
-const { isLoaded, onSubmit } = useDriverEdit(params.value.driverId);
+
+const { isLoading: isMotorcyclesLoading, motorcycles } = useMotorcycleGetAll();
+const { isLoaded: isDriverLoaded, driver, onSubmit, addMotorcycle } = useDriverEdit(params.value.driverId);
+
+const notPossessedMotorcycles = computed(() => {
+	if (!motorcycles.value || !motorcycles.value.length) return [];
+
+	return motorcycles.value
+		.filter(motorcycle => !driver.value?.motorcycles
+			.some(m => m.licensePlate.value === motorcycle.licensePlate));
+});
+
+const selectedMotorcycle = ref("");
+
+function handleAddMotorcycle() {
+	if (!selectedMotorcycle.value) return;
+
+	addMotorcycle(selectedMotorcycle.value);
+}
 </script>
 
 <template>
@@ -28,7 +48,7 @@ const { isLoaded, onSubmit } = useDriverEdit(params.value.driverId);
 		title="Modifier le conducteur"
 		:back-to="DRIVER_LIST"
 	>
-		<div v-if="!isLoaded">
+		<div v-if="!isDriverLoaded || isMotorcyclesLoading">
 			Chargement des données...
 		</div>
 
@@ -85,14 +105,6 @@ const { isLoaded, onSubmit } = useDriverEdit(params.value.driverId);
 					<FormItem>
 						<FormLabel>Permis</FormLabel>
 
-						<!-- <FormControl>
-							<TheInput
-								type="text"
-								placeholder="A"
-								v-bind="componentField"
-							/>
-						</FormControl> -->
-
 						<TheSelect v-bind="componentField">
 							<FormControl>
 								<SelectTrigger>
@@ -147,6 +159,32 @@ const { isLoaded, onSubmit } = useDriverEdit(params.value.driverId);
 				</ButtonPrimary>
 			</div>
 		</form>
+
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+			<TheSelect v-model="selectedMotorcycle">
+				<SelectTrigger>
+					<SelectValue placeholder="Sélectionner une moto" />
+				</SelectTrigger>
+
+				<SelectContent>
+					<SelectGroup>
+						<SelectItem
+							v-for="motorcycle in notPossessedMotorcycles"
+							:key="motorcycle.licensePlate"
+							:value="motorcycle.licensePlate"
+						>
+							{{ motorcycle.licensePlate }} ({{ motorcycle.brand }} - {{ motorcycle.model }})
+						</SelectItem>
+					</SelectGroup>
+				</SelectContent>
+			</TheSelect>
+		</div>
+
+		<div class="flex justify-start">
+			<ButtonPrimary @click="handleAddMotorcycle">
+				Ajouter la moto au pilote
+			</ButtonPrimary>
+		</div>
 	</AdminSection>
 </template>
   
