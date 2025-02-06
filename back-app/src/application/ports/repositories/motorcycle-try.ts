@@ -13,5 +13,4 @@ export interface IMotorcycleTryRepository {
 		startDate: Date,
 		endDate: Date,
 	): Promise<MotorcycleTryEntity | null>;
-	delete(motorcycleTry: MotorcycleTryEntity): Promise<void>;
 }

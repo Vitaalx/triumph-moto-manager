@@ -1,29 +1,22 @@
 import { CreateDriverSheetCommand } from "@application/command/definitions/create-driver-sheet";
-import { Body, Controller, Delete, Get, HttpStatus, Param, Patch, Post, Res, UseGuards } from "@nestjs/common";
+import { BadRequestException, Body, ConflictException, Controller, Delete, Get, HttpStatus, NotFoundException, Param, Patch, Post, Res, UseGuards } from "@nestjs/common";
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
 import { Response } from "express";
 import { CreateDriverDto } from "../dtos/driver/create";
 import { InvalidDriverMotorcycleLicenseTypeError } from "@domain/errors/driver/invalid-driver-motorcycle-license-type";
-import { InvalidDriverMotorcycleLicenseTypeHttpException } from "../exceptions/driver/invalid-driver-motorcycle-license-type";
 import { InvalidDriverAgeError } from "@domain/errors/driver/invalid-driver-age";
-import { InvalidDriverAgeHttpException } from "../exceptions/driver/invalid-driver-age";
 import { AuthGuard } from "../guards/auth.guard";
 import { RequiredRoles } from "../decorators/required-roles";
 import { DriverAlreadyExistError } from "@domain/errors/driver/driver-already-exist";
-import { DriverAlreadyExistHttpException } from "../exceptions/driver/driver-already-exist";
 import { GetDriverQuery } from "@application/queries/definitions/get-driver-query";
 import { DriverNotFoundError } from "@domain/errors/driver/driver-not-found";
-import { DriverNotFoundHttpException } from "../exceptions/driver/driver-not-found";
 import { GetDriversQuery } from "@application/queries/definitions/get-drivers-query";
 import { UpdateDriverDto } from "../dtos/driver/update";
 import { UpdateDriverCommand } from "@application/command/definitions/update-driver";
 import { DeleteDriverCommand } from "@application/command/definitions/delete-driver";
 import { InvalidEmailError } from "@domain/errors/invalid-email-error";
-import { InvalidEmailHttpException } from "../exceptions/invalid-email";
 import { FirstNameTooShortError } from "@domain/errors/driver/first-name-too-short";
 import { LastNameTooShortError } from "@domain/errors/driver/last-name-too-short";
-import { FirstNameTooShortHttpException } from "../exceptions/driver/first-name-too-short";
-import { LastNameTooShortHttpException } from "../exceptions/driver/last-name-too-short";
 
 @Controller()
 export class DriverController {
@@ -48,27 +41,27 @@ export class DriverController {
 		));
 
 		if (commandResult instanceof InvalidDriverMotorcycleLicenseTypeError) {
-			throw new InvalidDriverMotorcycleLicenseTypeHttpException(commandResult.message);
+			throw new BadRequestException(commandResult.message);
 		}
 
 		if (commandResult instanceof InvalidDriverAgeError) {
-			throw new InvalidDriverAgeHttpException(commandResult.message);
+			throw new BadRequestException(commandResult.message);
 		}
 
 		if (commandResult instanceof DriverAlreadyExistError) {
-			throw new DriverAlreadyExistHttpException(commandResult.message);
+			throw new ConflictException(commandResult.message);
 		}
 
 		if (commandResult instanceof InvalidEmailError) {
-			throw new InvalidEmailHttpException(commandResult.message);
+			throw new BadRequestException(commandResult.message);
 		}
 
 		if (commandResult instanceof FirstNameTooShortError) {
-			throw new FirstNameTooShortHttpException(commandResult.message);
+			throw new BadRequestException(commandResult.message);
 		}
 
 		if (commandResult instanceof LastNameTooShortError) {
-			throw new LastNameTooShortHttpException(commandResult.message);
+			throw new BadRequestException(commandResult.message);
 		}
 
 		return res.status(HttpStatus.CREATED).send();
@@ -88,19 +81,19 @@ export class DriverController {
 		));
 
 		if (commandResult instanceof InvalidDriverMotorcycleLicenseTypeError) {
-			throw new InvalidDriverMotorcycleLicenseTypeHttpException(commandResult.message);
+			throw new BadRequestException(commandResult.message);
 		}
 
 		if (commandResult instanceof InvalidDriverAgeError) {
-			throw new InvalidDriverAgeHttpException(commandResult.message);
+			throw new BadRequestException(commandResult.message);
 		}
 
 		if (commandResult instanceof DriverNotFoundError) {
-			throw new DriverNotFoundHttpException(commandResult.message);
+			throw new NotFoundException(commandResult.message);
 		}
 
 		if (commandResult instanceof InvalidEmailError) {
-			throw new InvalidEmailHttpException(commandResult.message);
+			throw new BadRequestException(commandResult.message);
 		}
 
 		return res.status(HttpStatus.OK).send();
@@ -113,7 +106,7 @@ export class DriverController {
 		const driver = await this.queryBus.execute(new GetDriverQuery(driverId));
 
 		if (driver instanceof DriverNotFoundError) {
-			throw new DriverNotFoundHttpException(driver.message);
+			throw new NotFoundException(driver.message);
 		}
 
 		return res.status(HttpStatus.OK).send({ driver });
@@ -135,7 +128,7 @@ export class DriverController {
 		const driver = await this.commandBus.execute(new DeleteDriverCommand(driverId));
 
 		if (driver instanceof DriverNotFoundError) {
-			throw new DriverNotFoundHttpException(driver.message);
+			throw new NotFoundException(driver.message);
 		}
 
 		return res.status(HttpStatus.NO_CONTENT).send();

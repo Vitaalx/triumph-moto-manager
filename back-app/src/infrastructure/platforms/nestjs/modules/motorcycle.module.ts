@@ -10,8 +10,6 @@ import { AuthModule } from "./auth.module";
 import { GetMotorcycleQueryHandler } from "@application/queries/handlers/get-motorcycle.query-handler";
 import { GetMotorcycleUsecase } from "@application/usecases/motorcycle/get-motorcycle-usecase";
 import { EventStoreRepository } from "../adapters/repositories/event-store";
-import { DeleteMotorcycleCommandHandler } from "@application/command/handlers/delete-motorcycle.command-handler";
-import { DeleteMotorcycleUsecase } from "@application/usecases/motorcycle/delete-motorcycle-usecase";
 import { UpdateMotorcycleUsecase } from "@application/usecases/motorcycle/update-motorcycle-usecase";
 import { GetMotorcyclesUsecase } from "@application/usecases/motorcycle/get-motorcycles-usecase";
 import { GetMotorcyclesQueryHandler } from "@application/queries/handlers/get-motorcycles.query-handler";
@@ -44,20 +42,11 @@ const motorcycleInjectionUsecases: Provider[] = [
 		useFactory: (motorcycleRepository: MotorcycleRepository) => new GetMotorcyclesUsecase(motorcycleRepository),
 		inject: [MOTORCYCLE_REPOSITORY_INTERFACE],
 	},
-	{
-		provide: DeleteMotorcycleUsecase,
-		useFactory: (
-			motorcycleRepository: MotorcycleRepository,
-			eventStoreRepository: EventStoreRepository,
-		) => new DeleteMotorcycleUsecase(motorcycleRepository, eventStoreRepository),
-		inject: [MOTORCYCLE_REPOSITORY_INTERFACE, EVENT_STORE_REPOSITORY_INTERFACE],
-	},
 ];
 
 const commandHandlers: Provider[] = [
 	CreateMotorcycleCommandHandler,
 	UpdateMotorcycleCommandHandler,
-	DeleteMotorcycleCommandHandler,
 ];
 
 const queryHandlers: Provider[] = [

@@ -66,14 +66,6 @@ export class MotorcycleIncidentRepository implements IMotorcycleIncidentReposito
 		return this.mapper.toDomainEntity(incident);
 	}
 
-	public async delete(motorcycleIncident: MotorcycleIncidentEntity): Promise<void> {
-		await prisma.motorcycleIncident.delete({
-			where: {
-				id: motorcycleIncident.id,
-			},
-		});
-	}
-
 	public async getMotorcycleIncidents(): Promise<MotorcycleIncidentEntity[]> {
 		const incidents = await prisma.motorcycleIncident.findMany();
 

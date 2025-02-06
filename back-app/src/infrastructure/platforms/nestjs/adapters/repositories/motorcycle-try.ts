@@ -78,14 +78,6 @@ export class MotorcycleTryRepository implements IMotorcycleTryRepository {
 		return this.mapper.toDomainEntity(motorcycleTry);
 	}
 
-	public async delete(motorcycleTry: MotorcycleTryEntity): Promise<void> {
-		await prisma.motorcycleTry.delete({
-			where: {
-				id: motorcycleTry.id,
-			},
-		});
-	}
-
 	public async save(motorcycleTry: MotorcycleTryEntity): Promise<void> {
 		await prisma.motorcycleTry.create({
 			data: {

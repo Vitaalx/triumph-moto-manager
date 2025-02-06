@@ -3,10 +3,8 @@ import { Module, Provider } from "@nestjs/common";
 import { MotorcycleTryRepository } from "../adapters/repositories/motorcycle-try";
 import { EventStoreRepository } from "../adapters/repositories/event-store";
 import { DRIVER_REPOSITORY_INTERFACE, EVENT_STORE_REPOSITORY_INTERFACE, MOTORCYCLE_REPOSITORY_INTERFACE, MOTORCYCLE_TRY_REPOSITORY_INTERFACE } from "@application/ports/symbols";
-import { DeleteMotorcycleTryUsecase } from "@application/usecases/motorcycle-try/delete-motorcycle-try-usecase";
 import { GetMotorcyclesInTrialUsecase } from "@application/usecases/motorcycle-try/get-motorcycles-in-trial-usecase";
 import { CreateMotorcycleTryCommandHandler } from "@application/command/handlers/create-motorcycle-try.command-handler";
-import { DeleteMotorcycleTryCommandHandler } from "@application/command/handlers/delete-motorcycle-try.command-handler";
 import { GetMotorcyclesInTrialQueryHandler } from "@application/queries/handlers/get-motorcycles-in-trial.query-handler";
 import { GetMotorcyclesTrialPassedQueryHandler } from "@application/queries/handlers/get-motorcycles-trial-passed.query-handler";
 import { MotorcycleTryController } from "../controllers/motorcycle-try.controller";
@@ -41,14 +39,6 @@ const motorcycleInjectionUsecases: Provider[] = [
 		],
 	},
 	{
-		provide: DeleteMotorcycleTryUsecase,
-		useFactory: (
-			motorcycleTryRepository: MotorcycleTryRepository,
-			eventStoreRepository: EventStoreRepository,
-		) => new DeleteMotorcycleTryUsecase(motorcycleTryRepository, eventStoreRepository),
-		inject: [MOTORCYCLE_TRY_REPOSITORY_INTERFACE, EVENT_STORE_REPOSITORY_INTERFACE],
-	},
-	{
 		provide: GetMotorcyclesInTrialUsecase,
 		useFactory: (
 			motorcycleTryRepository: MotorcycleTryRepository,
@@ -70,10 +60,7 @@ const motorcycleInjectionUsecases: Provider[] = [
 		inject: [MOTORCYCLE_TRY_REPOSITORY_INTERFACE],
 	},
 ];
-const commandHandlers: Provider[] = [
-	CreateMotorcycleTryCommandHandler,
-	DeleteMotorcycleTryCommandHandler,
-];
+const commandHandlers: Provider[] = [CreateMotorcycleTryCommandHandler];
 const queryHandlers: Provider[] = [
 	GetMotorcyclesInTrialQueryHandler,
 	GetMotorcyclesTrialPassedQueryHandler,

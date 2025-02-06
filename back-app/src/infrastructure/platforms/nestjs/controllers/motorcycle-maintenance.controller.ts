@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpStatus, Param, Patch, Post, Res, UseGuards } from "@nestjs/common";
+import { BadRequestException, Body, ConflictException, Controller, Get, HttpStatus, NotFoundException, Param, Patch, Post, Res, UnauthorizedException, UseGuards } from "@nestjs/common";
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
 import { RequiredRoles } from "../decorators/required-roles";
 import { AuthGuard } from "../guards/auth.guard";
@@ -6,29 +6,19 @@ import { CreateMotorcycleMaintenanceDto } from "../dtos/motorcycle-maintenance/c
 import { CreateMotorcycleMaintenanceCommand } from "@application/command/definitions/create-motorcycle-maintenance";
 import { Response } from "express";
 import { DriverNotFoundError } from "@domain/errors/driver/driver-not-found";
-import { DriverNotFoundHttpException } from "../exceptions/driver/driver-not-found";
 import { InvalidMotorcycleLicensePlateError } from "@domain/errors/motorcycle/invalid-license-plate";
-import { InvalidLicensePlateHttpException } from "../exceptions/motorcycle/invalid-license-plate";
 import { MotorcycleNotFoundError } from "@domain/errors/motorcycle/motorcycle-not-found";
-import { MotorcycleNotFoundHttpException } from "../exceptions/motorcycle/motorcycle-not-found";
 import { UpdateMotorcycleMaintenanceDto } from "../dtos/motorcycle-maintenance/update";
 import { UpdateMotorcycleMaintenanceCommand } from "@application/command/definitions/update-motorcycle-maintenance";
 import { MotorcycleMaintenanceNotFoundError } from "@domain/errors/motorcycle-maintenance/motorcycle-maintenance-not-found";
 import { SparePartNotFoundError } from "@domain/errors/spare-part/spare-part-not-found";
 import { InsufficientSparePartStockError } from "@domain/errors/spare-part/insufficient-spare-part-stock";
-import { MotorcycleMaintenanceNotFoundHttpException } from "../exceptions/motorcycle-maintenance/motorcycle-maintenance-not-found";
-import { SparePartNotFoundHttpException } from "../exceptions/spare-part/spare-part-not-found";
-import { InsufficientSparePartStockHttpException } from "../exceptions/spare-part/insufficient-spare-part-stock";
 import { InvalidMotorcycleMaintenanceStatusError } from "@domain/errors/motorcycle-maintenance/invalid-motorcycle-maintenance-status";
 import { CloseMotorcycleMaintenanceCommand } from "@application/command/definitions/close-motorcycle-maintenance";
-import { InvalidMotorcycleMaintenanceStatusHttpException } from "../exceptions/motorcycle-maintenance/invalid-motorcycle-maintenance-status";
 import { MissingLaborPriceError } from "@domain/errors/motorcycle-maintenance/missing-labor-price";
-import { MissingLaborPriceHttpException } from "../exceptions/motorcycle-maintenance/missing-labor-price";
 import { GetMotorcycleMaintenancesInProgressQuery } from "@application/queries/definitions/get-motorcycle-maintenances-in-progress";
 import { GetMotorcycleMaintenancesClosedQuery } from "@application/queries/definitions/get-motorcycle-maintenances-closed";
 import { MotorcycleMaintenanceAlreadyExistsError } from "@domain/errors/motorcycle-maintenance/motorcycle-maintenance-already-exists";
-import { MotorcycleMaintenanceAlreadyExistsHttpException } from "../exceptions/motorcycle-maintenance/motorycle-maintenance-already-exists";
-import { MotorcycleDoesNotBelongToDriverHttpException } from "../exceptions/motorcycle-maintenance/motorcycle-does-not-belong-to-driver";
 import { MotorcycleDoesNotBelongToDriverError } from "@domain/errors/motorcycle-maintenance/motorcycle-does-not-belong-to-driver";
 import { GetMotorcycleMaintenanceQuery } from "@application/queries/definitions/get-motorcycle-maintenance";
 
@@ -54,23 +44,23 @@ export class MotorcycleMaintenanceController {
 		));
 
 		if (commandResult instanceof DriverNotFoundError) {
-			throw new DriverNotFoundHttpException(commandResult.message);
+			throw new NotFoundException(commandResult.message);
 		}
 
 		if (commandResult instanceof InvalidMotorcycleLicensePlateError) {
-			throw new InvalidLicensePlateHttpException(commandResult.message);
+			throw new BadRequestException(commandResult.message);
 		}
 
 		if (commandResult instanceof MotorcycleNotFoundError) {
-			throw new MotorcycleNotFoundHttpException(commandResult.message);
+			throw new NotFoundException(commandResult.message);
 		}
 
 		if (commandResult instanceof MotorcycleMaintenanceAlreadyExistsError) {
-			throw new MotorcycleMaintenanceAlreadyExistsHttpException(commandResult.message);
+			throw new ConflictException(commandResult.message);
 		}
 
 		if (commandResult instanceof MotorcycleDoesNotBelongToDriverError) {
-			throw new MotorcycleDoesNotBelongToDriverHttpException(commandResult.message);
+			throw new UnauthorizedException(commandResult.message);
 		}
 
 		return res.status(HttpStatus.CREATED).send();
@@ -94,19 +84,19 @@ export class MotorcycleMaintenanceController {
 		));
 
 		if (commandResult instanceof MotorcycleMaintenanceNotFoundError) {
-			throw new MotorcycleMaintenanceNotFoundHttpException(commandResult.message);
+			throw new NotFoundException(commandResult.message);
 		}
 
 		if (commandResult instanceof SparePartNotFoundError) {
-			throw new SparePartNotFoundHttpException(commandResult.message);
+			throw new NotFoundException(commandResult.message);
 		}
 
 		if (commandResult instanceof InsufficientSparePartStockError) {
-			throw new InsufficientSparePartStockHttpException(commandResult.message);
+			throw new UnauthorizedException(commandResult.message);
 		}
 
 		if (commandResult instanceof InvalidMotorcycleMaintenanceStatusError) {
-			throw new InvalidMotorcycleMaintenanceStatusHttpException(commandResult.message);
+			throw new UnauthorizedException(commandResult.message);
 		}
 
 		return res.status(HttpStatus.OK).send();
@@ -119,23 +109,23 @@ export class MotorcycleMaintenanceController {
 		const commandResult = await this.commandBus.execute(new CloseMotorcycleMaintenanceCommand(maintenanceId));
 
 		if (commandResult instanceof MotorcycleMaintenanceNotFoundError) {
-			throw new MotorcycleMaintenanceNotFoundHttpException(commandResult.message);
+			throw new NotFoundException(commandResult.message);
 		}
 
 		if (commandResult instanceof InvalidMotorcycleMaintenanceStatusError) {
-			throw new InvalidMotorcycleMaintenanceStatusHttpException(commandResult.message);
+			throw new UnauthorizedException(commandResult.message);
 		}
 
 		if (commandResult instanceof MissingLaborPriceError) {
-			throw new MissingLaborPriceHttpException(commandResult.message);
+			throw new BadRequestException(commandResult.message);
 		}
 
 		if (commandResult instanceof SparePartNotFoundError) {
-			throw new SparePartNotFoundHttpException(commandResult.message);
+			throw new NotFoundException(commandResult.message);
 		}
 
 		if (commandResult instanceof InsufficientSparePartStockError) {
-			throw new InsufficientSparePartStockHttpException(commandResult.message);
+			throw new UnauthorizedException(commandResult.message);
 		}
 
 		return res.status(HttpStatus.OK).send();
@@ -170,7 +160,7 @@ export class MotorcycleMaintenanceController {
 		);
 
 		if (motorcycleMaintenance instanceof MotorcycleMaintenanceNotFoundError) {
-			throw new MotorcycleMaintenanceNotFoundHttpException(motorcycleMaintenance.message);
+			throw new NotFoundException(motorcycleMaintenance.message);
 		}
 
 		return res.status(HttpStatus.OK).send(motorcycleMaintenance);
