@@ -2,7 +2,6 @@
 import { routerPageName } from "@/router/routerPageName";
 import { type formattedMotorcycle } from "@/schemas/motorcycleSchema";
 import { useMotorcycleGetAll } from "../composables/useMotorcycleGetAll";
-import { useMotorcycleDelete } from "../composables/useMotorcycleDelete";
 import type {
 	ColumnDef,
 	Row,
@@ -18,7 +17,6 @@ import DataTable from "../components/DataTable.vue";
 const { MOTORCYCLE_PAGE, MOTORCYCLE_EDIT } = routerPageName;
 
 const { motorcycles, isLoading } = useMotorcycleGetAll();
-const { deleteMotorcycle } = useMotorcycleDelete();
 
 const columns: ColumnDef<formattedMotorcycle>[] = [
 	{
@@ -102,11 +100,6 @@ const columns: ColumnDef<formattedMotorcycle>[] = [
 				item: motorcycle.licensePlate,
 				viewPath: { name: MOTORCYCLE_PAGE, params: { licensePlate: motorcycle.licensePlate } },
 				editPath: { name: MOTORCYCLE_EDIT, params: { licensePlate: motorcycle.licensePlate } },
-				onDelete: (licensePlate) => {
-					deleteMotorcycle(licensePlate);
-					// Update after deletion
-					window.location.reload();
-				},
 			});
 		},
 	}

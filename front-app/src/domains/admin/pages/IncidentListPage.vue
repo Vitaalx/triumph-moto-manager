@@ -2,7 +2,6 @@
 import { routerPageName } from "@/router/routerPageName";
 import { type formattedIncident } from "@/schemas/incidentSchema";
 import { useIncidentGetAll } from "../composables/useIncidentGetAll";
-import { useIncidentDelete } from "../composables/useIncidentDelete";
 import { DateFormatter } from "@internationalized/date";
 import type {
 	ColumnDef,
@@ -20,7 +19,6 @@ import DataTable from "../components/DataTable.vue";
 const { DRIVER_PAGE, MOTORCYCLE_PAGE, INCIDENT_EDIT } = routerPageName;
 
 const { incidents, isLoading } = useIncidentGetAll();
-const { deleteIncident } = useIncidentDelete();
 
 const dateFormatter = new DateFormatter("fr-FR", {
 	dateStyle: "medium",
@@ -118,11 +116,6 @@ const columns: ColumnDef<formattedIncident>[] = [
 				copyText: "Copier l'ID",
 				item: incident.id,
 				editPath: { name: INCIDENT_EDIT, params: { incidentId: incident.id } },
-				onDelete: (incidentId) => {
-					deleteIncident(incidentId);
-					// Update after deletion
-					window.location.reload();
-				},
 			});
 		},
 	}

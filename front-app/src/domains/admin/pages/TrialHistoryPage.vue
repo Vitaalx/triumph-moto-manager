@@ -2,7 +2,6 @@
 import { routerPageName } from "@/router/routerPageName";
 import { type formattedTrial } from "@/schemas/trialSchema";
 import { useTrialHistoryGetAll } from "../composables/useTrialHistoryGetAll";
-import { useTrialDelete } from "../composables/useTrialDelete";
 import { DateFormatter } from "@internationalized/date";
 import type {
 	ColumnDef,
@@ -20,7 +19,6 @@ import DataTable from "../components/DataTable.vue";
 const { DRIVER_PAGE, MOTORCYCLE_PAGE } = routerPageName;
 
 const { trials, isLoading } = useTrialHistoryGetAll();
-const { deleteTrial } = useTrialDelete();
 
 const dateFormatter = new DateFormatter("fr-FR", {
 	dateStyle: "medium",
@@ -92,11 +90,6 @@ const columns: ColumnDef<formattedTrial>[] = [
 			return h(DataTableDropdownAction, {
 				copyText: "Copier l'ID",
 				item: motorcycleTrial.id,
-				onDelete: (motorcycleTrialId) => {
-					deleteTrial(motorcycleTrialId);
-					// Update after deletion
-					window.location.reload();
-				},
 			});
 		},
 	}
