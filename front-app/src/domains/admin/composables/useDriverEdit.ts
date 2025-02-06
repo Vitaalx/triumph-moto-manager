@@ -71,10 +71,33 @@ export function useDriverEdit(driverId: string) {
 			});
 	}
 
+	function removeMotorcycle(licensePlate: string) {
+		console.log(licensePlate);
+
+		api.delete(`/driver/${driverId}/motorcycle/${licensePlate}`)
+			.then(() => {
+				toast({
+					title: "Moto retirée",
+					description: "La moto a bien été retirée du conducteur.",
+					variant: "success",
+				});
+			})
+			.catch((error) => {
+				const errorMessage = error.response?.data?.message || "Une erreur est survenue";
+
+				toast({
+					title: "Erreur",
+					description: `Une erreur est survenue lors du retrait de la moto : ${errorMessage}`,
+					variant: "destructive",
+				});
+			});
+	}
+
 	return {
 		isLoaded,
 		driver,
 		onSubmit,
-		addMotorcycle
+		addMotorcycle,
+		removeMotorcycle
 	};
 }

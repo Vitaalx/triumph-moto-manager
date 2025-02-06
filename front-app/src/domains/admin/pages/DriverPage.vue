@@ -3,6 +3,7 @@ import { useRouteParams } from "@/composables/useRouteParams";
 import { z } from "zod";
 import { routerPageName } from "@/router/routerPageName";
 import { useDriverGet } from "../composables/useDriverGet";
+import { useDriverEdit } from "../composables/useDriverEdit";
 import type { formattedMotorcycle, Motorcycle } from "@/schemas/motorcycleSchema";
 import type { formattedTrial, Trial } from "@/schemas/trialSchema";
 import { DateFormatter } from "@internationalized/date";
@@ -13,6 +14,7 @@ import type {
 	Column,
 } from "@tanstack/vue-table";
 import { ArrowUpDown } from "lucide-vue-next";
+import DataTableDropdownAction from "../components/DataTableDropdownAction.vue";
 import AdminSection from "../components/AdminSection.vue";
 import TheIcon from "@/components/TheIcon.vue";
 import TheButton from "@/components/ui/button/TheButton.vue";
@@ -24,6 +26,7 @@ const params = useRouteParams({
 });
 const { DRIVER_LIST } = routerPageName;
 const { driver, isLoading } = useDriverGet(params.value.driverId);
+const { removeMotorcycle } = useDriverEdit(params.value.driverId);
 
 const dateFormatter = new DateFormatter("fr-FR", {
 	dateStyle: "medium",
@@ -134,6 +137,23 @@ const motorcycleColumns: ColumnDef<formattedMotorcycle>[] = [
 		},
 		cell: ({ row }: { row: Row<formattedMotorcycle> }) => h("div", { class: "" }, row.getValue("maintenanceInterval")),
 	},
+	{
+		id: "actions",
+		enableHiding: false,
+		cell: ({ row }) => {
+			const motorcycle = row.original;
+
+			return h(DataTableDropdownAction, {
+				item: motorcycle.licensePlate,
+				onDelete: (licensePlate) => {
+					removeMotorcycle(licensePlate);
+					// TODO: Update after deletion
+					window.location.reload();
+				},
+
+			});
+		},
+	}
 ];
 
 const motorcycleTrialsColumns: ColumnDef<formattedTrial>[] = [
