@@ -52,7 +52,11 @@ export class MotorcycleMaintenanceRepository implements IMotorcycleMaintenanceRe
 				id,
 			},
 			include: {
-				usedSpareParts: true,
+				usedSpareParts: {
+					include: {
+						sparePart: true,
+					},
+				},
 			},
 		});
 
