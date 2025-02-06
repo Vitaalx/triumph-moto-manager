@@ -1,7 +1,7 @@
-import { type MaintenanceSparePart } from "@domain/types/maintenance-spare-part";
+import { type MaintenanceSparePartEntity } from "@domain/entities/maintenance-spare-part";
 
 export interface IMaintenanceSparePartRepository {
-	findByMaintenanceId(maintenanceId: string): Promise<MaintenanceSparePart | null>;
-	save(maintenanceSparePart: MaintenanceSparePart): Promise<void>;
-	update(maintenanceSparePartId: string, maintenanceSparePart: MaintenanceSparePart): Promise<void>;
+	findByMaintenanceId(maintenanceId: string): Promise<MaintenanceSparePartEntity | null>;
+	save(maintenanceSparePart: MaintenanceSparePartEntity): Promise<void>;
+	update(maintenanceSparePartId: string, maintenanceSparePart: MaintenanceSparePartEntity): Promise<void>;
 }

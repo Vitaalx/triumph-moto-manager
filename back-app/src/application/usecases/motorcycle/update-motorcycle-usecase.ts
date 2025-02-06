@@ -19,6 +19,7 @@ export class UpdateMotorcycleUsecase {
 		brand: string,
 		price: number,
 		maintenanceInterval: string,
+		warrantyEndDate?: Date,
 	) {
 		const motorcycleLicensePlate = MotorcycleLicensePlate.from(licensePlate);
 
@@ -49,6 +50,7 @@ export class UpdateMotorcycleUsecase {
 		motorcycle.brand = brand;
 		motorcycle.price = motorcyclePrice;
 		motorcycle.maintenanceInterval = maintenanceInterval;
+		motorcycle.warrantyEndDate = warrantyEndDate;
 
 		const event: MotorcycleUpdatedEvent = {
 			date: new Date(),
@@ -61,6 +63,7 @@ export class UpdateMotorcycleUsecase {
 				year: motorcycle.year,
 				price: motorcycle.price,
 				maintenanceInterval: motorcycle.maintenanceInterval,
+				warrantyEndDate: motorcycle.warrantyEndDate,
 			},
 		};
 

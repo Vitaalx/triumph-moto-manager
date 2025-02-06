@@ -1,6 +1,6 @@
 import { randomUUID } from "crypto";
 
-export class MaintenanceSparePart {
+export class MaintenanceSparePartEntity {
 	public constructor(
 		public id: string,
 		public sparePartId: string,
@@ -14,7 +14,7 @@ export class MaintenanceSparePart {
 		maintenanceId: string,
 		quantity: number,
 	) {
-		return new MaintenanceSparePart(
+		return new MaintenanceSparePartEntity(
 			randomUUID(),
 			sparePartId,
 			maintenanceId,

@@ -5,7 +5,7 @@ import { CreateMotorcycleCommandHandler } from "@application/command/handlers/cr
 import { CreateMotorcycleUsecase } from "@application/usecases/motorcycle/create-motorcycle-usecase";
 import { InterfaceInjectionModule } from "./common/interface-injection.module";
 import { MotorcycleRepository } from "../adapters/repositories/motorcycle";
-import { EVENT_STORE_REPOSITORY_INTERFACE, MOTORCYCLE_REPOSITORY_INTERFACE } from "@application/ports/symbols";
+import { DRIVER_REPOSITORY_INTERFACE, EVENT_STORE_REPOSITORY_INTERFACE, MOTORCYCLE_REPOSITORY_INTERFACE } from "@application/ports/symbols";
 import { AuthModule } from "./auth.module";
 import { GetMotorcycleQueryHandler } from "@application/queries/handlers/get-motorcycle.query-handler";
 import { GetMotorcycleUsecase } from "@application/usecases/motorcycle/get-motorcycle-usecase";
@@ -14,6 +14,11 @@ import { UpdateMotorcycleUsecase } from "@application/usecases/motorcycle/update
 import { GetMotorcyclesUsecase } from "@application/usecases/motorcycle/get-motorcycles-usecase";
 import { GetMotorcyclesQueryHandler } from "@application/queries/handlers/get-motorcycles.query-handler";
 import { UpdateMotorcycleCommandHandler } from "@application/command/handlers/update-motorcycle.command-handler";
+import { AddMotorcycleToDriverUsecase } from "@application/usecases/driver/add-motorcycle-to-driver-usecase";
+import { DriverRepository } from "../adapters/repositories/driver-sheet";
+import { AddMotorcycleToDriverCommandHandler } from "@application/command/handlers/add-motorcycle-to-driver.command-handler";
+import { DeleteMotorcycleFromDriverCommandHandler } from "@application/command/handlers/delete-motorcycle-from-driver.command-handler";
+import { DeleteMotorcycleFromDriverUsecase } from "@application/usecases/driver/delete-motorcycle-from-driver-usecase";
 
 const motorcycleInjectionUsecases: Provider[] = [
 	{
@@ -42,11 +47,41 @@ const motorcycleInjectionUsecases: Provider[] = [
 		useFactory: (motorcycleRepository: MotorcycleRepository) => new GetMotorcyclesUsecase(motorcycleRepository),
 		inject: [MOTORCYCLE_REPOSITORY_INTERFACE],
 	},
+	{
+		provide: AddMotorcycleToDriverUsecase,
+		useFactory: (
+			driverRepository: DriverRepository,
+			motorcycleRepository: MotorcycleRepository,
+		) => new AddMotorcycleToDriverUsecase(
+			driverRepository,
+			motorcycleRepository,
+		),
+		inject: [
+			DRIVER_REPOSITORY_INTERFACE,
+			MOTORCYCLE_REPOSITORY_INTERFACE,
+		],
+	},
+	{
+		provide: DeleteMotorcycleFromDriverUsecase,
+		useFactory: (
+			driverRepository: DriverRepository,
+			motorcycleRepository: MotorcycleRepository,
+		) => new DeleteMotorcycleFromDriverUsecase(
+			driverRepository,
+			motorcycleRepository,
+		),
+		inject: [
+			DRIVER_REPOSITORY_INTERFACE,
+			MOTORCYCLE_REPOSITORY_INTERFACE,
+		],
+	},
 ];
 
 const commandHandlers: Provider[] = [
 	CreateMotorcycleCommandHandler,
 	UpdateMotorcycleCommandHandler,
+	AddMotorcycleToDriverCommandHandler,
+	DeleteMotorcycleFromDriverCommandHandler,
 ];
 
 const queryHandlers: Provider[] = [

@@ -17,6 +17,7 @@ export class CreateMotorcycleUsecase {
 		brand: string,
 		price: number,
 		maintenanceInterval: string,
+		warrantyEndDate?: Date,
 	) {
 		const motorcycle = MotorcycleEntity.from(
 			licensePlate,
@@ -25,6 +26,7 @@ export class CreateMotorcycleUsecase {
 			year,
 			price,
 			maintenanceInterval,
+			warrantyEndDate,
 		);
 
 		if (motorcycle instanceof Error) {
@@ -49,6 +51,7 @@ export class CreateMotorcycleUsecase {
 				year: motorcycle.year,
 				price: motorcycle.price,
 				maintenanceInterval: motorcycle.maintenanceInterval,
+				warrantyEndDate: motorcycle.warrantyEndDate,
 			},
 		};
 

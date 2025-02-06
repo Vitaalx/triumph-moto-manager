@@ -6,8 +6,8 @@ import { MotorcycleMaintenanceNotFoundError } from "@domain/errors/motorcycle-ma
 import { SparePartNotFoundError } from "@domain/errors/spare-part/spare-part-not-found";
 import { InsufficientSparePartStockError } from "@domain/errors/spare-part/insufficient-spare-part-stock";
 import { type MotorcycleMaintenanceUpdatedEvent } from "@domain/events/motorcycle-maintenance/motorcycle-maintenance-updated-event";
-import { MaintenanceSparePart } from "@domain/types/maintenance-spare-part";
 import { type IMaintenanceSparePartRepository } from "@application/ports/repositories/maintenance-spare-part";
+import { MaintenanceSparePartEntity } from "@domain/entities/maintenance-spare-part";
 
 export class UpdateMotorcycleMaintenanceUsecase {
 	public constructor(
@@ -67,7 +67,7 @@ export class UpdateMotorcycleMaintenanceUsecase {
 								maintenaneSparePart,
 							);
 						} else {
-							const maintenanceSparePart = MaintenanceSparePart.create(
+							const maintenanceSparePart = MaintenanceSparePartEntity.create(
 								usedSparePart.sparePartId,
 								maintenanceId,
 								usedSparePart.quantity,

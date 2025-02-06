@@ -1,10 +1,10 @@
 import { type IMaintenanceSparePartRepository } from "@application/ports/repositories/maintenance-spare-part";
+import { MaintenanceSparePartEntity } from "@domain/entities/maintenance-spare-part";
 import { Injectable } from "@nestjs/common";
-import { type MaintenanceSparePart } from "@prisma/client";
 
 @Injectable()
 export class MaintenanceSparePartRepository implements IMaintenanceSparePartRepository {
-	public async findByMaintenanceId(maintenanceId: string): Promise<MaintenanceSparePart | null> {
+	public async findByMaintenanceId(maintenanceId: string): Promise<MaintenanceSparePartEntity | null> {
 		const maintenanceSparePart = await prisma.maintenanceSparePart.findFirst({
 			where: {
 				maintenanceId,
@@ -13,7 +13,7 @@ export class MaintenanceSparePartRepository implements IMaintenanceSparePartRepo
 		return maintenanceSparePart;
 	}
 
-	public async save(maintenanceSparePart: MaintenanceSparePart): Promise<void> {
+	public async save(maintenanceSparePart: MaintenanceSparePartEntity): Promise<void> {
 		await prisma.maintenanceSparePart.create({
 			data: {
 				id: maintenanceSparePart.id,
@@ -24,7 +24,10 @@ export class MaintenanceSparePartRepository implements IMaintenanceSparePartRepo
 		});
 	}
 
-	public async update(maintenanceSparePartId: string, maintenanceSparePart: MaintenanceSparePart): Promise<void> {
+	public async update(
+		maintenanceSparePartId: string,
+		maintenanceSparePart: MaintenanceSparePartEntity,
+	): Promise<void> {
 		await prisma.maintenanceSparePart.update({
 			where: {
 				id: maintenanceSparePartId,

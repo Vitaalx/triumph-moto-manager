@@ -8,6 +8,7 @@ interface MotorcycleUpdatedEventData {
 	readonly year: MotorcycleYear;
 	readonly price: MotorcyclePrice;
 	readonly maintenanceInterval: string;
+	readonly warrantyEndDate?: Date;
 }
 
 export type MotorcycleUpdatedEvent = EventGeneric<"MOTORCYCLE_UPDATED", 1, MotorcycleUpdatedEventData>;

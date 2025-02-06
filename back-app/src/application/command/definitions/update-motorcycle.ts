@@ -9,6 +9,7 @@ export class UpdateMotorcycleCommand extends Command<ReturnType<UpdateMotorcycle
 		public readonly brand: string,
 		public readonly price: number,
 		public readonly maintenanceInterval: string,
+		public readonly warrantyEndDate?: Date,
 	) {
 		super();
 	}

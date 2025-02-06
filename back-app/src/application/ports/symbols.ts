@@ -11,3 +11,5 @@ export const MOTORCYCLE_INCIDENT_REPOSITORY_INTERFACE = Symbol("IMotorcycleIncid
 export const MOTORCYCLE_MAINTENANCE_REPOSITORY_INTERFACE = Symbol("IMotorcycleMaintenanceRepository");
 export const SPARE_PART_REPOSITORY_INTERFACE = Symbol("ISparePartRepository");
 export const MAINTENANCE_SPARE_PART_REPOSITORY_INTERFACE = Symbol("IMaintenanceSparePartRepository");
+export const PARTS_ORDER_REPOSITORY_INTERFACE = Symbol("IPartsOrderRepository");
+export const PARTS_ORDER_SPARE_PARTS_REPOSITORY_INTERFACE = Symbol("IPartsOrderSparePartsRepository");

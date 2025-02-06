@@ -1,4 +1,4 @@
-import { BadRequestException, Body, ConflictException, Controller, Get, HttpStatus, NotFoundException, Param, Patch, Post, Res, UseGuards } from "@nestjs/common";
+import { BadRequestException, Body, ConflictException, Controller, Get, HttpStatus, NotFoundException, Param, Patch, Post, Res, UnauthorizedException, UseGuards } from "@nestjs/common";
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
 import { CreateMotorcycleDto } from "../dtos/motorcycle/create";
 import { CreateMotorcycleCommand } from "@application/command/definitions/create-motorcycle";
@@ -14,6 +14,10 @@ import { MotorcycleNotFoundError } from "@domain/errors/motorcycle/motorcycle-no
 import { UpdateMotorcycleCommand } from "@application/command/definitions/update-motorcycle";
 import { UpdateMotorcycleDto } from "../dtos/motorcycle/update";
 import { GetMotorcyclesQuery } from "@application/queries/definitions/get-motorcycles-query";
+import { AddMotorcycleToDriverCommand } from "@application/command/definitions/add-motorcycle-to-driver";
+import { DriverNotFoundError } from "@domain/errors/driver/driver-not-found";
+import { MotorcycleAlreadyAssignedError } from "@domain/errors/motorcycle/motorcycle-already-assigned";
+import { DeleteMotorcycleFromDriverCommand } from "@application/command/definitions/delete-motorcycle-from-driver";
 
 @Controller()
 export class MotorcycleController {
@@ -26,7 +30,7 @@ export class MotorcycleController {
 	@UseGuards(AuthGuard)
 	@Post("/motorcycle")
 	public async create(@Res() res: Response, @Body() createMotorcycleDto: CreateMotorcycleDto) {
-		const { licensePlate, model, year, brand, price, maintenanceInterval } = createMotorcycleDto;
+		const { licensePlate, model, year, brand, price, maintenanceInterval, warrantyEndDate } = createMotorcycleDto;
 
 		const commandResult = await this.commandBus.execute(new CreateMotorcycleCommand(
 			licensePlate,
@@ -35,6 +39,7 @@ export class MotorcycleController {
 			brand,
 			price,
 			maintenanceInterval,
+			warrantyEndDate,
 		));
 
 		if (commandResult instanceof InvalidMotorcycleLicensePlateError) {
@@ -60,7 +65,7 @@ export class MotorcycleController {
 	@UseGuards(AuthGuard)
 	@Patch("/motorcycle/:licensePlate")
 	public async update(@Res() res: Response, @Param("licensePlate") licensePlate: string, @Body() updateMotorcycleDto: UpdateMotorcycleDto) {
-		const { model, year, brand, price, maintenanceInterval } = updateMotorcycleDto;
+		const { model, year, brand, price, maintenanceInterval, warrantyEndDate } = updateMotorcycleDto;
 
 		const commandResult = await this.commandBus.execute(new UpdateMotorcycleCommand(
 			licensePlate,
@@ -69,6 +74,7 @@ export class MotorcycleController {
 			brand,
 			price,
 			maintenanceInterval,
+			warrantyEndDate,
 		));
 
 		if (commandResult instanceof InvalidMotorcycleLicensePlateError) {
@@ -89,6 +95,64 @@ export class MotorcycleController {
 
 		return res.status(HttpStatus.OK).send();
 	}
+
+	@RequiredRoles("FLEET_MANAGER")
+	@UseGuards(AuthGuard)
+	@Post("/driver/:driverId/motorcycle/:licensePlate")
+	public async addMotorcycleToDriver(@Res() res: Response, @Param("licensePlate") licensePlate: string, @Param("driverId") driverId: string) {
+		const commandResult = await this.commandBus.execute(
+			new AddMotorcycleToDriverCommand(
+				driverId,
+				licensePlate,
+			),
+		);
+
+		if (commandResult instanceof InvalidMotorcycleLicensePlateError) {
+			throw new BadRequestException(commandResult.message);
+		}
+
+		if (commandResult instanceof MotorcycleNotFoundError) {
+			throw new NotFoundException(commandResult.message);
+		}
+
+		if (commandResult instanceof DriverNotFoundError) {
+			throw new NotFoundException(commandResult.message);
+		}
+
+		if (commandResult instanceof MotorcycleAlreadyAssignedError) {
+			throw new UnauthorizedException(commandResult.message);
+		}
+
+		return res.status(HttpStatus.OK).send();
+	}
+
+	@RequiredRoles("FLEET_MANAGER")
+	@UseGuards(AuthGuard)
+	@Patch("/driver/:driverId/motorcycle/:licensePlate")
+	public async removeMotorcycleFromDriver(@Res() res: Response, @Param("licensePlate") licensePlate: string, @Param("driverId") driverId: string) {
+		const commandResult = await this.commandBus.execute(
+			new DeleteMotorcycleFromDriverCommand(
+				driverId,
+				licensePlate,
+			),
+		);
+
+		if (commandResult instanceof InvalidMotorcycleLicensePlateError) {
+			throw new BadRequestException(commandResult.message);
+		}
+
+		if (commandResult instanceof MotorcycleNotFoundError) {
+			throw new NotFoundException(commandResult.message);
+		}
+
+		if (commandResult instanceof DriverNotFoundError) {
+			throw new NotFoundException(commandResult.message);
+		}
+
+		return res.status(HttpStatus.OK).send();
+	}
+
+	
 
 	@RequiredRoles("FLEET_MANAGER")
 	@UseGuards(AuthGuard)

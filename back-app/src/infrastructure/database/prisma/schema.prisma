@@ -40,6 +40,7 @@ model Motorcycle {
     MotorcycleTry         MotorcycleTry[]
     MotorcycleIncident    MotorcycleIncident[]
     MotorcycleMaintenance MotorcycleMaintenance[]
+    warrantyEndDate       DateTime?
     createDate            DateTime                @default(now())
 }
 
@@ -94,6 +95,29 @@ model MotorcycleMaintenance {
     date                     DateTime
 }
 
+enum PartsOrderStatus {
+    IN_DELIVERY
+    DELIVERED
+}
+
+model PartsOrder {
+    id           String                @id
+    parts        PartsOrderSparePart[]
+    supplierName String
+    totalPrice   Float
+    createDate   DateTime              @default(now())
+    status       PartsOrderStatus
+}
+
+model PartsOrderSparePart {
+    id           String     @id
+    partsOrder   PartsOrder @relation(fields: [partsOrderId], references: [id])
+    partsOrderId String
+    sparePart    SparePart  @relation(fields: [sparePartId], references: [id])
+    sparePartId  String
+    quantity     Int
+}
+
 model SparePart {
     id                   String                 @id
     name                 String
@@ -103,6 +127,7 @@ model SparePart {
     stock                Int
     MaintenanceSparePart MaintenanceSparePart[]
     createDate           DateTime               @default(now())
+    PartsOrderSparePart  PartsOrderSparePart[]
 }
 
 model MaintenanceSparePart {

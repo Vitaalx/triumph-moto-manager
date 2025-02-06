@@ -1,7 +1,7 @@
 import { MotorcycleLicensePlate } from "@domain/types/license-plate";
 import { type MaintenanceStatus } from "@domain/types/maintenance-status";
 import { randomUUID } from "crypto";
-import { type MaintenanceSparePart } from "@domain/types/maintenance-spare-part";
+import { type MaintenanceSparePartEntity } from "./maintenance-spare-part";
 
 export class MotorcycleMaintenanceEntity {
 	public constructor(
@@ -9,7 +9,7 @@ export class MotorcycleMaintenanceEntity {
 		public driverId: string,
 		public motorcycleId: MotorcycleLicensePlate,
 		public technicalRecommendations: string,
-		public usedSpareParts: MaintenanceSparePart[],
+		public usedSpareParts: MaintenanceSparePartEntity[],
 		public totalSparePartsPrice: number,
 		public totalMaintenancePrice: number,
 		public laborPrice: number,
@@ -33,7 +33,7 @@ export class MotorcycleMaintenanceEntity {
 			driverId,
 			motorcycleLicensePlate,
 			"",
-			[] as MaintenanceSparePart[],
+			[] as MaintenanceSparePartEntity[],
 			0,
 			0,
 			0,

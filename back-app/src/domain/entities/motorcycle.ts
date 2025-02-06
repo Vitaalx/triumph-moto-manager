@@ -13,6 +13,8 @@ export class MotorcycleEntity {
 		public year: MotorcycleYear,
 		public price: MotorcyclePrice,
 		public maintenanceInterval: string,
+		public warrantyEndDate?: Date,
+		public driverId?: string,
 	) {
 	}
 
@@ -23,6 +25,7 @@ export class MotorcycleEntity {
 		year: number,
 		price: number,
 		maintenanceInterval: string,
+		warrantyEndDate?: Date,
 	) {
 		const motorcycleLicensePlate = MotorcycleLicensePlate.from(licensePlate);
 
@@ -49,6 +52,15 @@ export class MotorcycleEntity {
 			motorcycleYear,
 			motorcyclePrice,
 			maintenanceInterval,
+			warrantyEndDate,
 		);
+	}
+
+	public isValidWarrantyEndDate() {
+		return this.warrantyEndDate && this.warrantyEndDate.getTime() > new Date().getTime();
+	}
+
+	public hasDriver() {
+		return !!this.driverId;
 	}
 }

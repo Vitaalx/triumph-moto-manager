@@ -20,6 +20,8 @@ export class MotorcycleMapper implements EntityMapper<Motorcycle, MotorcycleEnti
 			motorcycleYear,
 			motorcyclePrice,
 			entity.maintenanceInterval,
+			entity.warrantyEndDate === null ? undefined : entity.warrantyEndDate,
+			entity.driverId === null ? undefined : entity.driverId,
 		);
 	}
 }

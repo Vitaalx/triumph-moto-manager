@@ -18,6 +18,7 @@ export class CreateMotorcycleCommandHandler implements ICommandHandler<
 			command.brand,
 			command.price,
 			command.maintenanceInterval,
+			command.warrantyEndDate,
 		);
 	}
 }

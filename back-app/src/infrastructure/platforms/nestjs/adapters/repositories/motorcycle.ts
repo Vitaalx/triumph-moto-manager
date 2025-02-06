@@ -17,6 +17,7 @@ export class MotorcycleRepository implements IMotorcycleRepository {
 				year: motorcycle.year.value,
 				price: motorcycle.price.value,
 				maintenanceInterval: motorcycle.maintenanceInterval,
+				warrantyEndDate: motorcycle.warrantyEndDate,
 			},
 		});
 	}
@@ -25,6 +26,7 @@ export class MotorcycleRepository implements IMotorcycleRepository {
 		licensePlate: MotorcycleLicensePlate,
 		motorcycle: MotorcycleEntity,
 	): Promise<void> {
+		console.log(motorcycle);
 		await prisma.motorcycle.update({
 			where: {
 				licensePlate: licensePlate.value,
@@ -35,6 +37,8 @@ export class MotorcycleRepository implements IMotorcycleRepository {
 				year: motorcycle.year.value,
 				price: motorcycle.price.value,
 				maintenanceInterval: motorcycle.maintenanceInterval,
+				warrantyEndDate: motorcycle.warrantyEndDate,
+				driverId: !motorcycle.driverId ? null : motorcycle.driverId,
 			},
 		});
 	}

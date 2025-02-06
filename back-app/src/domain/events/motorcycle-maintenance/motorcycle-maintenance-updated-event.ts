@@ -1,9 +1,9 @@
 import { type EventGeneric } from "../event-generic";
-import { type MaintenanceSparePart } from "@domain/types/maintenance-spare-part";
+import { type MaintenanceSparePartEntity } from "@domain/entities/maintenance-spare-part";
 
 interface MotorcycleMaintenanceUpdatedEventData {
 	readonly technicalRecommendations: string;
-	readonly usedSpareParts: MaintenanceSparePart[];
+	readonly usedSpareParts: MaintenanceSparePartEntity[];
 	readonly laborPrice: number;
 }
 

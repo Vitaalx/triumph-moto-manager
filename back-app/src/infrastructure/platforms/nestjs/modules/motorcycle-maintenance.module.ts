@@ -75,15 +75,18 @@ const motorcycleMaintenanceInjectionUsecases: Provider[] = [
 		provide: CloseMotorcycleMaintenanceUsecase,
 		useFactory: (
 			motorcycleMaintenanceRepository: MotorcycleMaintenanceRepository,
+			motorcycleRepository: MotorcycleRepository,
 			sparePartRepository: SparePartRepository,
 			eventStoreRepository: EventStoreRepository,
 		) => new CloseMotorcycleMaintenanceUsecase(
 			motorcycleMaintenanceRepository,
+			motorcycleRepository,
 			sparePartRepository,
 			eventStoreRepository,
 		),
 		inject: [
 			MOTORCYCLE_MAINTENANCE_REPOSITORY_INTERFACE,
+			MOTORCYCLE_REPOSITORY_INTERFACE,
 			SPARE_PART_REPOSITORY_INTERFACE,
 			EVENT_STORE_REPOSITORY_INTERFACE,
 		],
