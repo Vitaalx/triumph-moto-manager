@@ -19,6 +19,15 @@ export interface Maintenance {
 interface SparePart {
 	sparePartId : string,
 	quantity: number,
+	sparePart: {
+		id: string,
+		name: string,
+		brand: string,
+		refNumber: string,
+		price: number,
+		stock: number,
+		createDate: string
+	}
 }
 
 export interface formattedMaintenance {

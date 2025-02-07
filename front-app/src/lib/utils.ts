@@ -13,3 +13,10 @@ export function valueUpdater<T extends Updater<unknown>>(updaterOrValue: T, ref:
 		? (updaterOrValue as (prevValue: unknown) => unknown)(ref.value)
 		: updaterOrValue;
 }
+
+export function formatPrice(price: number) {
+	return new Intl.NumberFormat("fr-FR", {
+		style: "currency",
+		currency: "EUR",
+	}).format(price);
+}

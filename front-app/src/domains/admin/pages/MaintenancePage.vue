@@ -3,8 +3,9 @@ import { useRouteParams } from "@/composables/useRouteParams";
 import { z } from "zod";
 import { routerPageName } from "@/router/routerPageName";
 import { useMaintenanceGet } from "../composables/useMaintenanceGet";
-import { computed } from "vue";
 import { DateFormatter } from "@internationalized/date";
+import { computed } from "vue";
+import { formatPrice } from "@/lib/utils";
 import ButtonPrimary from "@/components/ButtonPrimary.vue";
 import AdminSection from "../components/AdminSection.vue";
 
@@ -34,27 +35,6 @@ const formattedStatus = computed(() => {
 
 	return maintenance.value.status;
 });
-
-const formattedPartsCost = computed(() =>
-	new Intl.NumberFormat("fr-FR", {
-		style: "currency",
-		currency: "EUR",
-	}).format(maintenance.value.totalSparePartsPrice)
-);
-
-const formattedLaborPrice = computed(() =>
-	new Intl.NumberFormat("fr-FR", {
-		style: "currency",
-		currency: "EUR",
-	}).format(maintenance.value.laborPrice)
-);
-
-const formattedtotalMaintenancePrice = computed(() =>
-	new Intl.NumberFormat("fr-FR", {
-		style: "currency",
-		currency: "EUR",
-	}).format(maintenance.value.totalMaintenancePrice)
-);
 
 function sendMail() {
 	console.log("Sending mail...");
@@ -158,29 +138,41 @@ function sendMail() {
 							<thead class="bg-gray-200">
 								<tr>
 									<th class="border border-gray-300 px-4 py-2 text-left">
-										ID de la pièce
+										Pièce
 									</th>
 
 									<th class="border border-gray-300 px-4 py-2 text-left">
 										Quantité
 									</th>
+
+									<th class="border border-gray-300 px-4 py-2 text-left">
+										Prix
+									</th>
 								</tr>
 							</thead>
 
 							<tbody>
-								<tr
+								<template
 									v-for="part in maintenance.usedSpareParts"
 									:key="part.sparePartId"
-									class="border-b border-gray-300"
 								>
-									<td class="border border-gray-300 px-4 py-2 font-mono">
-										{{ part.sparePartId }}
-									</td>
+									<tr
+										v-if="part.quantity > 0"
+										class="border-b border-gray-300"
+									>
+										<td class="border border-gray-300 px-4 py-2 font-mono">
+											{{ part.sparePart.name }}
+										</td>
 
-									<td class="border border-gray-300 px-4 py-2">
-										{{ part.quantity }}
-									</td>
-								</tr>
+										<td class="border border-gray-300 px-4 py-2">
+											{{ part.quantity }}
+										</td>
+
+										<td class="border border-gray-300 px-4 py-2">
+											{{ formatPrice(part.sparePart.price * part.quantity) }} ({{ formatPrice(part.sparePart.price) }} / unité)
+										</td>
+									</tr>
+								</template>
 							</tbody>
 						</table>
 					</div>
@@ -201,19 +193,19 @@ function sendMail() {
 					<div class="flex justify-between items-center text-gray-700">
 						<span>Coût des pièces :</span>
 
-						<span class="font-medium">{{ formattedPartsCost }}</span>
+						<span class="font-medium">{{ formatPrice(maintenance.totalSparePartsPrice) }}</span>
 					</div>
 
 					<div class="flex justify-between items-center text-gray-700">
 						<span>Coût de la main œuvre :</span>
 
-						<span class="font-medium">{{ formattedLaborPrice }}</span>
+						<span class="font-medium">{{ formatPrice(maintenance.laborPrice) }}</span>
 					</div>
 
 					<div class="flex justify-between items-center text-gray-700">
 						<strong>Coût total :</strong>
 
-						<span class="text-lg font-bold text-gray-900">{{ formattedtotalMaintenancePrice }}</span>
+						<span class="text-lg font-bold text-gray-900">{{ formatPrice(maintenance.totalMaintenancePrice) }}</span>
 					</div>
 				</div>
 			</div>
