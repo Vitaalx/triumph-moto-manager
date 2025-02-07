@@ -6,6 +6,7 @@ import { useDriverGet } from "../composables/useDriverGet";
 import { useDriverEdit } from "../composables/useDriverEdit";
 import type { formattedMotorcycle, Motorcycle } from "@/schemas/motorcycleSchema";
 import type { formattedTrial, Trial } from "@/schemas/trialSchema";
+import type { formattedIncident, Incident } from "@/schemas/incidentSchema";
 import { DateFormatter } from "@internationalized/date";
 import { computed, h } from "vue";
 import type {
@@ -13,6 +14,7 @@ import type {
 	Row,
 	Column,
 } from "@tanstack/vue-table";
+import { RouterLink, type RouterLinkProps } from "vue-router";
 import { ArrowUpDown } from "lucide-vue-next";
 import DataTableDropdownAction from "../components/DataTableDropdownAction.vue";
 import AdminSection from "../components/AdminSection.vue";
@@ -24,7 +26,7 @@ import DataTable from "../components/DataTable.vue";
 const params = useRouteParams({
 	driverId: z.string(),
 });
-const { DRIVER_LIST } = routerPageName;
+const { DRIVER_LIST, MOTORCYCLE_PAGE } = routerPageName;
 const { driver, isLoading } = useDriverGet(params.value.driverId);
 const { removeMotorcycle } = useDriverEdit(params.value.driverId);
 
@@ -65,6 +67,13 @@ const formattedMotorcycleTrials = computed(() => {
 		};
 	});
 });
+const formattedIncidents = computed(() =>
+	driver.value.incidents.map((incident: Incident) => ({
+		...incident,
+		motorcycleId: incident.motorcycleId.value,
+		type: incident.type.value,
+	}))
+);
 
 const motorcycleColumns: ColumnDef<formattedMotorcycle>[] = [
 	{
@@ -75,7 +84,10 @@ const motorcycleColumns: ColumnDef<formattedMotorcycle>[] = [
 				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
 			}, () => ["Plaque", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
 		},
-		cell: ({ row }: { row: Row<formattedMotorcycle> }) => h("div", { class: "" }, row.getValue("licensePlate")),
+		cell: ({ row }: { row: Row<formattedMotorcycle> }) => h(RouterLink, {
+			to: { name: MOTORCYCLE_PAGE, params: { licensePlate: row.getValue("licensePlate") } },
+			class: "text-blue-500",
+		} as RouterLinkProps, row.getValue("licensePlate")),
 	},
 	{
 		accessorKey: "brand",
@@ -156,7 +168,7 @@ const motorcycleColumns: ColumnDef<formattedMotorcycle>[] = [
 	}
 ];
 
-const motorcycleTrialsColumns: ColumnDef<formattedTrial>[] = [
+const trialsColumns: ColumnDef<formattedTrial>[] = [
 	{
 		accessorKey: "status",
 		header: ({ column }: { column: Column<formattedTrial, unknown> }) => {
@@ -190,7 +202,10 @@ const motorcycleTrialsColumns: ColumnDef<formattedTrial>[] = [
 				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
 			}, () => ["Moto", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
 		},
-		cell: ({ row }: { row: Row<formattedTrial> }) => h("div", { class: "" }, row.getValue("motorcycleId")),
+		cell: ({ row }: { row: Row<formattedTrial> }) => h(RouterLink, {
+			to: { name: MOTORCYCLE_PAGE, params: { licensePlate: row.getValue("motorcycleId") } },
+			class: "text-blue-500",
+		} as RouterLinkProps, row.getValue("motorcycleId")),
 	},
 	{
 		accessorKey: "startDate",
@@ -221,6 +236,77 @@ const motorcycleTrialsColumns: ColumnDef<formattedTrial>[] = [
 
 			return h("div", { class: "" }, dateFormatter.format(date));
 		},
+	},
+];
+
+const incidentColumns: ColumnDef<formattedIncident>[] = [
+	{
+		accessorKey: "type",
+		header: ({ column }: { column: Column<formattedIncident, unknown> }) => {
+			return h(TheButton, {
+				variant: "ghost",
+				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
+			}, () => ["Type", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
+		},
+		cell: ({ row }: { row: Row<formattedIncident> }) => h("div", { class: "" }, row.getValue("type")),
+	},
+	{
+		accessorKey: "description",
+		header: ({ column }: { column: Column<formattedIncident, unknown> }) => {
+			return h(TheButton, {
+				variant: "ghost",
+				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
+			}, () => ["Description", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
+		},
+		cell: ({ row }: { row: Row<formattedIncident> }) => h("div", { class: "" }, row.getValue("description")),
+	},
+	{
+		accessorKey: "motorcycleId",
+		header: ({ column }: { column: Column<formattedIncident, unknown> }) => {
+			return h(TheButton, {
+				variant: "ghost",
+				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
+			}, () => ["Plaque", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
+		},
+		cell: ({ row }: { row: Row<formattedIncident> }) => h(RouterLink, {
+			to: { name: MOTORCYCLE_PAGE, params: { licensePlate: row.getValue("motorcycleId") } },
+			class: "text-blue-500",
+		} as RouterLinkProps, row.getValue("motorcycleId")),
+	},
+	{
+		accessorKey: "incidentDate",
+		header: ({ column }: { column: Column<formattedIncident, unknown> }) => {
+			return h(TheButton, {
+				variant: "ghost",
+				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
+			}, () => ["Fin", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
+		},
+		cell: ({ row }: { row: Row<formattedIncident> }) => {
+			const incidentDate = row.getValue("incidentDate") as string;
+			const date = new Date(incidentDate);
+
+			return h("div", { class: "" }, dateFormatter.format(date));
+		},
+	},
+	{
+		accessorKey: "incidentTime",
+		header: ({ column }: { column: Column<formattedIncident, unknown> }) => {
+			return h(TheButton, {
+				variant: "ghost",
+				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
+			}, () => ["Heure", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
+		},
+		cell: ({ row }: { row: Row<formattedIncident> }) => h("div", { class: "" }, row.getValue("incidentTime")),
+	},
+	{
+		accessorKey: "location",
+		header: ({ column }: { column: Column<formattedIncident, unknown> }) => {
+			return h(TheButton, {
+				variant: "ghost",
+				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
+			}, () => ["Lieu", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
+		},
+		cell: ({ row }: { row: Row<formattedIncident> }) => h("div", { class: "" }, row.getValue("location")),
 	},
 ];
 </script>
@@ -316,7 +402,26 @@ const motorcycleTrialsColumns: ColumnDef<formattedTrial>[] = [
 			<DataTable
 				v-else
 				:data="formattedMotorcycleTrials"
-				:columns="motorcycleTrialsColumns"
+				:columns="trialsColumns"
+			/>
+		</div>
+
+		<div class="mt-10 p-6 bg-white rounded-lg shadow-lg border border-gray-200">
+			<h3 class="text-2xl font-bold text-gray-900 mb-4">
+				Liste des incidents
+			</h3>
+
+			<div
+				v-if="isLoading"
+				class="flex justify-center items-center h-40"
+			>
+				<p>Chargement des données...</p>
+			</div>
+
+			<DataTable
+				v-else
+				:data="formattedIncidents"
+				:columns="incidentColumns"
 			/>
 		</div>
 	</AdminSection>
