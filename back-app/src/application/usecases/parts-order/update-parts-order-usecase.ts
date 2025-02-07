@@ -1,9 +1,11 @@
 import { type IEventStoreRepository } from "@application/ports/repositories/event-store";
 import { type IPartsOrderRepository } from "@application/ports/repositories/parts-order";
 import { type IPartsOrderSparePartsRepository } from "@application/ports/repositories/parts-order-spare-parts";
+import { type ISparePartRepository } from "@application/ports/repositories/spare-part";
 import { InvalidPartsOrderSparePartError } from "@domain/errors/parts-order/invalid-parts-order-spare-pare";
 import { InvalidStatusPartsOrderError } from "@domain/errors/parts-order/invalid-status-parts-order";
 import { PartsOrderNotFoundError } from "@domain/errors/parts-order/parts-order-not-found";
+import { SparePartNotFoundError } from "@domain/errors/spare-part/spare-part-not-found";
 import { type PartsOrderUpdatedEvent } from "@domain/events/parts-order/parts-order-updated-event";
 import { NormalizedString } from "@domain/types/string";
 
@@ -12,6 +14,7 @@ export class UpdatePartsOrderUsecase {
 		private readonly partsOrderRepository: IPartsOrderRepository,
 		private readonly partsOrderSparePartsRepository: IPartsOrderSparePartsRepository,
 		private readonly eventStoreRepository: IEventStoreRepository,
+		private readonly sparePartRepository: ISparePartRepository,
 	) {}
 
 	public async execute(
@@ -38,27 +41,42 @@ export class UpdatePartsOrderUsecase {
 			return normalizedSupplierName;
 		}
 
-		await Promise.all(
-			parts.map(
-				async(part) => {
-					if (!partsOrder.parts.some((pt) => pt.sparePartId === part.sparePartId)) {
-						return new InvalidPartsOrderSparePartError();
-					}
-					const foundedPart = partsOrder.parts.find((pt) => pt.sparePartId === part.sparePartId);
+		let totalPrice = 0;
 
-					if (foundedPart) {
-						foundedPart.quantity = part.quantity;
+		try {
+			await Promise.all(
+				parts.map(
+					async(part) => {
+						if (!partsOrder.parts.some((pt) => pt.sparePartId === part.sparePartId)) {
+							throw new InvalidPartsOrderSparePartError();
+						}
+						const foundedPart = partsOrder.parts.find((pt) => pt.sparePartId === part.sparePartId);
 
-						await this.partsOrderSparePartsRepository.update(
-							foundedPart.sparePartId,
-							foundedPart,
-						);
-					}
-				},
-			),
-		);
+						if (foundedPart) {
+							const sparePart = await this.sparePartRepository.findById(part.sparePartId);
+
+							if (sparePart === null) {
+								return new SparePartNotFoundError();
+							}
+
+							foundedPart.quantity = part.quantity;
+
+							totalPrice += sparePart.price.value * part.quantity;
+
+							await this.partsOrderSparePartsRepository.update(
+								foundedPart.id,
+								foundedPart,
+							);
+						}
+					},
+				),
+			);
+		} catch (error) {
+			return error as InvalidPartsOrderSparePartError;
+		}
 
 		partsOrder.supplierName = normalizedSupplierName;
+		partsOrder.totalPrice = totalPrice;
 
 		const event: PartsOrderUpdatedEvent = {
 			date: new Date(),

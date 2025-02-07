@@ -16,6 +16,7 @@ import { DeliverPartsOrderCommand } from "@application/command/definitions/deliv
 import { GetPartsOrderQuery } from "@application/queries/definitions/get-parts-order";
 import { GetPartsOrdersInDeliveryQuery } from "@application/queries/definitions/get-parts-orders-in-delivery";
 import { GetPartsOrdersDeliveredQuery } from "@application/queries/definitions/get-parts-orders-delivered";
+import { InvalidPartsOrderSparePartError } from "@domain/errors/parts-order/invalid-parts-order-spare-pare";
 
 @Controller()
 export class PartsOrderController {
@@ -71,7 +72,11 @@ export class PartsOrderController {
 			throw new BadRequestException(commandResult.message);
 		}
 
-		return res.status(HttpStatus.OK).send();
+		if (commandResult instanceof InvalidPartsOrderSparePartError) {
+			throw new BadRequestException(commandResult.message);
+		}
+
+		return res.status(HttpStatus.OK).send(commandResult);
 	}
 
 	@RequiredRoles("FLEET_MANAGER")

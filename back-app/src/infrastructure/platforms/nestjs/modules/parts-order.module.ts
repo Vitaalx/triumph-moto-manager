@@ -50,15 +50,18 @@ const partsOrderInjectionUsecases: Provider[] = [
 			partsOrderRepository: IPartsOrderRepository,
 			partsOrderSparePartsRepository: IPartsOrderSparePartsRepository,
 			eventStoreRepository: EventStoreRepository,
+			sparePartRepository: SparePartRepository,
 		) => new UpdatePartsOrderUsecase(
 			partsOrderRepository,
 			partsOrderSparePartsRepository,
 			eventStoreRepository,
+			sparePartRepository,
 		),
 		inject: [
 			PARTS_ORDER_REPOSITORY_INTERFACE,
 			PARTS_ORDER_SPARE_PARTS_REPOSITORY_INTERFACE,
 			EVENT_STORE_REPOSITORY_INTERFACE,
+			SPARE_PART_REPOSITORY_INTERFACE,
 		],
 	},
 	{
@@ -80,13 +83,16 @@ const partsOrderInjectionUsecases: Provider[] = [
 		useFactory: (
 			partsOrderRepository: IPartsOrderRepository,
 			eventStoreRepository: EventStoreRepository,
+			sparePartRepository: SparePartRepository,
 		) => new DeliverPartsOrderUsecase(
 			partsOrderRepository,
 			eventStoreRepository,
+			sparePartRepository,
 		),
 		inject: [
 			PARTS_ORDER_REPOSITORY_INTERFACE,
 			EVENT_STORE_REPOSITORY_INTERFACE,
+			SPARE_PART_REPOSITORY_INTERFACE,
 		],
 	},
 	{

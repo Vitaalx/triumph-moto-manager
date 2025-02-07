@@ -9,7 +9,6 @@ export class PartsOrderRepository implements IPartsOrderRepository {
 	public constructor(private readonly mapper: PartsOrderMapper) {}
 
 	public async save(partsOrder: PartsOrderEntity): Promise<void> {
-		console.log("PartsOrder save");
 		await prisma.partsOrder.create({
 			data: {
 				id: partsOrder.id,
@@ -35,7 +34,11 @@ export class PartsOrderRepository implements IPartsOrderRepository {
 				id: partsOrderId,
 			},
 			include: {
-				parts: true,
+				parts: {
+					include: {
+						sparePart: true,
+					},
+				},
 			},
 		});
 
@@ -53,6 +56,8 @@ export class PartsOrderRepository implements IPartsOrderRepository {
 			},
 			data: {
 				supplierName: partsOrder.supplierName.value,
+				status: partsOrder.status,
+				totalPrice: partsOrder.totalPrice,
 			},
 		});
 	}
@@ -63,10 +68,13 @@ export class PartsOrderRepository implements IPartsOrderRepository {
 				status: status,
 			},
 			include: {
-				parts: true,
+				parts: {
+					include: {
+						sparePart: true,
+					},
+				},
 			},
 		});
-
 		return partsOrders.map((partsOrder) => this.mapper.toDomainEntity(partsOrder));
 	}
 }

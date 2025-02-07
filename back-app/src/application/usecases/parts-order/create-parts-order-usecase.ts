@@ -30,38 +30,35 @@ export class CreatePartsOrderUsecase {
 
 		let totalPrice = 0;
 
-		const partsOrderSparePartsPromises: Promise<void>[] = [];
+		const partsOrdersSpareParts: PartsOrderSparePartEntity[] = [];
 
-		try {
-			const promises = parts.map(
-				async(part) => {
-					const sparePart = await this.sparePartRepository.findById(part.sparePartId);
+		for (const part of parts) {
+			const sparePart = await this.sparePartRepository.findById(part.sparePartId);
 
-					if (sparePart === null) {
-						throw new SparePartNotFoundError();
-					}
+			if (sparePart === null) {
+				return new SparePartNotFoundError();
+			}
 
-					totalPrice += sparePart.price.value * part.quantity;
+			totalPrice += sparePart.price.value * part.quantity;
 
-					const partsOrderSparePart = PartsOrderSparePartEntity.create(
-						partsOrder.id,
-						part.sparePartId,
-						part.quantity,
-					);
-
-					await this.partsOrderSparePartRepository.save(partsOrderSparePart);
-				},
+			const partsOrderSparePart = PartsOrderSparePartEntity.create(
+				partsOrder.id,
+				part.sparePartId,
+				part.quantity,
 			);
-			partsOrderSparePartsPromises.push(...promises);
-		} catch (error) {
-			return error as SparePartNotFoundError;
+
+			partsOrdersSpareParts.push(partsOrderSparePart);
 		}
 
 		partsOrder.totalPrice = totalPrice;
 
 		await this.partsOrderRepository.save(partsOrder);
 
-		await Promise.all(partsOrderSparePartsPromises);
+		partsOrdersSpareParts.forEach(
+			async(partsOrderSparePart) => {
+				await this.partsOrderSparePartRepository.save(partsOrderSparePart);
+			},
+		);
 
 		const event: PartsOrderCreatedEvent = {
 			date: new Date(),

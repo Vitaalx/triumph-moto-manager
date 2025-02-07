@@ -5,7 +5,6 @@ import { Injectable } from "@nestjs/common";
 @Injectable()
 export class PartsOrderSparePartsRepository implements IPartsOrderSparePartsRepository {
 	public async save(partsOrderSparePart: PartsOrderSparePartEntity): Promise<void> {
-		console.log("PartsOrderSpareParts save");
 		await prisma.partsOrderSparePart.create({
 			data: {
 				id: partsOrderSparePart.id,

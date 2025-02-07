@@ -26,7 +26,6 @@ export class MotorcycleRepository implements IMotorcycleRepository {
 		licensePlate: MotorcycleLicensePlate,
 		motorcycle: MotorcycleEntity,
 	): Promise<void> {
-		console.log(motorcycle);
 		await prisma.motorcycle.update({
 			where: {
 				licensePlate: licensePlate.value,

@@ -29,6 +29,7 @@ import { GetMotorcycleMaintenanceQueryHandler } from "@application/queries/handl
 import { GetMotorcycleMaintenancesInProgressQueryHandler } from "@application/queries/handlers/get-motorcycle-maintenances-in-progress.query-handler";
 import { GetMotorcycleMaintenancesClosedQueryHandler } from "@application/queries/handlers/get-motorcycle-maintenances-closed.query-handler";
 import { MaintenanceSparePartRepository } from "../adapters/repositories/maintenance-spare-part";
+import { SparePartService } from "@application/ports/services/spare-part-service";
 
 const motorcycleMaintenanceInjectionUsecases: Provider[] = [
 	{
@@ -57,18 +58,18 @@ const motorcycleMaintenanceInjectionUsecases: Provider[] = [
 			motorcycleMaintenanceRepository: MotorcycleMaintenanceRepository,
 			maintenanceSparePartRepository: MaintenanceSparePartRepository,
 			eventStoreRepository: EventStoreRepository,
-			sparePartRepository: SparePartRepository,
+			spatePartService: SparePartService,
 		) => new UpdateMotorcycleMaintenanceUsecase(
 			motorcycleMaintenanceRepository,
 			maintenanceSparePartRepository,
 			eventStoreRepository,
-			sparePartRepository,
+			spatePartService,
 		),
 		inject: [
 			MOTORCYCLE_MAINTENANCE_REPOSITORY_INTERFACE,
 			MAINTENANCE_SPARE_PART_REPOSITORY_INTERFACE,
 			EVENT_STORE_REPOSITORY_INTERFACE,
-			SPARE_PART_REPOSITORY_INTERFACE,
+			SparePartService,
 		],
 	},
 	{
@@ -78,17 +79,20 @@ const motorcycleMaintenanceInjectionUsecases: Provider[] = [
 			motorcycleRepository: MotorcycleRepository,
 			sparePartRepository: SparePartRepository,
 			eventStoreRepository: EventStoreRepository,
+			sparePartSerivce: SparePartService,
 		) => new CloseMotorcycleMaintenanceUsecase(
 			motorcycleMaintenanceRepository,
 			motorcycleRepository,
 			sparePartRepository,
 			eventStoreRepository,
+			sparePartSerivce,
 		),
 		inject: [
 			MOTORCYCLE_MAINTENANCE_REPOSITORY_INTERFACE,
 			MOTORCYCLE_REPOSITORY_INTERFACE,
 			SPARE_PART_REPOSITORY_INTERFACE,
 			EVENT_STORE_REPOSITORY_INTERFACE,
+			SparePartService,
 		],
 	},
 	{
@@ -129,6 +133,17 @@ const queryHandlers: Provider[] = [
 	GetMotorcycleMaintenancesInProgressQueryHandler,
 	GetMotorcycleMaintenancesClosedQueryHandler,
 ];
+const motorcycleMaintenanceSercices: Provider[] = [
+	{
+		provide: SparePartService,
+		useFactory: (
+			sparePartRepository: SparePartRepository,
+		) => new SparePartService(
+			sparePartRepository,
+		),
+		inject: [SPARE_PART_REPOSITORY_INTERFACE],
+	},
+];
 
 @Module({
 	imports: [
@@ -141,6 +156,7 @@ const queryHandlers: Provider[] = [
 		...motorcycleMaintenanceInjectionUsecases,
 		...commandHandlers,
 		...queryHandlers,
+		...motorcycleMaintenanceSercices,
 	],
 })
 export class MotorcycleMaintenanceModule {}

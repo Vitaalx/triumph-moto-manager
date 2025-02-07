@@ -1,20 +1,20 @@
 import { type IEventStoreRepository } from "@application/ports/repositories/event-store";
 import { type IMotorcycleMaintenanceRepository } from "@application/ports/repositories/motorcycle-maintenance";
-import { type ISparePartRepository } from "@application/ports/repositories/spare-part";
 import { InvalidMotorcycleMaintenanceStatusError } from "@domain/errors/motorcycle-maintenance/invalid-motorcycle-maintenance-status";
 import { MotorcycleMaintenanceNotFoundError } from "@domain/errors/motorcycle-maintenance/motorcycle-maintenance-not-found";
-import { SparePartNotFoundError } from "@domain/errors/spare-part/spare-part-not-found";
-import { InsufficientSparePartStockError } from "@domain/errors/spare-part/insufficient-spare-part-stock";
+import { type SparePartNotFoundError } from "@domain/errors/spare-part/spare-part-not-found";
+import { type InsufficientSparePartStockError } from "@domain/errors/spare-part/insufficient-spare-part-stock";
 import { type MotorcycleMaintenanceUpdatedEvent } from "@domain/events/motorcycle-maintenance/motorcycle-maintenance-updated-event";
 import { type IMaintenanceSparePartRepository } from "@application/ports/repositories/maintenance-spare-part";
 import { MaintenanceSparePartEntity } from "@domain/entities/maintenance-spare-part";
+import { type SparePartService } from "@application/ports/services/spare-part-service";
 
 export class UpdateMotorcycleMaintenanceUsecase {
 	public constructor(
 		private readonly motorcycleMaintenanceRepository: IMotorcycleMaintenanceRepository,
 		private readonly maintenanceSparePartRepository: IMaintenanceSparePartRepository,
 		private readonly eventStoreRepository: IEventStoreRepository,
-		private readonly sparePartRepository: ISparePartRepository,
+		private readonly sparePartService: SparePartService,
 	) {}
 
 	public async execute(
@@ -36,25 +36,21 @@ export class UpdateMotorcycleMaintenanceUsecase {
 			return new InvalidMotorcycleMaintenanceStatusError();
 		}
 
+		const maintenanceSparePartIds = motorcycleMaintenance.usedSpareParts.map((sparePart) => sparePart.sparePartId);
+
 		try {
 			await Promise.all(
 				usedSpareParts.map(
 					async(usedSparePart) => {
-						const sparePart = await this.sparePartRepository.findById(usedSparePart.sparePartId);
+						const { sparePartId, quantity } = usedSparePart;
 
-						if (sparePart === null) {
-							throw new SparePartNotFoundError();
+						const sparePart = await this.sparePartService.checkStock(sparePartId, quantity);
+
+						if (sparePart instanceof Error) {
+							throw sparePart;
 						}
 
-						if (sparePart.stock === 0 || sparePart.stock < usedSparePart.quantity) {
-							throw new InsufficientSparePartStockError(sparePart.id);
-						}
-
-						if (
-							motorcycleMaintenance.usedSpareParts.some(
-								(sp) => sp.sparePartId === usedSparePart.sparePartId,
-							)
-						) {
+						if (maintenanceSparePartIds.includes(usedSparePart.sparePartId)) {
 							const sparePartIndex = motorcycleMaintenance.usedSpareParts.findIndex(
 								(sp) => sp.sparePartId === usedSparePart.sparePartId,
 							);
