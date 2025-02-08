@@ -142,6 +142,10 @@ function sendMail() {
 									</th>
 
 									<th class="border border-gray-300 px-4 py-2 text-left">
+										Marque
+									</th>
+
+									<th class="border border-gray-300 px-4 py-2 text-left">
 										Quantité
 									</th>
 
@@ -162,6 +166,10 @@ function sendMail() {
 									>
 										<td class="border border-gray-300 px-4 py-2 font-mono">
 											{{ part.sparePart.name }}
+										</td>
+
+										<td class="border border-gray-300 px-4 py-2 font-mono">
+											{{ part.sparePart.brand }}
 										</td>
 
 										<td class="border border-gray-300 px-4 py-2">
