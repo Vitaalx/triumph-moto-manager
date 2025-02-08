@@ -3,7 +3,7 @@ import { toast } from "@/components/ui/toast";
 
 export function useOrderDelete() {
 	function deleteOrder(orderId: string) {
-		api.delete(`/order/${orderId}`)
+		api.delete(`/parts-order/${orderId}`)
 			.then(() => {
 				toast({
 					title: "Commande supprimée",
