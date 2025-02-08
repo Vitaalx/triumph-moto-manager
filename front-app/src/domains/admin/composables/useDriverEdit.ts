@@ -21,8 +21,6 @@ export function useDriverEdit(driverId: string) {
 	watch(
 		() => driver.value,
 		(newValue) => {
-			console.log(newValue);
-
 			if (Object.keys(newValue).length > 0) {
 				resetForm({ values: newValue });
 				isLoaded.value = true;
@@ -72,9 +70,7 @@ export function useDriverEdit(driverId: string) {
 	}
 
 	function removeMotorcycle(licensePlate: string) {
-		console.log(licensePlate);
-
-		api.delete(`/driver/${driverId}/motorcycle/${licensePlate}`)
+		api.patch(`/driver/${driverId}/motorcycle/${licensePlate}`)
 			.then(() => {
 				toast({
 					title: "Moto retirée",

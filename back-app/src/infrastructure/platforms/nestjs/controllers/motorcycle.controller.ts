@@ -152,8 +152,6 @@ export class MotorcycleController {
 		return res.status(HttpStatus.OK).send();
 	}
 
-	
-
 	@RequiredRoles("FLEET_MANAGER")
 	@UseGuards(AuthGuard)
 	@Get("/motorcycles")
