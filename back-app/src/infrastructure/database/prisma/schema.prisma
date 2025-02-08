@@ -111,7 +111,7 @@ model PartsOrder {
 
 model PartsOrderSparePart {
     id           String     @id
-    partsOrder   PartsOrder @relation(fields: [partsOrderId], references: [id])
+    partsOrder   PartsOrder @relation(fields: [partsOrderId], references: [id], onDelete: Cascade)
     partsOrderId String
     sparePart    SparePart  @relation(fields: [sparePartId], references: [id])
     sparePartId  String
