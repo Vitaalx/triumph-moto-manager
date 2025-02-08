@@ -50,4 +50,10 @@ export class SparePartEntity {
 			sparePartPrice,
 		);
 	}
+
+	public isLowStock() {
+		const MINIMAL_STOCK = 10;
+
+		return this.stock <= MINIMAL_STOCK;
+	}
 }

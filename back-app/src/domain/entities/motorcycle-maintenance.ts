@@ -2,11 +2,12 @@ import { MotorcycleLicensePlate } from "@domain/types/license-plate";
 import { type MaintenanceStatus } from "@domain/types/maintenance-status";
 import { randomUUID } from "crypto";
 import { type MaintenanceSparePartEntity } from "./maintenance-spare-part";
+import { type DriverSheetEntity } from "./driver-sheet";
 
 export class MotorcycleMaintenanceEntity {
 	public constructor(
 		public id: string,
-		public driverId: string,
+		public driver: DriverSheetEntity,
 		public motorcycleId: MotorcycleLicensePlate,
 		public technicalRecommendations: string,
 		public usedSpareParts: MaintenanceSparePartEntity[],
@@ -19,7 +20,7 @@ export class MotorcycleMaintenanceEntity {
 	}
 
 	public static create(
-		driverId: string,
+		driver: DriverSheetEntity,
 		motorcycleId: string,
 	) {
 		const motorcycleLicensePlate = MotorcycleLicensePlate.from(motorcycleId);
@@ -30,7 +31,7 @@ export class MotorcycleMaintenanceEntity {
 
 		return new MotorcycleMaintenanceEntity(
 			randomUUID(),
-			driverId,
+			driver,
 			motorcycleLicensePlate,
 			"",
 			[] as MaintenanceSparePartEntity[],

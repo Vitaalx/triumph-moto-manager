@@ -2,7 +2,9 @@ import { type IEventStoreRepository } from "@application/ports/repositories/even
 import { type IMotorcycleRepository } from "@application/ports/repositories/motorcycle";
 import { type IMotorcycleMaintenanceRepository } from "@application/ports/repositories/motorcycle-maintenance";
 import { type ISparePartRepository } from "@application/ports/repositories/spare-part";
+import { type SparePartMailParams, type IEmailService } from "@application/ports/services/email-service";
 import { type SparePartService } from "@application/ports/services/spare-part-service";
+import { type ErrorSendingMail } from "@domain/errors/error-sending-mail";
 import { InvalidMotorcycleMaintenanceStatusError } from "@domain/errors/motorcycle-maintenance/invalid-motorcycle-maintenance-status";
 import { MissingLaborPriceError } from "@domain/errors/motorcycle-maintenance/missing-labor-price";
 import { MotorcycleMaintenanceNotFoundError } from "@domain/errors/motorcycle-maintenance/motorcycle-maintenance-not-found";
@@ -18,6 +20,7 @@ export class CloseMotorcycleMaintenanceUsecase {
 		private readonly sparePartRepository: ISparePartRepository,
 		private readonly eventStoreRepository: IEventStoreRepository,
 		private readonly sparePartService: SparePartService,
+		private readonly emailService: IEmailService,
 	) {}
 
 	public async execute(maintenanceId: string) {
@@ -49,22 +52,36 @@ export class CloseMotorcycleMaintenanceUsecase {
 				async(maintenanceSparePart) => {
 					const { sparePartId, quantity } = maintenanceSparePart;
 
-					const sparePartEntity = await this.sparePartService.checkStock(sparePartId, quantity);
+					const sparePart = await this.sparePartService.checkStock(sparePartId, quantity);
 
-					if (sparePartEntity instanceof Error) {
-						throw sparePartEntity;
+					if (sparePart instanceof Error) {
+						throw sparePart;
 					}
 
-					sparePartEntity.stock -= maintenanceSparePart.quantity;
-					calculatedTotalSparePartsPrice += sparePartEntity.price.value * maintenanceSparePart.quantity;
+					sparePart.stock -= maintenanceSparePart.quantity;
+					calculatedTotalSparePartsPrice += sparePart.price.value * maintenanceSparePart.quantity;
 
-					await this.sparePartRepository.update(maintenanceSparePart.sparePartId, sparePartEntity);
+					if (sparePart.isLowStock()) {
+						const sparePartParams: SparePartMailParams = {
+							reference: sparePart.refNumber.value,
+							stock: sparePart.stock,
+							name: sparePart.name.value,
+						};
+
+						const isSent = await this.emailService.sendSparePartLowStock(sparePartParams);
+
+						if (isSent instanceof Error) {
+							throw isSent;
+						}
+					}
+
+					await this.sparePartRepository.update(maintenanceSparePart.sparePartId, sparePart);
 				},
 			);
 
 			sparePartPromises.push(...promises);
 		} catch (error) {
-			return error as SparePartNotFoundError | InsufficientSparePartStockError;
+			return error as SparePartNotFoundError | InsufficientSparePartStockError | ErrorSendingMail;
 		}
 
 		await Promise.all(sparePartPromises);

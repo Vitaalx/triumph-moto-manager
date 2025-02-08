@@ -6,11 +6,13 @@
 	"workspaces": [
 		"back-app",
 		"back-app/src/infrastructure/platforms/nestjs",
+		"back-app/src/infrastructure/platforms/fastify",
 		"front-app"
 	],
 	"scripts": {
 		"dev:vue": "npm -w @triumph-moto-manager/vue run dev",
 		"dev:nestjs": "npm -w @triumph-moto-manager/nestjs run start:dev",
+		"dev:fastify": "npm -w @triumph-moto-manager/fastify run start:dev",
 		"dev:build": "docker-compose up --build",
 		"dev": "docker-compose up",
 		"generate:prisma": "npm -w @triumph-moto-manager/back run generate:prisma",

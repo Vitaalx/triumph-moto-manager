@@ -30,6 +30,7 @@ import { GetMotorcycleMaintenancesInProgressQueryHandler } from "@application/qu
 import { GetMotorcycleMaintenancesClosedQueryHandler } from "@application/queries/handlers/get-motorcycle-maintenances-closed.query-handler";
 import { MaintenanceSparePartRepository } from "../adapters/repositories/maintenance-spare-part";
 import { SparePartService } from "@application/ports/services/spare-part-service";
+import { BrevoMailSender } from "@infrastructure/platforms/fastify/adapters/services/brevo-mail-sender";
 
 const motorcycleMaintenanceInjectionUsecases: Provider[] = [
 	{
@@ -80,12 +81,14 @@ const motorcycleMaintenanceInjectionUsecases: Provider[] = [
 			sparePartRepository: SparePartRepository,
 			eventStoreRepository: EventStoreRepository,
 			sparePartSerivce: SparePartService,
+			emailService: BrevoMailSender,
 		) => new CloseMotorcycleMaintenanceUsecase(
 			motorcycleMaintenanceRepository,
 			motorcycleRepository,
 			sparePartRepository,
 			eventStoreRepository,
 			sparePartSerivce,
+			emailService,
 		),
 		inject: [
 			MOTORCYCLE_MAINTENANCE_REPOSITORY_INTERFACE,
@@ -93,6 +96,7 @@ const motorcycleMaintenanceInjectionUsecases: Provider[] = [
 			SPARE_PART_REPOSITORY_INTERFACE,
 			EVENT_STORE_REPOSITORY_INTERFACE,
 			SparePartService,
+			BrevoMailSender,
 		],
 	},
 	{
@@ -134,6 +138,7 @@ const queryHandlers: Provider[] = [
 	GetMotorcycleMaintenancesClosedQueryHandler,
 ];
 const motorcycleMaintenanceSercices: Provider[] = [
+	BrevoMailSender,
 	{
 		provide: SparePartService,
 		useFactory: (

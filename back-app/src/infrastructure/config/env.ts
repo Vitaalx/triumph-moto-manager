@@ -2,7 +2,8 @@ import { config as importEnvFile } from "dotenv";
 import { expand as expandEnv } from "dotenv-expand";
 import { z } from "zod";
 
-const DEFAULT_PORT = 1506;
+const NEST_DEFAULT_PORT = 1506;
+const FASTIFY_DEFAULT_PORT = 3000;
 const DEFAULT_HOST = "0.0.0.0";
 const DEFAULT_ENVIRONMENT = "DEV";
 
@@ -20,15 +21,19 @@ for (const pathEnv of [".env.local", ".env"]) {
 //@ts-expect-error var 'global' cause type error.
 export default global.ENV = z
 	.object({
-		PORT: z.coerce.number().default(DEFAULT_PORT),
-		HOST: z.string().default(DEFAULT_HOST),
+		NEST_PORT: z.coerce.number().default(NEST_DEFAULT_PORT),
+		NEST_HOST: z.string().default(DEFAULT_HOST),
+		FASTIFY_PORT: z.coerce.number().default(FASTIFY_DEFAULT_PORT),
+		FASTIFY_HOST: z.string().default(DEFAULT_HOST),
 		ENVIRONMENT: z.enum(["DEV", "PROD", "TEST"]).default(DEFAULT_ENVIRONMENT),
 		JWT_KEY: z.string(),
 		JWT_TIME: z.string(),
 		ORIGIN: z.string().url(),
-		APP_ADMIN_EMAIL: z.string().email().default("admin@admin.fr"),
+		APP_ADMIN_EMAIL: z.string().email().default("liamdu92@gmail.com"),
 		APP_ADMIN_PASSWORD: z.string().default("admin"),
 		MONGO_DATABASE_URL: z.string(),
+		BREVO_API_MAIL_URL: z.string().url(),
+		BREVO_API_KEY: z.string(),
 	})
 	.readonly()
 	.parse(process.env);

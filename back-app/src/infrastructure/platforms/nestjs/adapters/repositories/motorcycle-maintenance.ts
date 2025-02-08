@@ -20,6 +20,7 @@ export class MotorcycleMaintenanceRepository implements IMotorcycleMaintenanceRe
 			},
 			include: {
 				usedSpareParts: true,
+				driverSheet: true,
 			},
 		});
 
@@ -34,7 +35,7 @@ export class MotorcycleMaintenanceRepository implements IMotorcycleMaintenanceRe
 		await prisma.motorcycleMaintenance.create({
 			data: {
 				id: motorcycleMaintenance.id,
-				driverId: motorcycleMaintenance.driverId,
+				driverId: motorcycleMaintenance.driver.id,
 				motorcycleId: motorcycleMaintenance.motorcycleId.value,
 				technicalRecommendations: motorcycleMaintenance.technicalRecommendations,
 				totalSparePartsPrice: motorcycleMaintenance.totalSparePartsPrice,
@@ -52,6 +53,7 @@ export class MotorcycleMaintenanceRepository implements IMotorcycleMaintenanceRe
 				id,
 			},
 			include: {
+				driverSheet: true,
 				usedSpareParts: {
 					include: {
 						sparePart: true,
@@ -91,6 +93,7 @@ export class MotorcycleMaintenanceRepository implements IMotorcycleMaintenanceRe
 				status,
 			},
 			include: {
+				driverSheet: true,
 				usedSpareParts: {
 					include: {
 						sparePart: true,

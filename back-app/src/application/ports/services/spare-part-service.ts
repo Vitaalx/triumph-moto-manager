@@ -1,6 +1,7 @@
 import { SparePartNotFoundError } from "@domain/errors/spare-part/spare-part-not-found";
 import { type ISparePartRepository } from "../repositories/spare-part";
 import { InsufficientSparePartStockError } from "@domain/errors/spare-part/insufficient-spare-part-stock";
+import { type SparePartEntity } from "@domain/entities/spare-part";
 
 export class SparePartService {
 	public constructor(

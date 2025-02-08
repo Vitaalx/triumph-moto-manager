@@ -4,8 +4,7 @@
 	"workspaces": [
 		"src/application",
 		"src/domain",
-		"src/infrastructure/adapters",
-		"src/infrastructure/platforms/nestjs"
+		"src/infrastructure"
 	],
 	"scripts": {
 		"studio:prisma": "prisma studio -n 0.0.0.0",

@@ -53,7 +53,7 @@ export class CreateMotorcycleMaintenanceUsecase {
 		}
 
 		const motorcycleMaintenance = MotorcycleMaintenanceEntity.create(
-			driver.id,
+			driver,
 			motorcycleLicensePlate.value,
 		);
 

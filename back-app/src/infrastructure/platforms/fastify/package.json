@@ -1,0 +1,15 @@
+{
+	"private": true,
+	"name": "@triumph-moto-manager/fastify",
+	"version": "1.0.0",
+	"type": "module",
+	"scripts": {
+		"start:dev": "tsx --watch main.ts"
+	},
+	"dependencies": {
+		"fastify": "^5.2.1"
+	},
+	"devDependencies": {
+		"tsx": "^4.19.2"
+	}
+}

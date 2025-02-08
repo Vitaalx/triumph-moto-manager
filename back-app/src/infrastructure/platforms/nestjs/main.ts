@@ -6,13 +6,13 @@ import "@providers/prisma";
 
 void NestFactory.create(AppModule)
 	.then((app) => {
-		void app.listen(ENV.PORT);
+		void app.listen(ENV.NEST_PORT);
 		app.use(cookieParser());
 		process.stdout.write(
 			"====================================\n\n"
 			+ "Server has started correctly on:\n\n"
-			+ `- Port: ${ENV.PORT}\n`
-			+ `- Host: ${ENV.HOST}\n`
+			+ `- Port: ${ENV.NEST_PORT}\n`
+			+ `- Host: ${ENV.NEST_HOST}\n`
 			+ `- Environment: ${ENV.ENVIRONMENT}\n`
 			+ `- Origin: ${ENV.ORIGIN}\n\n`
 			+ "====================================\n",
