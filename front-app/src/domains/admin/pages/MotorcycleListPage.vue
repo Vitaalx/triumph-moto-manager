@@ -2,6 +2,7 @@
 import { routerPageName } from "@/router/routerPageName";
 import { type formattedMotorcycle } from "@/schemas/motorcycleSchema";
 import { useMotorcycleGetAll } from "../composables/useMotorcycleGetAll";
+import { DateFormatter } from "@internationalized/date";
 import type {
 	ColumnDef,
 	Row,
@@ -17,6 +18,10 @@ import DataTable from "../components/DataTable.vue";
 const { MOTORCYCLE_PAGE, MOTORCYCLE_EDIT } = routerPageName;
 
 const { motorcycles, isLoading } = useMotorcycleGetAll();
+
+const dateFormatter = new DateFormatter("fr-FR", {
+	dateStyle: "medium",
+});
 
 const columns: ColumnDef<formattedMotorcycle>[] = [
 	{
@@ -88,6 +93,22 @@ const columns: ColumnDef<formattedMotorcycle>[] = [
 			}, () => ["Int. de maintenance", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
 		},
 		cell: ({ row }: { row: Row<formattedMotorcycle> }) => h("div", { class: "" }, row.getValue("maintenanceInterval")),
+	},
+	{
+		accessorKey: "warrantyEndDate",
+		header: ({ column }: { column: Column<formattedMotorcycle, unknown> }) => {
+			return h(TheButton, {
+				variant: "ghost",
+				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
+			}, () => ["Fin de garentie", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
+		},
+		cell: ({ row }: { row: Row<formattedMotorcycle> }) => {
+			const warrantyEndDate = row.getValue("warrantyEndDate") as string;
+			const date = new Date(warrantyEndDate);
+
+			return h("div", { class: "" }, dateFormatter.format(date));
+		},
+			
 	},
 	{
 		id: "actions",

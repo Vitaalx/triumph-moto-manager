@@ -12,7 +12,7 @@ export function useMotorcycleEdit(licensePlate: string) {
 	const { motorcycle } = useMotorcycleGet(licensePlate);
 	const isLoaded = ref(false);
 
-	const { handleSubmit, resetForm } = useForm({
+	const { handleSubmit, resetForm, values, setFieldValue } = useForm({
 		validationSchema: formSchema,
 		initialValues: {},
 	});
@@ -41,7 +41,9 @@ export function useMotorcycleEdit(licensePlate: string) {
 	});
 
 	return {
-		onSubmit,
 		isLoaded,
+		values,
+		setFieldValue,
+		onSubmit,
 	};
 }

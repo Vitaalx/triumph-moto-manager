@@ -8,7 +8,7 @@ import { motorcycleFormSchema } from "@/schemas/motorcycleSchema";
 const formSchema = toTypedSchema(motorcycleFormSchema);
 
 export function useMotorcycleAdd() {
-	const { handleSubmit, resetForm } = useForm({
+	const { handleSubmit, resetForm, values, setFieldValue } = useForm({
 		validationSchema: formSchema,
 	});
 
@@ -49,5 +49,7 @@ export function useMotorcycleAdd() {
 
 	return {
 		onSubmit,
+		values,
+		setFieldValue,
 	};
 }
