@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { routerPageName } from "@/router/routerPageName";
 import { type Order } from "@/schemas/orderSchema";
 import { useOrderHistoryGetAll } from "../composables/useOrderHistoryGetAll";
 import type {
@@ -12,6 +13,8 @@ import { h } from "vue";
 import DataTableDropdownAction from "../components/DataTableDropdownAction.vue";
 import AdminSection from "../components/AdminSection.vue";
 import DataTable from "../components/DataTable.vue";
+
+const { ORDER_PAGE } = routerPageName;
 
 const { orders, isLoading } = useOrderHistoryGetAll();
 
@@ -45,12 +48,7 @@ const columns: ColumnDef<Order>[] = [
 			return h(DataTableDropdownAction, {
 				copyText: "Copier l'ID",
 				item: order.id,
-				// viewPath: { name: ORDER_PAGE, params: { orderId: order.id } },
-				// onDelete: (orderId) => {
-				// 	deleteDriver(orderId);
-				// 	// Update after deletion
-				// 	window.location.reload();
-				// },
+				viewPath: { name: ORDER_PAGE, params: { orderId: order.id } },
 			});
 		},
 	}

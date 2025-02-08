@@ -3,12 +3,24 @@ import { z } from "zod";
 interface SparePart {
 	sparePartId : string,
 	quantity: number,
+	sparePart: {
+		id: string,
+		name: string,
+		brand: string,
+		refNumber: string,
+		price: number,
+		stock: number,
+		createDate: string
+	}
 }
 
 export interface Order {
+	createDate: string,
 	id: string,
 	supplierName: string,
 	parts: SparePart[],
+	status: string,
+	totalPrice: number
 }
 
 export const orderFormSchema = z.object({

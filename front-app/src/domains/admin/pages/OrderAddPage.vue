@@ -156,7 +156,6 @@ function removeSparePart(id: string) {
 									@input="updateSparePartQuantity(part.id, part.quantity)"
 									class="w-20 border rounded-md px-2 py-1"
 									:min="1"
-									:max="part.stock"
 								/>
 
 								<ButtonPrimary

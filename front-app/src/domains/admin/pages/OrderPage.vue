@@ -3,7 +3,10 @@ import { useRouteParams } from "@/composables/useRouteParams";
 import { z } from "zod";
 import { routerPageName } from "@/router/routerPageName";
 import { useOrderGet } from "../composables/useOrderGet";
+import { DateFormatter } from "@internationalized/date";
+import { computed } from "vue";
 import AdminSection from "../components/AdminSection.vue";
+import { formatPrice } from "@/lib/utils";
 
 const params = useRouteParams({
 	orderId: z.string(),
@@ -11,6 +14,26 @@ const params = useRouteParams({
 
 const { ORDER_CURRENT_LIST } = routerPageName;
 const { order, isLoading } = useOrderGet(params.value.orderId);
+
+const dateFormatter = new DateFormatter("fr-FR", {
+	dateStyle: "long",
+});
+
+const formattedDate = computed(() =>
+	order.value.createDate ? dateFormatter.format(new Date(order.value.createDate)) : undefined
+);
+
+const formattedStatus = computed(() => {
+	if (order.value.status === "IN_DELIVERY") {
+		return "En cours de livraison";
+	}
+
+	if (order.value.status === "DELIVERED") {
+		return "Livré";
+	}
+
+	return order.value.status;
+});
 </script>
 
 <template>
@@ -38,6 +61,26 @@ const { order, isLoading } = useOrderGet(params.value.orderId);
 					<p class="text-sm text-gray-600">
 						Fournisseur : {{ order.supplierName }}
 					</p>
+
+					<p class="text-sm text-gray-600">
+						Date : {{ formattedDate }}
+					</p>
+				</div>
+
+				<div class="flex gap-2 items-center">
+					<p class="text-gray-700 font-semibold">
+						Status :
+					</p>
+
+					<span
+						class="px-3 py-1 rounded-full text-white"
+						:class="{
+							'bg-yellow-500': order.status === 'IN_DELIVERY',
+							'bg-green-500': order.status === 'DELIVERED',
+						}"
+					>
+						{{ formattedStatus }}
+					</span>
 				</div>
 			</div>
 
@@ -61,11 +104,19 @@ const { order, isLoading } = useOrderGet(params.value.orderId);
 						<thead class="bg-gray-200">
 							<tr>
 								<th class="border border-gray-300 px-4 py-2 text-left">
-									ID de la pièce
+									Pièce
+								</th>
+
+								<th class="border border-gray-300 px-4 py-2 text-left">
+									Marque
 								</th>
 
 								<th class="border border-gray-300 px-4 py-2 text-left">
 									Quantité
+								</th>
+
+								<th class="border border-gray-300 px-4 py-2 text-left">
+									Prix
 								</th>
 							</tr>
 						</thead>
@@ -77,11 +128,19 @@ const { order, isLoading } = useOrderGet(params.value.orderId);
 								class="border-b border-gray-300"
 							>
 								<td class="border border-gray-300 px-4 py-2 font-mono">
-									{{ part.sparePartId }}
+									{{ part.sparePart.name }}
+								</td>
+
+								<td class="border border-gray-300 px-4 py-2 font-mono">
+									{{ part.sparePart.brand }}
 								</td>
 
 								<td class="border border-gray-300 px-4 py-2 text-center font-semibold">
 									{{ part.quantity }}
+								</td>
+
+								<td class="border border-gray-300 px-4 py-2">
+									{{ formatPrice(part.sparePart.price * part.quantity) }} ({{ formatPrice(part.sparePart.price) }} / unité)
 								</td>
 							</tr>
 						</tbody>
@@ -94,6 +153,14 @@ const { order, isLoading } = useOrderGet(params.value.orderId);
 				>
 					Aucune pièce commandée.
 				</p>
+			</div>
+
+			<div class="border-t pt-4">
+				<div class="flex justify-between items-center text-gray-700">
+					<strong>Coût total :</strong>
+
+					<span class="text-lg font-bold text-gray-900">{{ formatPrice(order.totalPrice) }}</span>
+				</div>
 			</div>
 		</div>
 	</AdminSection>

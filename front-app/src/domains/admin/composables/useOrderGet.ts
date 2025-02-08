@@ -7,14 +7,22 @@ export function useOrderGet(orderId: string) {
 		id: "",
 		supplierName: "",
 		parts: [],
+		totalPrice: 0,
+		status: "",
+		createDate: "",
 	});
 
 	const isLoading = ref(true);
 
 	function getOrder() {
-		api.get(`/order/${orderId}`)
+		api.get(`/parts-order/${orderId}`)
 			.then((response) => {
-				order.value = response.data;
+				const formatterOrder = {
+					...response.data,
+					supplierName: response.data.supplierName.value,
+				};
+
+				order.value = formatterOrder;
 			})
 			.catch((error) => {
 				console.error(error);

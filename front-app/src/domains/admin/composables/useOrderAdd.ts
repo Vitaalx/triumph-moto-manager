@@ -13,7 +13,7 @@ export function useOrderAdd() {
 	});
 
 	const onSubmit = handleSubmit((formData) => {
-		api.post("/spare-part-order", formData)
+		api.post("/parts-order", formData)
 			.then(() => {
 				toast({
 					title: "Commande créée",

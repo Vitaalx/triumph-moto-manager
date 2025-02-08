@@ -7,9 +7,16 @@ export function useOrderHistoryGetAll() {
 	const isLoading = ref(true);
 
 	function getAllOrderHistory() {
-		api.get("/orders-in-progress")
+		api.get("/parts-orders-delivered")
 			.then((response) => {
-				orders.value = response.data;
+				const formatterOrders = response.data.map((order: Order) => {
+					return {
+						...order,
+						supplierName: order.supplierName.value,
+					};
+				});
+
+				orders.value = formatterOrders;
 			})
 			.catch((error) => {
 				console.error(error);

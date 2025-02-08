@@ -26,12 +26,12 @@ export class PartsOrderController {
 	@UseGuards(AuthGuard)
 	@Post("/parts-order")
 	public async create(@Res() res: Response, @Body() createPartsOrderDto: CreatePartsOrderDto) {
-		const { usedSpareParts, supplierName } = createPartsOrderDto;
+		const { parts, supplierName } = createPartsOrderDto;
 
 		const commandResult = await this.commandBus.execute(
 			new CreatePartsOrderCommand(
 				supplierName,
-				usedSpareParts,
+				parts,
 			),
 		);
 
@@ -50,13 +50,13 @@ export class PartsOrderController {
 	@UseGuards(AuthGuard)
 	@Patch("/parts-order/:partsOrderId")
 	public async update(@Res() res: Response, @Param("partsOrderId") partsOrderId: string, @Body() updatePartsOrderDto: UpdatePartsOrderDto) {
-		const { usedSpareParts, supplierName } = updatePartsOrderDto;
+		const { parts, supplierName } = updatePartsOrderDto;
 
 		const commandResult = await this.commandBus.execute(
 			new UpdatePartsOrderCommand(
 				partsOrderId,
 				supplierName,
-				usedSpareParts,
+				parts,
 			),
 		);
 
