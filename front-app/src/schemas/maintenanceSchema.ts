@@ -1,9 +1,10 @@
 import { z } from "zod";
+import type { Driver } from "./driverSchema";
 
 export interface Maintenance {
 	id: string,
 	status: string,
-	driverId: string,
+	driver: Driver,
 	motorcycleId: { // = lisencePlate
 		value: string
 	},
@@ -33,7 +34,7 @@ interface SparePart {
 export interface formattedMaintenance {
 	id: string,
 	status: string,
-	driverId: string,
+	driver: Driver,
 	motorcycleId: string,
 	technicalRecommendations: string,
 	usedSpareParts: SparePart[],

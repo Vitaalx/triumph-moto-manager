@@ -8,6 +8,8 @@ import { computed } from "vue";
 import { formatPrice } from "@/lib/utils";
 import ButtonPrimary from "@/components/ButtonPrimary.vue";
 import AdminSection from "../components/AdminSection.vue";
+import axios from "axios";
+import { toast } from "@/components/ui/toast";
 
 const params = useRouteParams({
 	maintenanceId: z.string(),
@@ -36,8 +38,26 @@ const formattedStatus = computed(() => {
 	return maintenance.value.status;
 });
 
-function sendMail() {
-	console.log("Sending mail...");
+function sendMail(maintenanceId: string) {
+	axios.post(`http://localhost/api/fastify/motorcycle-maintenances/${maintenanceId}/send-mail`) // TODO: improve this
+		.then(() => {
+			toast({
+				title: "Mail envoyé",
+				description: "Le devis d'entretien a bien été envoyé par mail.",
+				variant: "success",
+			});
+		})
+		.catch((error) => {
+			console.error(error);
+
+			const errorMessage = error.response.data;
+
+			toast({
+				title: "Erreur",
+				description: `Une erreur est survenue lors de l'envoi du mail : ${errorMessage}`,
+				variant: "destructive",
+			});
+		});
 }
 </script>
 
@@ -57,7 +77,7 @@ function sendMail() {
 			v-else
 			class="space-y-6"
 		>
-			<ButtonPrimary @click="sendMail">
+			<ButtonPrimary @click="sendMail(maintenance.id)">
 				Envoyer par mail
 			</ButtonPrimary>
 
@@ -103,7 +123,7 @@ function sendMail() {
 						</h3>
 
 						<p class="text-gray-700">
-							<span class="font-medium">ID Conducteur :</span> {{ maintenance.driverId }}
+							<span class="font-medium">Conducteur :</span> {{ maintenance.driver.fullName.value }}
 						</p>
 					</div>
 

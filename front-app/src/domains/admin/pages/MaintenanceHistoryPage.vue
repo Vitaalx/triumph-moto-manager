@@ -26,7 +26,7 @@ const dateFormatter = new DateFormatter("fr-FR", {
 
 const columns: ColumnDef<formattedMaintenance>[] = [
 	{
-		accessorKey: "driverId",
+		accessorKey: "driver",
 		header: ({ column }: { column: Column<formattedMaintenance, unknown> }) => {
 			return h(TheButton, {
 				variant: "ghost",
@@ -34,9 +34,9 @@ const columns: ColumnDef<formattedMaintenance>[] = [
 			}, () => ["ID conducteur", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
 		},
 		cell: ({ row }: { row: Row<formattedMaintenance> }) => h(RouterLink, {
-			to: { name: DRIVER_PAGE, params: { driverId: row.getValue("driverId") } },
+			to: { name: DRIVER_PAGE, params: { driverId: row.getValue("driver").id } },
 			class: "text-blue-500",
-		} as RouterLinkProps, row.getValue("driverId")),
+		} as RouterLinkProps, row.getValue("driver").fullName.value),
 	},
 	{
 		accessorKey: "motorcycleId",
