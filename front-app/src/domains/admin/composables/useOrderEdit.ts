@@ -60,8 +60,8 @@ export function useOrderEdit(orderId: string) {
 		api.patch(`/parts-order/${orderId}/delivered`)
 			.then(() => {
 				toast({
-					title: "Maintenance clôturée",
-					description: "La maintenance a bien été clôturée.",
+					title: "Commande livrée",
+					description: "La commande a bien été marquée comme livrée.",
 					variant: "success",
 				});
 
