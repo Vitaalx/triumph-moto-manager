@@ -145,19 +145,36 @@ const warrantyEndDate = computed({
 			</div>
   
 			<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-				<!-- TODO: Add mileage* -->
+				<FormField
+					v-slot="{ componentField }"
+					name="mileage"
+				>
+					<FormItem>
+						<FormLabel>Kilométrage (en km)*</FormLabel>
+
+						<FormControl>
+							<TheInput
+								type="number"
+								placeholder="2000"
+								v-bind="componentField"
+							/>
+						</FormControl>
+
+						<FormMessage />
+					</FormItem>
+				</FormField>
 
 				<FormField
 					v-slot="{ componentField }"
 					name="maintenanceInterval"
 				>
 					<FormItem>
-						<FormLabel>Intervalle de maintenance*</FormLabel>
+						<FormLabel>Intervalle de maintenance (en km)*</FormLabel>
 
 						<FormControl>
 							<TheInput
-								type="text"
-								placeholder="6000 km"
+								type="number"
+								placeholder="6000"
 								v-bind="componentField"
 							/>
 						</FormControl>

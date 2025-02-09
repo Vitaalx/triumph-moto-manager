@@ -85,6 +85,16 @@ const columns: ColumnDef<formattedMotorcycle>[] = [
 		},
 	},
 	{
+		accessorKey: "mileage",
+		header: ({ column }: { column: Column<formattedMotorcycle, unknown> }) => {
+			return h(TheButton, {
+				variant: "ghost",
+				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
+			}, () => ["Kilométrage", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
+		},
+		cell: ({ row }: { row: Row<formattedMotorcycle> }) => h("div", { class: "" }, row.getValue("mileage") + " Km"),
+	},
+	{
 		accessorKey: "maintenanceInterval",
 		header: ({ column }: { column: Column<formattedMotorcycle, unknown> }) => {
 			return h(TheButton, {
@@ -92,7 +102,8 @@ const columns: ColumnDef<formattedMotorcycle>[] = [
 				onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
 			}, () => ["Int. de maintenance", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
 		},
-		cell: ({ row }: { row: Row<formattedMotorcycle> }) => h("div", { class: "" }, row.getValue("maintenanceInterval")),
+		cell: ({ row }: { row: Row<formattedMotorcycle> }) =>
+			h("div", { class: "" }, row.getValue("maintenanceInterval") + " Km"),
 	},
 	{
 		accessorKey: "warrantyEndDate",
@@ -104,9 +115,9 @@ const columns: ColumnDef<formattedMotorcycle>[] = [
 		},
 		cell: ({ row }: { row: Row<formattedMotorcycle> }) => {
 			const warrantyEndDate = row.getValue("warrantyEndDate") as string;
-			const date = new Date(warrantyEndDate);
+			const date = warrantyEndDate ? dateFormatter.format(new Date(warrantyEndDate)) : "Pas de garantie";
 
-			return h("div", { class: "" }, dateFormatter.format(date));
+			return h("div", { class: "" }, date);
 		},
 			
 	},

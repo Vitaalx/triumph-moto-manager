@@ -39,7 +39,7 @@ export function useMotorcycleAdd() {
 				default:
 					toast({
 						title: "Erreur",
-						description: "Une erreur est survenue lors de l'ajout de la moto",
+						description: `Une erreur est survenue lors de l'ajout de la moto : ${errorMessage}`,
 						variant: "destructive",
 					});
 					break;

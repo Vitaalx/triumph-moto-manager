@@ -12,7 +12,8 @@ export interface Motorcycle {
 	price: {
 		value: number;
 	}
-	maintenanceInterval: string;
+	maintenanceInterval: number;
+	mileage: number;
 	warrantyEndDate?: string;
 }
 
@@ -22,7 +23,8 @@ export interface formattedMotorcycle {
 	licensePlate: string;
 	year: number;
 	price: number;
-	maintenanceInterval: string;
+	maintenanceInterval: number;
+	mileage: number;
 	warrantyEndDate?: string;
 }
 
@@ -53,8 +55,7 @@ export const motorcycleFormSchema = z.object({
 		.min(1, { message: "Le prix doit être supérieur à 0." })
 		.max(999999, { message: "Le prix doit être inférieur à 1 000 000." }),
 	maintenanceInterval: z
-		.string({ message: "L'intervalle de maintenance est obligatoire." })
-		.regex(/^\d+\s?(km|KM|Km|fois par an)$/, { message: "L'intervalle de maintenance doit être au format 'X km' ou 'X fois par an'." })
-		.min(3, { message: "L'intervalle de maintenance doit être valide." }),
+		.number({ message: "L'intervalle de maintenance est obligatoire." }),
+	mileage: z.number({ message: "Le kilométrage est obligatoire." }),
 	warrantyEndDate: z.string().optional()
 });
