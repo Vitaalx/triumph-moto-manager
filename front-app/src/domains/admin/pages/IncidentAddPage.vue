@@ -260,7 +260,7 @@ const incidentDate = computed({
 
 			<div class="flex justify-end">
 				<ButtonPrimary type="submit">
-					Ajouter l'incident
+					Signaler
 				</ButtonPrimary>
 			</div>
 		</form>

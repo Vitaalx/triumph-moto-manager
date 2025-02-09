@@ -29,7 +29,7 @@ export default global.ENV = z
 		JWT_KEY: z.string(),
 		JWT_TIME: z.string(),
 		ORIGIN: z.string().url(),
-		APP_ADMIN_EMAIL: z.string().email().default("liamdu92@gmail.com"),
+		APP_ADMIN_EMAIL: z.string().email(),
 		APP_ADMIN_PASSWORD: z.string().default("admin"),
 		MONGO_DATABASE_URL: z.string(),
 		BREVO_API_MAIL_URL: z.string().url(),

@@ -23,7 +23,7 @@ export function useRouteParams<
 		const result = zodSchema.safeParse(route.params);
 		
 		if (!result.success) {
-			router.push({ name: routerPageName.HOME });
+			router.push({ name: routerPageName.HOME_PAGE });
 			
 			throw new Error("Params is invalid.");
 		}

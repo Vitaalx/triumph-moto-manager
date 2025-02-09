@@ -1,9 +1,12 @@
 <script setup lang="ts">
+import { routerPageName } from "@/router/routerPageName";
 import { RouterLink } from "vue-router";
 import { useUserStore } from "@/stores/userStore";
 import ButtonPrimary from "./ButtonPrimary.vue";
 import AccountDropdown from "@/domains/user/components/AccountDropdown.vue";
 import TheMobileNav from "./TheMobileNav.vue";
+
+const { HOME_PAGE, ABOUTE_PAGE, /* MOTORCYCLE_TESTS_PAGE, */ CONNECTION_PAGE } = routerPageName;
 
 const userStore = useUserStore();
 </script>
@@ -15,7 +18,7 @@ const userStore = useUserStore();
 				<TheMobileNav />
 
 				<RouterLink
-					:to="{ name: 'home' }"
+					:to="{ name: HOME_PAGE }"
 					class="text-2xl text-primary font-bold"
 				>
 					TRIUMPH MOTO SPORT
@@ -27,28 +30,28 @@ const userStore = useUserStore();
 				<nav class="hidden lg:block">
 					<ul class="flex gap-8">
 						<li>
-							<RouterLink :to="{ name: 'home' }">
+							<RouterLink :to="{ name: HOME_PAGE }">
 								Accueil
 							</RouterLink>
 						</li>
 
 						<li>
-							<RouterLink :to="{ name: 'about' }">
+							<RouterLink :to="{ name: ABOUTE_PAGE }">
 								A propos
 							</RouterLink>
 						</li>
 
-						<li v-if="userStore.isConnected">
-							<RouterLink :to="{ name: 'motorcycle-tests' }">
+						<!-- <li v-if="userStore.isConnected">
+							<RouterLink :to="{ name: MOTORCYCLE_TESTS_PAGE }">
 								Essais moto
 							</RouterLink>
-						</li>
+						</li> -->
 
-						<li>
+						<!-- <li>
 							<RouterLink :to="{ name: '' }">
 								Contact
 							</RouterLink>
-						</li>
+						</li> -->
 					</ul>
 				</nav>
 
@@ -56,7 +59,7 @@ const userStore = useUserStore();
 					v-if="!userStore.isConnected"
 					as-child
 				>
-					<RouterLink :to="{ name: 'connection' }">
+					<RouterLink :to="{ name: CONNECTION_PAGE }">
 						Connexion | Inscription
 					</RouterLink>
 				</ButtonPrimary>

@@ -30,7 +30,7 @@ const { onSubmit } = useMaintenanceAdd();
 
 <template>
 	<AdminSection 
-		title="Ajouter un entretien"
+		title="Créer un entretien"
 		:back-to="MAINTENANCE_CURRENT_LIST"
 	>
 		<div v-if="isDriversLoading || isMotorcyclesLoading">
@@ -108,7 +108,7 @@ const { onSubmit } = useMaintenanceAdd();
   
 			<div class="flex justify-end">
 				<ButtonPrimary type="submit">
-					Créer l'entretien
+					Créer
 				</ButtonPrimary>
 			</div>
 		</form>

@@ -1,9 +1,11 @@
 import api from "@/lib/axios";
+import { routerPageName } from "@/router/routerPageName";
 import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores/userStore";
 import { toast } from "@/components/ui/toast";
 
 export function useAuth() {
+	const { HOME_PAGE } = routerPageName;
 	const router = useRouter();
 	const userStore = useUserStore();
 
@@ -20,7 +22,7 @@ export function useAuth() {
 					variant: "success",
 				});
 
-				router.push("/");
+				router.push({ name: HOME_PAGE });
 			})
 			.catch((error) => {
 				if (error.response.data.message === "user.notfound") {
@@ -48,6 +50,7 @@ export function useAuth() {
 	function logout() {
 		api.post("/auth/logout");
 		userStore.user = null;
+		router.push({ name: HOME_PAGE });
 	}
 
 	return { login, logout };

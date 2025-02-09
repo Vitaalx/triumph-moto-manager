@@ -175,7 +175,7 @@ function removeSparePart(id: string) {
   
 			<div class="flex justify-end">
 				<ButtonPrimary type="submit">
-					Modifier l'entretien
+					Créer
 				</ButtonPrimary>
 			</div>
 		</form>

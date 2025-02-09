@@ -4,10 +4,10 @@ import {
 	mdiCalendarClock,
 	mdiHistory,
 	mdiFormatListBulleted,
-	mdiAccountHardHat,
-	mdiAccountGroup,
-	mdiAccountPlus,
-	mdiCards,
+	// mdiAccountHardHat,
+	// mdiAccountGroup,
+	// mdiAccountPlus,
+	// mdiCards,
 	mdiCardAccountDetails,
 	mdiAlert
 } from "@mdi/js";
@@ -35,11 +35,11 @@ const {
 	ORDER_CURRENT_LIST,
 	ORDER_HISTORY,
 	ORDER_ADD,
-	SPARE_PART_SUPPLIER_LIST,
-	SPARE_PART_SUPPLIER_ADD,
-	USER_LIST,
-	USER_ADD,
-	PERMISSION_MANAGEMENT,
+	// SPARE_PART_SUPPLIER_LIST,
+	// SPARE_PART_SUPPLIER_ADD,
+	// USER_LIST,
+	// USER_ADD,
+	// PERMISSION_MANAGEMENT,
 	DRIVER_LIST,
 	DRIVER_ADD,
 	TRIAL_CURRENT_LIST,
@@ -73,7 +73,7 @@ const adminNavSections: NavSection[] = [
 				icon: mdiHistory, route: MAINTENANCE_HISTORY, label: "Historique des entretiens" 
 			},
 			{
-				icon: mdiPlus, route: MAINTENANCE_ADD, label: "Ajouter un entretien" 
+				icon: mdiPlus, route: MAINTENANCE_ADD, label: "Créer un entretien" 
 			}
 		]
 	},
@@ -94,29 +94,29 @@ const adminNavSections: NavSection[] = [
 				icon: mdiHistory, route: ORDER_HISTORY, label: "Historique des commandes" 
 			},
 			{
-				icon: mdiPlus, route: ORDER_ADD, label: "Ajouter une commande" 
+				icon: mdiPlus, route: ORDER_ADD, label: "Créer une commande" 
 			},
-			{
-				icon: mdiAccountHardHat, route: SPARE_PART_SUPPLIER_LIST, label: "Liste des fournisseurs" 
-			},
-			{
-				icon: mdiPlus, route: SPARE_PART_SUPPLIER_ADD, label: "Ajouter un fournisseur" 
-			}
+			// {
+			// 	icon: mdiAccountHardHat, route: SPARE_PART_SUPPLIER_LIST, label: "Liste des fournisseurs" 
+			// },
+			// {
+			// 	icon: mdiPlus, route: SPARE_PART_SUPPLIER_ADD, label: "Ajouter un fournisseur" 
+			// }
 		]
 	},
 	{
 		title: "Gestions des utilisateurs",
 		value: "users",	
 		items: [
-			{
-				icon: mdiAccountGroup, route: USER_LIST, label: "Liste des utilisateurs" 
-			},
-			{
-				icon: mdiAccountPlus, route: USER_ADD, label: "Ajouter un utilisateur" 
-			},
-			{
-				icon: mdiCards, route: PERMISSION_MANAGEMENT, label: "Permissions et rôles" 
-			},
+			// {
+			// 	icon: mdiAccountGroup, route: USER_LIST, label: "Liste des utilisateurs" 
+			// },
+			// {
+			// 	icon: mdiAccountPlus, route: USER_ADD, label: "Ajouter un utilisateur" 
+			// },
+			// {
+			// 	icon: mdiCards, route: PERMISSION_MANAGEMENT, label: "Permissions et rôles" 
+			// },
 			{
 				icon: mdiCardAccountDetails, route: DRIVER_LIST, label: "Liste des conducteurs" 
 			},

@@ -54,7 +54,7 @@ const endDate = computed({
 
 <template>
 	<AdminSection
-		title="Ajout d'un essai moto"
+		title="Ajouter un essai"
 		:back-to="TRIAL_CURRENT_LIST"
 	>
 		<div v-if="isDriversLoading || isMotorcyclesLoading">
@@ -222,7 +222,7 @@ const endDate = computed({
   
 			<div class="flex justify-end">
 				<ButtonPrimary type="submit">
-					Ajouter l'essai
+					Ajouter
 				</ButtonPrimary>
 			</div>
 		</form>
