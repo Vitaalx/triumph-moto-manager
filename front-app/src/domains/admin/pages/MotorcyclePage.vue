@@ -61,9 +61,15 @@ const { MOTORCYCLE_LIST } = routerPageName;
 					</div>
 
 					<div class="flex items-center gap-2">
+						<span class="font-semibold text-gray-700">Kilométrage :</span>
+
+						<span class="text-gray-800">{{ motorcycle.mileage }} Km</span>
+					</div>
+
+					<div class="flex items-center gap-2">
 						<span class="font-semibold text-gray-700">Intervalle de maintenance :</span>
 
-						<span class="text-gray-800">{{ motorcycle.maintenanceInterval }}</span>
+						<span class="text-gray-800">{{ motorcycle.maintenanceInterval }} Km</span>
 					</div>
 				</div>
 			</div>
