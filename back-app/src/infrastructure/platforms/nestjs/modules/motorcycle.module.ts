@@ -19,6 +19,7 @@ import { DriverRepository } from "../adapters/repositories/driver-sheet";
 import { AddMotorcycleToDriverCommandHandler } from "@application/command/handlers/add-motorcycle-to-driver.command-handler";
 import { DeleteMotorcycleFromDriverCommandHandler } from "@application/command/handlers/delete-motorcycle-from-driver.command-handler";
 import { DeleteMotorcycleFromDriverUsecase } from "@application/usecases/driver/delete-motorcycle-from-driver-usecase";
+import { BrevoMailSender } from "@infrastructure/platforms/fastify/adapters/services/brevo-mail-sender";
 
 const motorcycleInjectionUsecases: Provider[] = [
 	{
@@ -34,8 +35,9 @@ const motorcycleInjectionUsecases: Provider[] = [
 		useFactory: (
 			motorcycleRepository: MotorcycleRepository,
 			eventStoreRepository: EventStoreRepository,
-		) => new UpdateMotorcycleUsecase(motorcycleRepository, eventStoreRepository),
-		inject: [MOTORCYCLE_REPOSITORY_INTERFACE, EVENT_STORE_REPOSITORY_INTERFACE],
+			emailService: BrevoMailSender,
+		) => new UpdateMotorcycleUsecase(motorcycleRepository, eventStoreRepository, emailService),
+		inject: [MOTORCYCLE_REPOSITORY_INTERFACE, EVENT_STORE_REPOSITORY_INTERFACE, BrevoMailSender],
 	},
 	{
 		provide: GetMotorcycleUsecase,
@@ -89,6 +91,8 @@ const queryHandlers: Provider[] = [
 	GetMotorcyclesQueryHandler,
 ];
 
+const motorcycleInjectionServices: Provider[] = [BrevoMailSender];
+
 @Module({
 	imports: [
 		CqrsModule,
@@ -100,6 +104,7 @@ const queryHandlers: Provider[] = [
 		...commandHandlers,
 		...queryHandlers,
 		...motorcycleInjectionUsecases,
+		...motorcycleInjectionServices,
 	],
 })
 export class MotorcycleModule {}

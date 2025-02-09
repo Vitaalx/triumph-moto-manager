@@ -8,7 +8,8 @@ export class CreateMotorcycleCommand extends Command<ReturnType<CreateMotorcycle
 		public readonly year: number,
 		public readonly brand: string,
 		public readonly price: number,
-		public readonly maintenanceInterval: string,
+		public readonly maintenanceInterval: number,
+		public readonly mileage: number,
 		public readonly warrantyEndDate?: Date,
 	) {
 		super();

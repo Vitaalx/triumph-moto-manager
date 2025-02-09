@@ -7,7 +7,8 @@ interface MotorcycleUpdatedEventData {
 	readonly model: string;
 	readonly year: MotorcycleYear;
 	readonly price: MotorcyclePrice;
-	readonly maintenanceInterval: string;
+	readonly maintenanceInterval: number;
+	readonly mileage: number;
 	readonly warrantyEndDate?: Date;
 }
 

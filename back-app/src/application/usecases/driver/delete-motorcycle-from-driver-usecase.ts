@@ -30,7 +30,7 @@ export class DeleteMotorcycleFromDriverUsecase {
 		}
 
 		if (motorcycle.hasDriver()) {
-			motorcycle.driverId = undefined;
+			motorcycle.driver = undefined;
 		}
 
 		return this.motorcycleRepository.updateByLicensePlate(motorcycleLicensePlate, motorcycle);

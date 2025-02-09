@@ -1,11 +1,11 @@
-import { type MaintenanceMailParams, type IEmailService, type SparePartMailParams } from "@application/ports/services/email-service";
+import { type MaintenanceMailParams, type IEmailService, type SparePartMailParams, type MaintenanceReminderMailParams } from "@application/ports/services/email-service";
 import { ErrorSendingMail } from "@domain/errors/error-sending-mail";
 
 interface BrevoMailRequestBody {
 	to: { email: string }[];
 	templateId: number;
 	params: {
-		maintenance?: MaintenanceMailParams;
+		maintenance?: MaintenanceMailParams | MaintenanceReminderMailParams;
 		sparePart?: SparePartMailParams;
 	};
 }
@@ -42,7 +42,7 @@ export class BrevoMailSender implements IEmailService {
 		return "sent";
 	}
 
-	public async sendMotorcycleMaintenanceReminder(maintenance: MaintenanceMailParams, email: string) {
+	public async sendMotorcycleMaintenanceReminder(maintenance: MaintenanceReminderMailParams, email: string) {
 		const templateId = 1;
 
 		const body: BrevoMailRequestBody = {

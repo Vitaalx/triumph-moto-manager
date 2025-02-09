@@ -22,8 +22,20 @@ export interface SparePartMailParams {
 	stock: number;
 }
 
+export interface MaintenanceReminderMailParams {
+	driverFullName: string;
+	motorcycle: {
+		licensePlate: string;
+		model: string;
+		year: number;
+		brand: string;
+		maintenanceInterval: number;
+		currentMileage: number;
+	};
+}
+
 export interface IEmailService {
 	sendMotorcycleMaintenance(params: MaintenanceMailParams, email: string): Promise<"sent" | ErrorSendingMail>;
-	sendMotorcycleMaintenanceReminder(maintenance: MaintenanceMailParams, email: string): Promise<"sent" | ErrorSendingMail>;
+	sendMotorcycleMaintenanceReminder(maintenance: MaintenanceReminderMailParams, email: string): Promise<"sent" | ErrorSendingMail>;
 	sendSparePartLowStock(sparePart: SparePartMailParams): Promise<"sent" | ErrorSendingMail>;
 }

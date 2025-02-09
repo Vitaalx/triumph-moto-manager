@@ -34,7 +34,7 @@ export class AddMotorcycleToDriverUsecase {
 			return new MotorcycleAlreadyAssignedError();
 		}
 
-		motorcycle.driverId = driver.id;
+		motorcycle.driver = driver;
 
 		return this.motorcycleRepository.updateByLicensePlate(motorcycleLicensePlate, motorcycle);
 	}

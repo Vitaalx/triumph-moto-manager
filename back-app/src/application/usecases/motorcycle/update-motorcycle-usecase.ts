@@ -1,5 +1,6 @@
 import { type IEventStoreRepository } from "@application/ports/repositories/event-store";
 import { type IMotorcycleRepository } from "@application/ports/repositories/motorcycle";
+import { type IEmailService, type MaintenanceReminderMailParams } from "@application/ports/services/email-service";
 import { MotorcycleNotFoundError } from "@domain/errors/motorcycle/motorcycle-not-found";
 import { type MotorcycleUpdatedEvent } from "@domain/events/motorcycle/motorcycle-updated-event";
 import { MotorcycleLicensePlate } from "@domain/types/license-plate";
@@ -10,6 +11,7 @@ export class UpdateMotorcycleUsecase {
 	public constructor(
 		private readonly motorcycleRepository: IMotorcycleRepository,
 		private readonly eventStore: IEventStoreRepository,
+		private readonly emailService: IEmailService,
 	) {}
 
 	public async execute(
@@ -18,7 +20,8 @@ export class UpdateMotorcycleUsecase {
 		year: number,
 		brand: string,
 		price: number,
-		maintenanceInterval: string,
+		maintenanceInterval: number,
+		mileage: number,
 		warrantyEndDate?: Date,
 	) {
 		const motorcycleLicensePlate = MotorcycleLicensePlate.from(licensePlate);
@@ -45,11 +48,41 @@ export class UpdateMotorcycleUsecase {
 			return new MotorcycleNotFoundError();
 		}
 
+		if (
+			mileage >= motorcycle.maintenanceInterval
+			&& motorcycle.driver
+		) {
+			const maintenanceReminder: MaintenanceReminderMailParams = {
+				driverFullName: motorcycle.driver.fullName.value,
+				motorcycle: {
+					brand: motorcycle.brand,
+					model: motorcycle.model,
+					year: motorcycle.year.value,
+					licensePlate: motorcycle.licensePlate.value,
+					currentMileage: mileage,
+					maintenanceInterval: motorcycle.maintenanceInterval,
+				},
+			};
+
+			const isSent = await this.emailService.sendMotorcycleMaintenanceReminder(
+				maintenanceReminder,
+				motorcycle.driver.email.value,
+			);
+
+			if (isSent instanceof Error) {
+				return isSent;
+			}
+
+			motorcycle.maintenanceInterval *= 2;
+		} else {
+			motorcycle.maintenanceInterval = maintenanceInterval;
+		}
+
 		motorcycle.model = model;
 		motorcycle.year = motorcycleYear;
 		motorcycle.brand = brand;
 		motorcycle.price = motorcyclePrice;
-		motorcycle.maintenanceInterval = maintenanceInterval;
+		motorcycle.mileage = mileage;
 		motorcycle.warrantyEndDate = warrantyEndDate;
 
 		const event: MotorcycleUpdatedEvent = {
@@ -63,6 +96,7 @@ export class UpdateMotorcycleUsecase {
 				year: motorcycle.year,
 				price: motorcycle.price,
 				maintenanceInterval: motorcycle.maintenanceInterval,
+				mileage: motorcycle.mileage,
 				warrantyEndDate: motorcycle.warrantyEndDate,
 			},
 		};

@@ -34,12 +34,13 @@ model Motorcycle {
     model                 String
     year                  Int
     price                 Float
-    maintenanceInterval   String
-    DriverSheet           DriverSheet?            @relation(fields: [driverId], references: [id])
+    maintenanceInterval   Int
+    mileage               Int
+    driverSheet           DriverSheet?            @relation(fields: [driverId], references: [id])
     driverId              String?
-    MotorcycleTry         MotorcycleTry[]
-    MotorcycleIncident    MotorcycleIncident[]
-    MotorcycleMaintenance MotorcycleMaintenance[]
+    motorcycleTry         MotorcycleTry[]
+    motorcycleIncident    MotorcycleIncident[]
+    motorcycleMaintenance MotorcycleMaintenance[]
     warrantyEndDate       DateTime?
     createDate            DateTime                @default(now())
 }
@@ -125,9 +126,9 @@ model SparePart {
     refNumber            String                 @unique
     price                Float
     stock                Int
-    MaintenanceSparePart MaintenanceSparePart[]
+    maintenanceSparePart MaintenanceSparePart[]
     createDate           DateTime               @default(now())
-    PartsOrderSparePart  PartsOrderSparePart[]
+    partsOrderSparePart  PartsOrderSparePart[]
 }
 
 model MaintenanceSparePart {

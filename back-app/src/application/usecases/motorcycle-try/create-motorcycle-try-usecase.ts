@@ -42,14 +42,14 @@ export class CreateMotorcycleTryUsecase {
 			return new MotorcycleNotFoundError();
 		}
 
-		const motorcycleTryCheck = await this.motorcycleTryRepository.getMotorcycleTryByDriverIdAndMotorcycleId(
+		const motorcycleTryExistsCheck = await this.motorcycleTryRepository.getMotorcycleTryByDriverIdAndMotorcycleId(
 			driverId,
 			motorcycleLicensePlate,
 			startDate,
 			endDate,
 		);
 
-		if (motorcycleTryCheck) {
+		if (motorcycleTryExistsCheck) {
 			return new MotorcycleTryAlreadyExistsError();
 		}
 

@@ -7,7 +7,8 @@ export class UpdateMotorcycleDto extends createZodDto(
 		year: z.number(),
 		brand: z.string().nonempty(),
 		price: z.number(),
-		maintenanceInterval: z.string(),
+		maintenanceInterval: z.number(),
+		mileage: z.number(),
 		warrantyEndDate: z.coerce.date().optional(),
 	}),
 ) {}

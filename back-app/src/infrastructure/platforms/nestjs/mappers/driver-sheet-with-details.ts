@@ -39,6 +39,8 @@ export class DriverSheetWithDetailsMapper implements EntityMapper<DriverSheetWit
 			new MotorcycleYear(motorcycle.year),
 			new MotorcyclePrice(motorcycle.price),
 			motorcycle.maintenanceInterval,
+			motorcycle.mileage,
+			motorcycle.warrantyEndDate === null ? undefined : motorcycle.warrantyEndDate,
 		));
 
 		const motorcyclesTries = entity.motorcycleTries.map((motorcycleTry) => new MotorcycleTryEntity(

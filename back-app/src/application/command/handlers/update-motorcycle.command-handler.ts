@@ -20,6 +20,7 @@ export class UpdateMotorcycleCommandHandler implements ICommandHandler<
 			command.brand,
 			command.price,
 			command.maintenanceInterval,
+			command.mileage,
 			command.warrantyEndDate,
 		);
 	}

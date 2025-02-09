@@ -4,6 +4,7 @@ import { InvalidMotorcycleYearError } from "@domain/errors/motorcycle/invalid-mo
 import { MotorcycleLicensePlate } from "@domain/types/license-plate";
 import { MotorcyclePrice } from "@domain/types/motorcycle-price";
 import { MotorcycleYear } from "@domain/types/motorcycle-year";
+import { type DriverSheetEntity } from "./driver-sheet";
 
 export class MotorcycleEntity {
 	public constructor(
@@ -12,9 +13,10 @@ export class MotorcycleEntity {
 		public model: string,
 		public year: MotorcycleYear,
 		public price: MotorcyclePrice,
-		public maintenanceInterval: string,
+		public maintenanceInterval: number,
+		public mileage: number,
 		public warrantyEndDate?: Date,
-		public driverId?: string,
+		public driver?: DriverSheetEntity,
 	) {
 	}
 
@@ -24,7 +26,8 @@ export class MotorcycleEntity {
 		model: string,
 		year: number,
 		price: number,
-		maintenanceInterval: string,
+		maintenanceInterval: number,
+		mileage: number,
 		warrantyEndDate?: Date,
 	) {
 		const motorcycleLicensePlate = MotorcycleLicensePlate.from(licensePlate);
@@ -52,6 +55,7 @@ export class MotorcycleEntity {
 			motorcycleYear,
 			motorcyclePrice,
 			maintenanceInterval,
+			mileage,
 			warrantyEndDate,
 		);
 	}
@@ -61,6 +65,6 @@ export class MotorcycleEntity {
 	}
 
 	public hasDriver() {
-		return !!this.driverId;
+		return !!this.driver;
 	}
 }

@@ -18,7 +18,12 @@ export class CreateAdminAccount implements ICreateAdminAccount {
 
 		const hashedPassword = await this.passwordService.hash(password);
 
-		await this.userRepository.createAdminAccount(email, hashedPassword);
+		try {
+			await this.userRepository.createAdminAccount(email, hashedPassword);
+		} catch (error) {
+			this.logger.error("Check if database is created.");
+			throw error;
+		}
 
 		this.logger.log(`Admin account with email ${email} created!`);
 	}

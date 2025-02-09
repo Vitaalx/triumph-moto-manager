@@ -17,6 +17,7 @@ export class MotorcycleRepository implements IMotorcycleRepository {
 				year: motorcycle.year.value,
 				price: motorcycle.price.value,
 				maintenanceInterval: motorcycle.maintenanceInterval,
+				mileage: motorcycle.mileage,
 				warrantyEndDate: motorcycle.warrantyEndDate,
 			},
 		});
@@ -36,8 +37,9 @@ export class MotorcycleRepository implements IMotorcycleRepository {
 				year: motorcycle.year.value,
 				price: motorcycle.price.value,
 				maintenanceInterval: motorcycle.maintenanceInterval,
+				mileage: motorcycle.mileage,
 				warrantyEndDate: motorcycle.warrantyEndDate,
-				driverId: !motorcycle.driverId ? null : motorcycle.driverId,
+				driverId: motorcycle.driver ? motorcycle.driver.id : null,
 			},
 		});
 	}
@@ -48,6 +50,9 @@ export class MotorcycleRepository implements IMotorcycleRepository {
 				orderBy: {
 					createDate: "desc",
 				},
+				include: {
+					driverSheet: true,
+				},
 			},
 		);
 		return motorcycles.map((motorcycle) => this.mapper.toDomainEntity(motorcycle));
@@ -57,6 +62,9 @@ export class MotorcycleRepository implements IMotorcycleRepository {
 		const motorcycle = await prisma.motorcycle.findUnique({
 			where: {
 				licensePlate: licensePlate.value,
+			},
+			include: {
+				driverSheet: true,
 			},
 		});
 

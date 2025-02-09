@@ -30,7 +30,16 @@ export class MotorcycleController {
 	@UseGuards(AuthGuard)
 	@Post("/motorcycle")
 	public async create(@Res() res: Response, @Body() createMotorcycleDto: CreateMotorcycleDto) {
-		const { licensePlate, model, year, brand, price, maintenanceInterval, warrantyEndDate } = createMotorcycleDto;
+		const {
+			licensePlate,
+			model,
+			year,
+			brand,
+			price,
+			maintenanceInterval,
+			mileage,
+			warrantyEndDate,
+		} = createMotorcycleDto;
 
 		const commandResult = await this.commandBus.execute(new CreateMotorcycleCommand(
 			licensePlate,
@@ -39,6 +48,7 @@ export class MotorcycleController {
 			brand,
 			price,
 			maintenanceInterval,
+			mileage,
 			warrantyEndDate,
 		));
 
@@ -65,7 +75,7 @@ export class MotorcycleController {
 	@UseGuards(AuthGuard)
 	@Patch("/motorcycle/:licensePlate")
 	public async update(@Res() res: Response, @Param("licensePlate") licensePlate: string, @Body() updateMotorcycleDto: UpdateMotorcycleDto) {
-		const { model, year, brand, price, maintenanceInterval, warrantyEndDate } = updateMotorcycleDto;
+		const { model, year, brand, price, maintenanceInterval, mileage, warrantyEndDate } = updateMotorcycleDto;
 
 		const commandResult = await this.commandBus.execute(new UpdateMotorcycleCommand(
 			licensePlate,
@@ -74,6 +84,7 @@ export class MotorcycleController {
 			brand,
 			price,
 			maintenanceInterval,
+			mileage,
 			warrantyEndDate,
 		));
 
